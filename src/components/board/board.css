@@ -1,0 +1,51 @@
+.board{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.board-top{
+    font-weight: bold;
+    letter-spacing: 10px;
+    text-align: center;
+}
+.start-counter{
+    color: rgba(228, 175, 62, 0.8);
+    font-size: 3rem;
+}
+.started-message{
+    color: rgba(228, 87, 62, 0.8);
+    font-size: 2rem;
+    animation: .8s shake infinite ;
+    
+}
+.playground{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+}
+
+
+
+
+
+    @keyframes shake {
+        0% {
+            transform: skewX(-15deg);
+        }
+        5% {
+            transform: skewX(15deg);
+        }
+        10% {
+            transform: skewX(-15deg);
+        }
+        15% {
+            transform: skewX(15deg);
+        }
+        20% {
+            transform: skewX(0deg);
+        }
+        100% {
+            transform: skewX(0deg);
+        }
+    }

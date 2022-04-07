@@ -1,0 +1,45 @@
+.welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 1s;
+}
+.welcome h2{
+    font-size: 3rem;
+    text-shadow: 3px 5px 10px #000;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+.start-button{
+    margin-bottom: 20px;
+    width: 30%;
+    font-size: 2rem;}
+.button-options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+.button-options h3{
+    margin-bottom: 20px;
+    text-shadow: 1px 0px 15px rgb(255, 0, 0,.7);
+}
+.options{
+    display: flex;
+    flex-direction:row ;
+    justify-content: space-around;
+    width: 100%;
+}
+.option{
+    display: flex;
+    flex-direction:column ;
+    justify-content: center
+
+}
+.option label{
+    margin-bottom: 20px;
+}
+
+.option button:hover{
+border-color: #000;
+}
