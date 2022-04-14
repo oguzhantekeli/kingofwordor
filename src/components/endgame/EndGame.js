@@ -1,8 +1,8 @@
 import React from "react";
 import "./endgame.css";
-const EndGame = ({ changeStatus }) => {
+const EndGame = ({ setGameStatus }) => {
   const onClick = () => {
-    changeStatus("welcome");
+    setGameStatus("welcome");
   };
   return (
     <>

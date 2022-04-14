@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const BoardTop = () => {
+const BoardTop = ({ setShowGame }) => {
   const timer = 3;
   const [countDown, setCountDown] = useState(timer);
   const [isTimerEnded, setIsTimerEnded] = useState(false);
@@ -11,6 +11,7 @@ const BoardTop = () => {
       } else {
         clearInterval(intervale);
         setIsTimerEnded(true);
+        setShowGame(true);
       }
     }, 1000);
     return () => {
@@ -22,7 +23,7 @@ const BoardTop = () => {
     <>
       <div className="board-top">
         <div className="start-counter">
-          {isTimerEnded ? "Hoooraaaa.." : `${countDown}..`}
+          {isTimerEnded ? "" : `${countDown}..`}
         </div>
         {isTimerEnded ? (
           <div className="started-message">---SMASH THEM---</div>

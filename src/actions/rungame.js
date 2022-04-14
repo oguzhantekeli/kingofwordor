@@ -1,28 +1,36 @@
-const calculateScoreStandart = () => {
+const calculateScorestandard = (pts) => {
   console.log("stdt");
-  return Number(546);
+  return pts * 1.1;
 };
-const calculateScoreLongest = () => {
+const calculateScoreLongest = (pts) => {
   console.log("lngst");
-  return Number(546);
+  return pts * 1.1;
 };
-const calculateScoreNoMistake = () => {
+const calculateScoreNoMistake = (pts) => {
   console.log("nomis");
-  return Number(546);
+  return pts * 1.1;
 };
 
-export const rungame = (gametype) => {
+export const rungame = (gametype, points) => {
   switch (gametype) {
-    case "standart":
-      calculateScoreStandart();
-      break;
+    case "standard":
+      try {
+        return calculateScorestandard(points);
+      } catch (error) {
+        return error;
+      }
     case "longest":
-      calculateScoreLongest();
-      break;
+      try {
+        return calculateScoreLongest(points);
+      } catch (error) {
+        return error;
+      }
     case "nomistake":
-      calculateScoreNoMistake();
-      break;
-
+      try {
+        return calculateScoreNoMistake(points);
+      } catch (error) {
+        return error;
+      }
     default:
       break;
   }

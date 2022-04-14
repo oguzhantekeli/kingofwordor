@@ -4,18 +4,29 @@ import BoardTop from "./BoardTop";
 import GameSection from "./GameSection";
 import InfoSection from "./InfoSection";
 
-const Board = ({ changeStatus, gameType }) => {
-  const [score, setScore] = useState(0);
-  console.log("board score:", score);
-  //score undefined????
+const Board = ({ setGameStatus, gameType, setTotalScore }) => {
+  const [points, setPoints] = useState(0);
+  const [multiplier, setMultiplier] = useState(1);
+  const [showGame, setShowGame] = useState(false);
   return (
     <>
       <div className="board">
-        <BoardTop />
-        <div className="playground">
-          <GameSection gameType={gameType} setScore={setScore} score={score} />
-          <InfoSection changeStatus={changeStatus} score={score} />
-        </div>
+        <BoardTop setShowGame={setShowGame} />
+        {showGame ? (
+          <div className="playground">
+            <GameSection
+              gameType={gameType}
+              setPoints={setPoints}
+              setMultiplier={setMultiplier}
+            />
+            <InfoSection
+              setGameStatus={setGameStatus}
+              points={points}
+              multiplier={multiplier}
+              setTotalScore={setTotalScore}
+            />
+          </div>
+        ) : null}
       </div>
     </>
   );

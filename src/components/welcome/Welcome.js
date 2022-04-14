@@ -1,17 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import useSound from "use-sound";
 import "./welcome.css";
 import chargeSound from "../../assets/charge.wav";
-const Welcome = ({ changeStatus, setGameType }) => {
-  // const [gameType, setGameType] = useState("standart");
+const Welcome = ({ setGameStatus, setGameType }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [playChargeSound] = useSound(chargeSound, { volume: 0.25 });
   const onClick = (val) => {
     setGameType(val);
     playChargeSound();
-    changeStatus("ingame");
+    setGameStatus("ingame");
   };
-  useEffect(() => {}, [setGameType, isStarted]);
   const gameTypeButtons = useRef(null);
   const startButton = useRef(null);
 
@@ -25,10 +23,10 @@ const Welcome = ({ changeStatus, setGameType }) => {
               <h3>Choose Your Zone</h3>
               <div className="options">
                 <div className="option">
-                  <label>Standart 1 minute Challenge</label>
+                  <label>standard 1 minute Challenge</label>
                   <button
                     type="button"
-                    gametype="standart"
+                    gametype="standard"
                     onClick={(e) => onClick(e.target.getAttribute("gametype"))}
                   >
                     Battle..!

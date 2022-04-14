@@ -22,8 +22,88 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 90%;
+    width: 100%;
 }
+.game-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px 0px 20px;
+}
+
+.game-area{
+    text-align: center;
+    align-self: flex-start;
+    flex: 1;
+}
+.rule{
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+.condition,.letter{
+    font-size: 2rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+.letter{
+    color: rgba(255, 255, 255, 0.582);
+    font-size: 3rem;
+    font-weight: bold;
+}
+.answerinput{
+    width: 100%;
+}
+.answerinput input{
+    width: 80%;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+.answers-list{
+    width: 20%;
+}
+.answers-list h3{
+    font-size: 1.3rem;
+}
+
+.answer-item .true{
+    color: #3f8b35;
+}
+.answer-item .false{
+    color: #d44a38;
+}
+.answer-item .false,.true{
+    margin: 0px 10px;
+}
+.answer-item .pointsvalue{
+    margin: 0px 10px;
+}
+.answer-item td{
+    padding-right: 10px;
+}
+.answer-item td:last-child{
+    padding-right: 0px;
+}
+
+/* info section */
+
+.info-section {
+    width: 20%;
+    text-align: right;
+    padding-right: 20px;
+}
+.game-timer span{
+    font-size: 3rem;
+    text-align: center;
+    font-style: oblique;
+    color: #fff;
+}
+
+
+
+
 
 
 
