@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const InfoSection = ({ setGameStatus }) => {
+const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
+  const [sum, setSum] = useState(0);
   const onClick = () => {
     setGameStatus("endgame");
   };
+  const summer = (a, b) => {
+    return a + b;
+  };
+  const getScore = () => {
+    if (points.length > 0) {
+      let sum = points.reduce(summer);
+      setTotalScore(sum);
+      setSum(sum);
+    } else {
+      setSum(0);
+    }
+  };
+  useEffect(() => {
+    getScore();
+  }, [points]);
+
   return (
     <>
       <div className="info-section">
@@ -12,7 +29,10 @@ const InfoSection = ({ setGameStatus }) => {
           <br /> seconds left..
         </div>
         <div className="score">
-          Score: <span>123</span>points
+          Score: <span>{sum.toFixed(2)}</span> points
+        </div>
+        <div className="score">
+          Multiplier: x<span>{multiplier.toFixed(2)}</span>
         </div>
         <button type="button" onClick={onClick}>
           endgame

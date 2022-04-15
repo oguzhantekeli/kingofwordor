@@ -5,7 +5,7 @@ import GameSection from "./GameSection";
 import InfoSection from "./InfoSection";
 
 const Board = ({ setGameStatus, gameType, setTotalScore }) => {
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState([]);
   const [multiplier, setMultiplier] = useState(1);
   const [showGame, setShowGame] = useState(false);
   return (
@@ -18,6 +18,8 @@ const Board = ({ setGameStatus, gameType, setTotalScore }) => {
               gameType={gameType}
               setPoints={setPoints}
               setMultiplier={setMultiplier}
+              multiplier={multiplier}
+              points={points}
             />
             <InfoSection
               setGameStatus={setGameStatus}

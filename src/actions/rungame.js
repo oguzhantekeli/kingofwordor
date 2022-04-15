@@ -1,37 +1,53 @@
-const calculateScorestandard = (pts) => {
-  console.log("stdt");
-  return pts * 1.1;
+const calculateScorestandard = () => {
+  return 1;
 };
-const calculateScoreLongest = (pts) => {
-  console.log("lngst");
-  return pts * 1.1;
+const calculateScoreLongest = (answerLength) => {
+  return answerLength;
 };
-const calculateScoreNoMistake = (pts) => {
-  console.log("nomis");
-  return pts * 1.1;
+const calculateScoreNoMistake = (answerLength) => {
+  return answerLength * 1.1;
 };
 
-export const rungame = (gametype, points) => {
+export const rungame = (gametype, answerLength) => {
   switch (gametype) {
     case "standard":
       try {
-        return calculateScorestandard(points);
+        return calculateScorestandard();
       } catch (error) {
         return error;
       }
     case "longest":
       try {
-        return calculateScoreLongest(points);
+        return calculateScoreLongest(answerLength);
       } catch (error) {
         return error;
       }
     case "nomistake":
       try {
-        return calculateScoreNoMistake(points);
+        return calculateScoreNoMistake(answerLength);
       } catch (error) {
         return error;
       }
     default:
       break;
   }
+};
+export const doesAnswerMatchRules = (answer, { condition, letter }) => {
+  let res;
+  switch (condition) {
+    case "starts with":
+      res = answer.startsWith(letter) ? true : false;
+      break;
+    case "ends with":
+      res = answer.endsWith(letter) ? true : false;
+      break;
+    case "includes":
+      res = answer.includes(letter) ? true : false;
+      break;
+    default:
+      res = false;
+      break;
+  }
+  console.log(res);
+  return res;
 };
