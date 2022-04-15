@@ -48,6 +48,5 @@ export const doesAnswerMatchRules = (answer, { condition, letter }) => {
       res = false;
       break;
   }
-  console.log(res);
   return res;
 };

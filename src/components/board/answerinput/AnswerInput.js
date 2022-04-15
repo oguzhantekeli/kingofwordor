@@ -3,6 +3,7 @@ import useSound from "use-sound";
 import painSound from "../../../assets/pain.wav";
 import swordSound from "../../../assets/sword.flac";
 import sword2Sound from "../../../assets/sword2.wav";
+import yaySound from "../../../assets/yay.wav";
 import { rungame } from "../../../actions/rungame";
 import { checkAnswer } from "../../../actions/dictionaryApi";
 import { doesAnswerMatchRules } from "../../../actions/rungame";
@@ -20,6 +21,7 @@ const AnswerInput = ({
   const [playSwordSound] = useSound(swordSound, { volume: 0.25 });
   const [playSword2Sound] = useSound(sword2Sound, { volume: 0.25 });
   const [playPainSound] = useSound(painSound, { volume: 0.25 });
+  const [playYaySound] = useSound(yaySound, { volume: 0.25 });
 
   const [answer, setAnswer] = useState("");
   //   const [answers, setAnswers] = useState([]);
@@ -55,6 +57,7 @@ const AnswerInput = ({
           }
           currentPoints = rungame(gameType, answer.length) * multiplier;
           setPoints([...points, currentPoints]);
+          playYaySound();
         } else {
           setPoints([...points, 0]);
           setMultiplier(1);

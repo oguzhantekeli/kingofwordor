@@ -9,7 +9,7 @@ export const checkAnswer = async (answer) => {
   } catch (error) {
     return error;
   }
-  // console.clear();
+  console.clear();
   if (result.title === "No Definitions Found") {
     console.error("No, my friend. That was wrong...");
     return false;
