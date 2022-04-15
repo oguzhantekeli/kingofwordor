@@ -85,6 +85,8 @@ const AnswerInput = ({
             value={answer}
             onChange={(e) => onChange(e.target.value)}
             minLength="2"
+            autoComplete="off"
+            autoCorrect="off"
           />
         </form>
       </div>
