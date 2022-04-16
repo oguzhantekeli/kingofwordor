@@ -24,6 +24,7 @@ const AnswerInput = ({
   const [playYaySound] = useSound(yaySound, { volume: 0.25 });
 
   const [answer, setAnswer] = useState("");
+  const [isFirst, setIsFirst] = useState(true);
   //   const [answers, setAnswers] = useState([]);
 
   const onChange = (val) => {
@@ -52,16 +53,18 @@ const AnswerInput = ({
         setAnswer("");
         response = await checkAnswer(answer);
         if (response) {
-          if (gameType === "nomistake") {
+          if (gameType === "nomistake" && !isFirst) {
             setMultiplier(multiplier * 1.1);
           }
           currentPoints = rungame(gameType, answer.length) * multiplier;
           setPoints([...points, currentPoints]);
           playYaySound();
+          setIsFirst(false);
         } else {
           setPoints([...points, 0]);
           setMultiplier(1);
           playPainSound();
+          setIsFirst(true);
         }
       }
       setAnswers([

@@ -5,7 +5,7 @@ const calculateScoreLongest = (answerLength) => {
   return answerLength;
 };
 const calculateScoreNoMistake = (answerLength) => {
-  return answerLength * 1.1;
+  return answerLength;
 };
 
 export const rungame = (gametype, answerLength) => {

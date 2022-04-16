@@ -1,6 +1,24 @@
 import React, { useEffect, useState } from "react";
 
 const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
+  const timer = 60;
+  const [countDown, setCountDown] = useState(timer);
+  const [isTimerEnded, setIsTimerEnded] = useState(false);
+  useEffect(() => {
+    let intervale = setInterval(() => {
+      if (countDown !== 0) {
+        setCountDown(countDown - 1);
+      } else {
+        clearInterval(intervale);
+        setIsTimerEnded(true);
+        setGameStatus("endgame");
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervale);
+    };
+  }, [countDown]);
+
   const [sum, setSum] = useState(0);
   const onClick = () => {
     setGameStatus("endgame");
@@ -25,8 +43,7 @@ const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
     <>
       <div className="info-section">
         <div className="game-timer">
-          <span>54</span>
-          <br /> seconds left..
+          <span>{isTimerEnded ? "" : `${countDown}..`}</span> seconds left..
         </div>
         <div className="score">
           Score: <span>{sum.toFixed(2)}</span> points
@@ -35,7 +52,7 @@ const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
           Multiplier: x<span>{multiplier.toFixed(2)}</span>
         </div>
         <button type="button" onClick={onClick}>
-          endgame
+          End Game :(
         </button>
       </div>
     </>

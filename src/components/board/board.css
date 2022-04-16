@@ -93,23 +93,37 @@
 /* info section */
 
 .info-section {
+    display: flex;
+    flex-direction: column;
     width: 20%;
     text-align: right;
     padding-right: 20px;
 }
 .game-timer span{
     font-size: 3rem;
-    text-align: center;
     font-style: oblique;
-    color: #fff;
+    margin: 0px 10px;
+    color: #d44a38;
+    padding: 0px 10px;
+    line-height: 200%;
 }
 
 .countinfo{
     font-size: .75rem;
 }
-
-
-
+.score{
+    font-size: 1.1rem;
+}
+.score span{
+color: #3f8b35;
+font-size: 1.5rem;
+}
+.info-section button{
+    font-size: .65rem;
+    width: 50%;
+    align-self: center;
+    margin-top: 20px;
+}
 
 
 
