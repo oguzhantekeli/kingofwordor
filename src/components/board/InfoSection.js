@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
+import useSound from "use-sound";
+import hurraySound from "../../assets/hurray.wav";
 
 const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
   const timer = 60;
   const [countDown, setCountDown] = useState(timer);
   const [isTimerEnded, setIsTimerEnded] = useState(false);
+  const [playHurraySound] = useSound(hurraySound, { volume: 0.25 });
+
   useEffect(() => {
     let intervale = setInterval(() => {
       if (countDown !== 0) {
         setCountDown(countDown - 1);
       } else {
         clearInterval(intervale);
+        playHurraySound();
         setIsTimerEnded(true);
         setGameStatus("endgame");
       }

@@ -1,5 +1,37 @@
 .endgame{
-    width: 20px;
-    height: 30px;
-    background-color: aqua;
+    width: 100%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.showresult{
+    margin: 20px auto;
+    text-align: center;
+}
+.takescreenshot{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.takescreenshot button{
+    margin-top: 20px;
+}
+.resultbuttons{
+    display: flex;
+    align-items: center;
+}
+.resultbuttons button:first-child{
+    background-color: rgb(66, 98, 134);
+    color: #fff;
+}
+.endgame-restart{
+    margin: 0px 20px;
+}
+.showresult h3{
+    font-size: 1.4rem;
+}
+.showresult span{
+    color: #fff;
+    font-size: 3rem;
 }
