@@ -1,0 +1,69 @@
+.settings-page {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.setting-item {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-item label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.setting-item input[type='text'],
+.setting-item select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.avatar-preview {
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.save-button {
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+
+/* Theme variables */
+body.light-theme {
+  --background: #fff;
+  --text: #000;
+  --border: #ccc;
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-theme {
+  --background: #333;
+  --text: #f1f1f1;
+  --border: #555;
+  background-color: #333;
+  color: #f1f1f1;
+}

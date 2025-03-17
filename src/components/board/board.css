@@ -1,150 +1,148 @@
-.board{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.board-top{
-    font-weight: bold;
-    letter-spacing: 10px;
-    text-align: center;
+.board-top {
+  font-weight: bold;
+  letter-spacing: 10px;
+  text-align: center;
 }
-.start-counter{
-    color: rgba(228, 175, 62, 0.8);
-    font-size: 3rem;
+.start-counter {
+  color: rgba(228, 175, 62, 0.8);
+  font-size: 3rem;
 }
-.started-message{
-    color: rgba(228, 87, 62, 0.8);
-    font-size: 2rem;
-    animation: .8s shake infinite ;
-    
+.started-message {
+  color: rgba(228, 87, 62, 0.8);
+  font-size: 2rem;
+  animation: 0.8s shake infinite;
 }
-.playground{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
+.playground {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
 }
-.game-section{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 20px 0px 20px;
-}
-
-.game-area{
-    text-align: center;
-    align-self: flex-start;
-    flex: 1;
-}
-.rule{
-    font-size: 1.8rem;
-    text-transform: uppercase;
-}
-.condition,.letter{
-    font-size: 2rem;
-    color: #fff;
-    text-transform: uppercase;
-}
-.letter{
-    color: rgba(255, 255, 255, 0.582);
-    font-size: 3rem;
-    font-weight: bold;
-}
-.answerinput{
-    width: 100%;
-}
-.answerinput input{
-    width: 80%;
-    font-size: 1.2rem;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    padding: 5px;
-}
-.answers-list{
-    padding: 10px;
-    border: 1px solid #fff;
-    border-radius: 10px;
-}
-.answers-list h3{
-    font-size: 1.3rem;
+.game-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px 0px 20px;
 }
 
-.answer-item .true{
-    color: #3f8b35;
+.game-area {
+  text-align: center;
+  align-self: flex-start;
+  flex: 1;
 }
-.answer-item .false{
-    color: #d44a38;
+.rule {
+  font-size: 1.8rem;
+  text-transform: uppercase;
 }
-.answer-item .false,.true{
-    margin: 0px 10px;
+.condition,
+.letter {
+  font-size: 2rem;
+  color: #fff;
+  text-transform: uppercase;
 }
-.answer-item .pointsvalue{
-    margin: 0px 10px;
+.letter {
+  color: rgba(255, 255, 255, 0.582);
+  font-size: 3rem;
+  font-weight: bold;
 }
-.answer-item td{
-    padding-right: 10px;
+.answerinput {
+  width: 100%;
 }
-.answer-item td:last-child{
-    padding-right: 0px;
+.answerinput input {
+  width: 80%;
+  font-size: 1.2rem;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+}
+.answers-list {
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+.answers-list h3 {
+  font-size: 1.3rem;
+}
+
+.answer-item .true {
+  color: #3f8b35;
+}
+.answer-item .false {
+  color: #d44a38;
+}
+.answer-item .false,
+.true {
+  margin: 0px 10px;
+}
+.answer-item .pointsvalue {
+  margin: 0px 10px;
+}
+.answer-item td {
+  padding-right: 10px;
+}
+.answer-item td:last-child {
+  padding-right: 0px;
 }
 
 /* info section */
 
 .info-section {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    text-align: right;
-    padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  text-align: right;
+  padding-right: 20px;
 }
-.game-timer span{
-    font-size: 3rem;
-    font-style: oblique;
-    margin: 0px 10px;
-    color: #d44a38;
-    padding: 0px 10px;
-    line-height: 200%;
-}
-
-.countinfo{
-    font-size: .75rem;
-}
-.score{
-    font-size: 1.1rem;
-}
-.score span{
-color: #3f8b35;
-font-size: 1.5rem;
-}
-.info-section button{
-    font-size: .65rem;
-    width: 50%;
-    align-self: center;
-    margin-top: 20px;
+.game-timer span {
+  font-size: 3rem;
+  font-style: oblique;
+  margin: 0px 10px;
+  color: #d44a38;
+  padding: 0px 10px;
+  line-height: 200%;
 }
 
+.countinfo {
+  font-size: 0.75rem;
+}
+.score {
+  font-size: 1.1rem;
+}
+.score span {
+  color: #3f8b35;
+  font-size: 1.5rem;
+}
+.info-section button {
+  font-size: 0.65rem;
+  width: 50%;
+  align-self: center;
+  margin-top: 20px;
+}
 
-
-
-    @keyframes shake {
-        0% {
-            transform: skewX(-15deg);
-        }
-        5% {
-            transform: skewX(15deg);
-        }
-        10% {
-            transform: skewX(-15deg);
-        }
-        15% {
-            transform: skewX(15deg);
-        }
-        20% {
-            transform: skewX(0deg);
-        }
-        100% {
-            transform: skewX(0deg);
-        }
-    }
+@keyframes shake {
+  0% {
+    transform: skewX(-15deg);
+  }
+  5% {
+    transform: skewX(15deg);
+  }
+  10% {
+    transform: skewX(-15deg);
+  }
+  15% {
+    transform: skewX(15deg);
+  }
+  20% {
+    transform: skewX(0deg);
+  }
+  100% {
+    transform: skewX(0deg);
+  }
+}

@@ -1,20 +1,25 @@
-.navbar{
-    background-color: #1d1d1d;
-    color: #ececec;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 111;
+.navbar {
+  background-color: #1d1d1d;
+  color: #ececec;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 111;
 }
-.navbar h1{
-font-size: 2rem;
-color: #bb6736;
+.navbar h1 {
+  font-size: 2rem;
+  color: #bb6736;
 }
-.navbar button{
-    color: #bb6736;
-    padding: 5px 20px;
-    letter-spacing: 5px;
+.navbar button {
+  color: #bb6736;
+  padding: 5px 20px;
+  letter-spacing: 5px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 16px;
 }

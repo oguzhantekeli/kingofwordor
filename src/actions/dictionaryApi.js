@@ -1,19 +1,21 @@
+import { DICTIONARY_API_BASE_URL } from '../constants';
+
 export const checkAnswer = async (answer) => {
-  let result;
   try {
-    result = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${answer}`
-    )
-      .then((a) => a.json())
-      .then((data) => data);
-  } catch (error) {
-    return error;
-  }
-  console.clear();
-  if (result.title === "No Definitions Found") {
-    console.error("No, my friend. That was wrong...");
-    return false;
-  } else {
+    const response = await fetch(`${DICTIONARY_API_BASE_URL}/${answer}`);
+    if (!response.ok) {
+      console.error(`Dictionary API error: ${response.statusText}`);
+      return false;
+    }
+    const data = await response.json();
+    console.clear();
+    if (data.title === 'No Definitions Found') {
+      console.error('No, my friend. That was wrong...');
+      return false;
+    }
     return true;
+  } catch (error) {
+    console.error('Error fetching definition:', error);
+    return false;
   }
 };

@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import "./endgame.css";
+import './endgame.css';
 const EndGame = ({ setGameStatus, totalScore }) => {
   const onClick = () => {
-    setGameStatus("welcome");
+    setGameStatus('welcome');
   };
   const takeScreenShot = () => {
-    console.log("screen shot ok");
+    console.log('screen shot ok');
   };
   return (
     <>

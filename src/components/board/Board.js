@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./board.css";
-import BoardTop from "./BoardTop";
-import GameSection from "./GameSection";
-import InfoSection from "./InfoSection";
+import React, { useState } from 'react';
+import './board.css';
+import BoardTop from './BoardTop';
+import GameSection from './GameSection';
+import InfoSection from './InfoSection';
 
 const Board = ({ setGameStatus, gameType, setTotalScore }) => {
   const [points, setPoints] = useState([]);

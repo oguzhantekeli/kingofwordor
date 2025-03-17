@@ -1,28 +1,32 @@
-const calculateScorestandard = () => {
+import { GAME_TYPES, RULES } from '../constants';
+
+const calculateScoreStandard = () => {
   return 1;
 };
+
 const calculateScoreLongest = (answerLength) => {
   return answerLength;
 };
+
 const calculateScoreNoMistake = (answerLength) => {
   return answerLength;
 };
 
 export const rungame = (gametype, answerLength) => {
   switch (gametype) {
-    case "standard":
+    case GAME_TYPES.STANDARD:
       try {
-        return calculateScorestandard();
+        return calculateScoreStandard();
       } catch (error) {
         return error;
       }
-    case "longest":
+    case GAME_TYPES.LONGEST:
       try {
         return calculateScoreLongest(answerLength);
       } catch (error) {
         return error;
       }
-    case "nomistake":
+    case GAME_TYPES.NOMISTAKE:
       try {
         return calculateScoreNoMistake(answerLength);
       } catch (error) {
@@ -32,21 +36,17 @@ export const rungame = (gametype, answerLength) => {
       break;
   }
 };
+
 export const doesAnswerMatchRules = (answer, { condition, letter }) => {
-  let res;
+  // Using constants for conditions from RULES.CONDITIONS array
   switch (condition) {
-    case "starts with":
-      res = answer.startsWith(letter) ? true : false;
-      break;
-    case "ends with":
-      res = answer.endsWith(letter) ? true : false;
-      break;
-    case "includes":
-      res = answer.includes(letter) ? true : false;
-      break;
+    case RULES.CONDITIONS[0]: // "starts with"
+      return answer.startsWith(letter);
+    case RULES.CONDITIONS[1]: // "ends with"
+      return answer.endsWith(letter);
+    case RULES.CONDITIONS[2]: // "includes"
+      return answer.includes(letter);
     default:
-      res = false;
-      break;
+      return false;
   }
-  return res;
 };

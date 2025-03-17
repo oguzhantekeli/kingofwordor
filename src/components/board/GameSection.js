@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import AnswerInput from "./answerinput/AnswerInput";
-import AnswersList from "./answerslist/AnswersList";
+import React, { useState } from 'react';
+import AnswerInput from './answerinput/AnswerInput';
+import AnswersList from './answerslist/AnswersList';
 
-import RuleSection from "./rules/RuleSection";
+import RuleSection from './rules/RuleSection';
 
 const GameSection = ({
   gameType,
