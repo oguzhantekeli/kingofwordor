@@ -1,14 +1,23 @@
 import React, { useState, useContext } from 'react';
-import useSound from 'use-sound';
-import painSound from '../../../assets/pain.wav';
-import swordSound from '../../../assets/sword.flac';
-import sword2Sound from '../../../assets/sword2.wav';
-import yaySound from '../../../assets/yay.wav';
-import { rungame } from '../../../actions/rungame';
-import { checkAnswer } from '../../../actions/dictionaryApi';
+import './AnswerInput.css';
 import { doesAnswerMatchRules } from '../../../actions/rungame';
 import { GlobalStateContext } from '../../../context/GlobalStateContext';
+import { useAnswerValidation } from '../../../hooks/useAnswerValidation';
+import { useSoundEffects } from '../../../hooks/useSoundEffects';
 
+/**
+ * Input component for user to submit word answers
+ *
+ * @param {Object} props Component properties
+ * @param {string} props.gameType Type of game being played
+ * @param {Array} props.points Current points array
+ * @param {Function} props.setPoints Function to update points
+ * @param {number} props.multiplier Score multiplier
+ * @param {Function} props.setMultiplier Function to update multiplier
+ * @param {Array} props.answers List of previous answers
+ * @param {Function} props.setAnswers Function to update answers list
+ * @param {Object} props.rulesData Rules for the current game
+ */
 const AnswerInput = ({
   gameType,
   points,
@@ -19,83 +28,139 @@ const AnswerInput = ({
   rulesData,
   setMultiplier,
 }) => {
-  const [playSwordSound] = useSound(swordSound, { volume: 0.25 });
-  const [playSword2Sound] = useSound(sword2Sound, { volume: 0.25 });
-  const [playPainSound] = useSound(painSound, { volume: 0.25 });
-  const [playYaySound] = useSound(yaySound, { volume: 0.25 });
   const [answer, setAnswer] = useState('');
+  const [feedback, setFeedback] = useState(null);
   const [isFirst, setIsFirst] = useState(true);
 
-  const { soundEnabled } = useContext(GlobalStateContext);
+  const { state } = useContext(GlobalStateContext);
+  const { soundEnabled } = state;
 
-  const hitSound = () => {
-    if (!soundEnabled) return;
-    const sounds = [playSwordSound, playSword2Sound];
-    const idx = Math.floor(Math.random() * sounds.length);
-    sounds[idx]();
+  const { validateAnswer } = useAnswerValidation(gameType);
+  const sounds = useSoundEffects(soundEnabled);
+
+  const handleInputChange = (e) => {
+    // Allow only letters
+    const value = e.target.value.replace(/[^a-zA-Z]/g, '');
+    setAnswer(value);
+
+    // Play sword sound on typing
+    if (value.length > 0) {
+      sounds.playHitSound();
+    }
+
+    // Clear any feedback when typing
+    if (feedback) {
+      setFeedback(null);
+    }
   };
 
-  const onChange = (val) => {
-    if (soundEnabled) hitSound();
-    setAnswer(val);
-  };
-
-  const onSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (answer.length < 2) return;
 
-    const control = doesAnswerMatchRules(answer, rulesData);
+    const trimmedAnswer = answer.trim();
+    if (trimmedAnswer.length < 2) return;
+
+    // Check if answer matches rules (target letter, etc)
+    const matchesRules = doesAnswerMatchRules(trimmedAnswer, rulesData);
     let currentPoints = 0;
-    let response;
 
-    if (!control) {
+    if (!matchesRules) {
+      // Answer doesn't match basic rules
       setAnswer('');
       setPoints([...points, 0]);
       setMultiplier(1);
-      if (soundEnabled) playPainSound();
-      response = false;
+      sounds.playWrongSound();
+      setFeedback({ type: 'error', message: 'Word does not match rules' });
+
+      logAnswer(trimmedAnswer, false, 0);
     } else {
+      // Answer matches basic rules, check dictionary
       setAnswer('');
-      response = await checkAnswer(answer);
-      if (response) {
+      const result = await validateAnswer(trimmedAnswer);
+
+      if (result.valid) {
+        // Valid dictionary word
         if (gameType === 'nomistake' && !isFirst) {
+          // Increase multiplier for consecutive correct answers in nomistake mode
           setMultiplier(multiplier * 1.1);
         }
-        currentPoints = rungame(gameType, answer.length) * multiplier;
+
+        currentPoints = calculatePoints(trimmedAnswer.length, multiplier);
         setPoints([...points, currentPoints]);
-        if (soundEnabled) playYaySound();
+        sounds.playCorrectSound();
+        setFeedback({
+          type: 'success',
+          message: `+${currentPoints.toFixed(2)} points!`,
+        });
         setIsFirst(false);
+
+        logAnswer(trimmedAnswer, true, currentPoints);
       } else {
+        // Not in dictionary
         setPoints([...points, 0]);
         setMultiplier(1);
-        if (soundEnabled) playPainSound();
+        sounds.playWrongSound();
+        setFeedback({
+          type: 'error',
+          message: result.reason || 'Not a valid word',
+        });
         setIsFirst(true);
+
+        logAnswer(trimmedAnswer, false, 0);
       }
     }
 
+    // Clear feedback after delay
+    setTimeout(() => setFeedback(null), 2000);
+  };
+
+  /**
+   * Calculate points based on game type and word length
+   */
+  const calculatePoints = (wordLength, currentMultiplier) => {
+    // Use game type to determine scoring
+    switch (gameType) {
+      case 'longest':
+        return wordLength * 2 * currentMultiplier; // Double points for longest mode
+      case 'nomistake':
+        return wordLength * currentMultiplier;
+      default: // standard
+        return wordLength * currentMultiplier;
+    }
+  };
+
+  /**
+   * Log answer to the answers list
+   */
+  const logAnswer = (text, isValid, score) => {
     setAnswers([
       ...answers,
       {
-        answerText: answer,
-        status: response.toString().toUpperCase(),
-        points: currentPoints.toFixed(2),
+        answerText: text,
+        status: isValid.toString().toUpperCase(),
+        points: score.toFixed(2),
       },
     ]);
   };
 
   return (
     <div className="answerinput">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           autoFocus
           type="text"
           name="answer"
           value={answer}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleInputChange}
           minLength="2"
           autoComplete="off"
           autoCorrect="off"
+          aria-label="Enter word"
         />
+
+        {feedback && (
+          <div className={`feedback ${feedback.type}`}>{feedback.message}</div>
+        )}
       </form>
     </div>
   );

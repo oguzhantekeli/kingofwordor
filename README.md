@@ -1,4 +1,42 @@
-# Getting Started with Create React App
+# King of Wordor
+
+Word Game based on React.
+
+## Recent Code Improvements
+
+The codebase has been refactored to improve:
+
+### 1. Code Organization
+
+- Created custom hooks to separate logic from UI components:
+  - `useAnswerValidation` - Handles word validation logic
+  - `useGameTimer` - Manages game timer functionality
+  - `useSoundEffects` - Centralizes sound effect handling
+
+### 2. State Management
+
+- Enhanced `GlobalStateContext` with reducer pattern for more maintainable state
+- Removed unused GameContext file
+- Better error handling in API calls
+
+### 3. Performance Improvements
+
+- Sound effects are loaded only when needed
+- Timer implementation optimized to avoid memory leaks
+
+### 4. Accessibility
+
+- Added proper ARIA attributes
+- Improved keyboard navigation support
+- Better feedback for user interactions
+
+### 5. Maintainability
+
+- Added JSDoc comments to document component props and functions
+- Improved CSS organization with component-specific files
+- More consistent coding style
+
+## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
