@@ -14,37 +14,37 @@
 }
 
 .answerinput input {
-  padding: var(--space-lg) var(--space-md);
-  border: var(--border-normal) solid var(--accent-gold);
+  padding: 15px 20px;
+  border: 2px solid var(--accent-gold);
   border-radius: 0;
-  font-size: var(--font-lg);
+  font-size: 1.2rem;
   outline: none;
-  transition: all var(--transition-normal) ease;
+  transition: all 0.3s ease;
   width: 100%;
   background-color: var(--parchment);
   color: var(--text-dark);
   font-family: 'Metamorphous', serif;
-  box-shadow: 0 var(--space-xs) var(--space-lg) var(--shadow-dark);
-  background-image: url('./input-texture.jpg');
+  box-shadow: 0 5px 15px var(--shadow-dark);
+  background-image: url('%PUBLIC_URL%/assets/input-texture.jpg');
   background-size: cover;
   background-blend-mode: overlay;
 }
 
 .answerinput input:focus {
   border-color: var(--accent-gold);
-  box-shadow: 0 0 var(--space-lg) var(--shadow-light);
+  box-shadow: 0 0 15px var(--shadow-light);
 }
 
 /* Feedback messages */
 .feedback {
   position: absolute;
-  bottom: calc(-1 * var(--space-3xl));
+  bottom: -40px;
   left: 0;
   right: 0;
   text-align: center;
-  padding: var(--space-xs) var(--space-md);
+  padding: 8px 12px;
   font-weight: bold;
-  animation: fadeIn var(--transition-normal);
+  animation: fadeIn 0.3s;
   font-family: 'MedievalSharp', cursive;
   letter-spacing: 1px;
   border: 1px solid;

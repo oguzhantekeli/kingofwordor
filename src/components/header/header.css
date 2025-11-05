@@ -6,13 +6,13 @@
   color: var(--text-light);
   display: flex;
   justify-content: space-between;
-  padding: var(--space-lg) var(--space-xl);
+  padding: 15px 25px;
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: var(--z-header);
-  box-shadow: 0 var(--space-xs) var(--space-md) var(--shadow-dark);
-  border-bottom: var(--border-thick) solid var(--accent-gold);
+  z-index: 111;
+  box-shadow: 0 4px 20px var(--shadow-dark);
+  border-bottom: 3px solid var(--accent-gold);
 }
 
 .navbar::before {
@@ -23,15 +23,15 @@
   width: 100%;
   height: 100%;
   background-color: rgba(44, 28, 12, 0.6);
-  z-index: var(--z-below);
+  z-index: -1;
 }
 
 .navbar h1 {
-  font-size: var(--font-xl);
+  font-size: 2.5rem;
   color: var(--accent-gold);
   text-shadow:
     2px 2px 4px var(--primary-dark),
-    0 0 var(--space-md) var(--shadow-light);
+    0 0 20px var(--shadow-light);
   font-weight: 900;
   font-family: 'Cinzel Decorative', cursive;
   position: relative;
@@ -42,14 +42,14 @@
 .navbar h1::before,
 .navbar h1::after {
   content: '⚔️';
-  font-size: var(--font-lg);
-  margin: 0 var(--space-lg);
+  font-size: 1.2rem;
+  margin: 0 15px;
   opacity: 0.8;
 }
 
 .navbar button {
   color: var(--accent-gold);
-  padding: var(--space-xs) var(--space-md);
+  padding: 8px 20px;
   letter-spacing: 3px;
   font-weight: bold;
   border-color: var(--accent-gold);
@@ -73,51 +73,6 @@
 
 .header-actions {
   display: flex;
-  gap: var(--space-md);
+  gap: 16px;
   align-items: center;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar {
-    padding: var(--space-md) var(--space-lg);
-  }
-
-  .navbar h1 {
-    font-size: var(--font-2xl);
-  }
-
-  .header-actions {
-    gap: var(--space-sm);
-  }
-
-  .navbar button.donate-button {
-    padding: var(--space-xs) var(--space-md);
-    font-size: var(--font-sm);
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar {
-    padding: 10px 12px;
-  }
-
-  .navbar h1 {
-    font-size: 1.4rem;
-  }
-
-  .header-actions {
-    gap: 8px;
-  }
-
-  .navbar button.donate-button {
-    padding: 5px 10px;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-  }
-
-  .settings-icon {
-    width: 14px;
-    height: 14px;
-  }
 }

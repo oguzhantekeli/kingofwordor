@@ -1,22 +1,22 @@
 .toast {
   position: fixed;
-  top: 100px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--primary-medium);
   color: var(--accent-gold);
-  padding: var(--space-md) var(--space-xl);
-  z-index: var(--z-toast);
+  padding: 12px 25px;
+  z-index: 2000;
   opacity: 0.95;
-  transition: all var(--transition-slow) ease;
-  border: var(--border-normal) solid var(--accent-gold);
-  box-shadow: 0 var(--space-xs) var(--space-md) var(--shadow-dark);
+  transition: all 0.4s ease;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 5px 20px var(--shadow-dark);
   font-family: 'MedievalSharp', cursive;
   text-align: center;
   max-width: 80%;
   min-width: 250px;
   animation: toastAppear 0.5s ease forwards;
-  position: fixed;
+  position: relative;
 }
 
 .toast::before,
@@ -26,70 +26,24 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--accent-gold);
-  font-size: var(--font-lg);
+  font-size: 1.2rem;
 }
 
 .toast::before {
-  left: var(--space-sm);
+  left: 10px;
 }
 
 .toast::after {
-  right: var(--space-sm);
+  right: 10px;
 }
 
 @keyframes toastAppear {
   0% {
-    top: 0px;
+    top: -50px;
     opacity: 0;
   }
   100% {
-    top: 100px;
+    top: 20px;
     opacity: 0.95;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .toast {
-    top: 85px;
-    padding: var(--space-sm) var(--space-md);
-    font-size: var(--font-sm);
-    min-width: 200px;
-  }
-
-  @keyframes toastAppear {
-    0% {
-      top: 0px;
-      opacity: 0;
-    }
-    100% {
-      top: 85px;
-      opacity: 0.95;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .toast {
-    top: 75px;
-    padding: var(--space-xs) var(--space-lg);
-    font-size: var(--font-xs);
-    max-width: 90%;
-  }
-
-  .toast::before,
-  .toast::after {
-    font-size: 1rem;
-  }
-
-  @keyframes toastAppear {
-    0% {
-      top: 0px;
-      opacity: 0;
-    }
-    100% {
-      top: 75px;
-      opacity: 0.95;
-    }
   }
 }

@@ -1,27 +1,27 @@
 .settings-page {
-  padding: var(--space-2xl);
+  padding: 30px;
   max-width: 450px;
   margin: 0 auto;
   background-color: var(--parchment);
   color: var(--text-dark);
-  border: var(--border-normal) solid var(--accent-gold);
-  box-shadow: 0 var(--space-xs) var(--space-lg) var(--shadow-dark);
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 5px 15px var(--shadow-dark);
   position: relative;
 }
 
 .settings-page::before {
   content: '';
   position: absolute;
-  top: var(--space-sm);
-  left: var(--space-sm);
-  right: var(--space-sm);
-  bottom: var(--space-sm);
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   border: 1px solid rgba(90, 58, 26, 0.3);
   pointer-events: none;
 }
 
 .setting-item {
-  margin-bottom: var(--space-xl);
+  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -30,7 +30,7 @@
 .setting-item::after {
   content: '';
   position: absolute;
-  bottom: calc(-1 * var(--space-md));
+  bottom: -12px;
   left: 0;
   right: 0;
   height: 1px;
@@ -48,8 +48,8 @@
 }
 
 .setting-item label {
-  font-size: var(--font-lg);
-  margin-bottom: var(--space-md);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
   font-family: 'MedievalSharp', cursive;
   color: var(--primary-dark);
   text-transform: uppercase;
@@ -58,43 +58,43 @@
 
 .setting-item input[type='text'],
 .setting-item select {
-  padding: var(--space-md) var(--space-lg);
-  font-size: var(--font-base);
-  border: var(--border-normal) solid var(--primary-light);
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid var(--primary-light);
   background-color: rgba(244, 236, 216, 0.5);
   color: var(--text-dark);
   font-family: 'Metamorphous', serif;
-  box-shadow: inset 0 2px var(--space-xs) rgba(0, 0, 0, 0.1);
-  transition: all var(--transition-normal) ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .setting-item input[type='text']:focus,
 .setting-item select:focus {
   border-color: var(--accent-gold);
   outline: none;
-  box-shadow: 0 0 var(--space-sm) var(--shadow-light);
+  box-shadow: 0 0 10px var(--shadow-light);
   background-color: var(--parchment);
 }
 
 .avatar-preview {
-  margin: var(--space-lg) auto;
-  width: var(--icon-xl);
-  height: var(--icon-xl);
+  margin: 15px auto;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 50%;
-  border: var(--border-thick) solid var(--accent-gold);
-  box-shadow: 0 var(--space-xs) var(--space-lg) var(--shadow-dark);
-  transition: all var(--transition-normal) ease;
+  border: 3px solid var(--accent-gold);
+  box-shadow: 0 5px 15px var(--shadow-dark);
+  transition: all 0.3s ease;
   position: relative;
 }
 
 .avatar-preview::before {
   content: '';
   position: absolute;
-  top: calc(-1 * var(--space-xs));
-  left: calc(-1 * var(--space-xs));
-  right: calc(-1 * var(--space-xs));
-  bottom: calc(-1 * var(--space-xs));
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
   border: 1px solid var(--accent-gold);
   border-radius: 50%;
   opacity: 0.5;
@@ -167,68 +167,4 @@ body.dark-theme {
   background-image: url('./assets/dark-parchment.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .settings-container h2 {
-    font-size: 1.8rem;
-  }
-
-  .setting-group label {
-    font-size: 0.95rem;
-  }
-
-  .setting-group input[type='text'] {
-    padding: 10px;
-    font-size: 0.95rem;
-  }
-
-  .toggle-switch {
-    width: 50px;
-    height: 26px;
-  }
-
-  .toggle-switch::before {
-    width: 20px;
-    height: 20px;
-  }
-
-  .toggle-switch.active::before {
-    transform: translateX(24px);
-  }
-
-  .save-button {
-    padding: 12px 30px;
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .settings-container {
-    padding: 15px;
-  }
-
-  .settings-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-
-  .setting-group {
-    margin-bottom: 20px;
-  }
-
-  .setting-group label {
-    font-size: 0.9rem;
-  }
-
-  .setting-group input[type='text'] {
-    padding: 8px;
-    font-size: 0.9rem;
-  }
-
-  .save-button {
-    padding: 10px 25px;
-    font-size: 0.9rem;
-  }
 }

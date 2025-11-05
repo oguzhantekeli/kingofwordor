@@ -11,29 +11,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: var(--z-modal);
+  z-index: 1000;
 }
 
 .modal-content {
   background: var(--parchment);
   background-image: url('./assets/parchment-texture.jpg');
   background-size: cover;
-  padding: var(--space-2xl);
-  border: var(--border-thick) solid var(--accent-gold);
+  padding: 30px;
+  border: 3px solid var(--accent-gold);
   position: relative;
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 var(--space-xs) var(--space-md) var(--shadow-dark);
+  box-shadow: 0 5px 20px var(--shadow-dark);
   color: var(--text-dark);
 }
 
 .modal-content::before {
   content: '';
   position: absolute;
-  top: var(--space-sm);
-  left: var(--space-sm);
-  right: var(--space-sm);
-  bottom: var(--space-sm);
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   border: 1px solid rgba(90, 58, 26, 0.3);
   pointer-events: none;
 }
@@ -41,80 +41,41 @@
 .modal-content::after {
   content: '✧ Royal Settings ✧';
   position: absolute;
-  top: calc(-1 * var(--space-lg));
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--primary-dark);
   color: var(--accent-gold);
-  padding: var(--space-xs) var(--space-md);
+  padding: 5px 20px;
   font-family: 'Cinzel Decorative', cursive;
-  border: var(--border-normal) solid var(--accent-gold);
-  box-shadow: 0 3px var(--space-sm) var(--shadow-dark);
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 3px 10px var(--shadow-dark);
   white-space: nowrap;
 }
 
 .modal-close {
   position: absolute;
-  top: var(--space-lg);
-  right: var(--space-lg);
+  top: 15px;
+  right: 15px;
   border: none;
   background: var(--primary-dark);
   color: var(--accent-gold);
-  font-size: var(--font-md);
-  width: var(--icon-md);
-  height: var(--icon-md);
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  box-shadow: 0 3px var(--space-xs) var(--shadow-dark);
+  box-shadow: 0 3px 8px var(--shadow-dark);
   border: 1px solid var(--accent-gold);
-  z-index: var(--z-base);
-  transition: all var(--transition-normal);
+  z-index: 10;
+  transition: all 0.3s;
 }
 
 .modal-close:hover {
   background-color: var(--accent-red);
   transform: rotate(90deg);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .modal-content::after {
-    font-size: var(--font-sm);
-    padding: var(--space-xs) var(--space-lg);
-    top: calc(-1 * var(--space-md));
-  }
-
-  .modal-close {
-    width: var(--icon-sm);
-    height: var(--icon-sm);
-    font-size: var(--font-md);
-    top: var(--space-md);
-    right: var(--space-md);
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-content {
-    padding: var(--space-md) var(--space-lg);
-  }
-
-  .modal-content::after {
-    font-size: var(--font-sm);
-    padding: var(--space-xs) var(--space-md);
-  }
-
-  .modal-close {
-    width: var(--icon-lg);
-    height: var(--icon-lg);
-    font-size: var(--font-base);
-  }
 }
