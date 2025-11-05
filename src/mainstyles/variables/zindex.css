@@ -1,0 +1,10 @@
+:root {
+  /* Z-index Scale */
+  --z-below: -1;
+  --z-base: 10;
+  --z-normal: 1;
+  --z-elevated: 10;
+  --z-header: 111;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}

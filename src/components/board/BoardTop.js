@@ -23,10 +23,7 @@ const BoardTop = ({ setShowGame }) => {
 
   return (
     <div className="board-top">
-      <div className="start-counter">
-        {isTimerEnded ? '' : `${countDown}..`}
-      </div>
-      {isTimerEnded && <div className="started-message">---SMASH THEM---</div>}
+      <div className="start-counter">{isTimerEnded ? '' : `${countDown}`}</div>
     </div>
   );
 };

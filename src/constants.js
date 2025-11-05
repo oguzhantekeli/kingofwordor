@@ -18,7 +18,7 @@ export const TIMERS = {
 };
 
 export const HEADER = {
-  APP_TITLE: 'KoW - King of Wordor',
+  APP_TITLE: 'King of Wordor',
   DONATE_TEXT: 'DONATE',
   SETTINGS_ICON: {
     WIDTH: 16,

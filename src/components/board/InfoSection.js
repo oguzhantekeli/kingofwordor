@@ -1,23 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { GlobalStateContext } from '../../context/GlobalStateContext';
 import { TIMERS, GAME_STATUSES } from '../../constants';
 import { useGameTimer } from '../../hooks/useGameTimer';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 
 /**
- * Game information section with timer, score and game controls
+ * Timer section with game timer and end game button
  *
  * @param {Object} props Component properties
  * @param {Function} props.setGameStatus Function to update game status
  * @param {Array} props.points Current points array
- * @param {number} props.multiplier Score multiplier
  * @param {Function} props.setTotalScore Function to update total score
  */
-const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
+const InfoSection = ({ setGameStatus, points, setTotalScore }) => {
   const { state } = useContext(GlobalStateContext);
   const { soundEnabled } = state;
-  const timer = TIMERS.ONE_MINUTE;
-  const [sum, setSum] = useState(0);
+  const timer = TIMERS.FIVE_MINUTE;
   const sounds = useSoundEffects(soundEnabled);
 
   // Handle game end when timer ends
@@ -34,32 +32,31 @@ const InfoSection = ({ setGameStatus, points, multiplier, setTotalScore }) => {
     setGameStatus(GAME_STATUSES.ENDGAME);
   };
 
-  // Calculate total score from points array
-  const calculateTotalScore = () => {
+  // Calculate total score when timer ends or game ends
+  useEffect(() => {
     if (points.length > 0) {
       const scoreSum = points.reduce((a, b) => a + b, 0);
       setTotalScore(scoreSum);
-      setSum(scoreSum);
-    } else {
-      setSum(0);
     }
+  }, [points, setTotalScore]);
+
+  // Format seconds to MM:SS only for 60+ seconds
+  const formatTime = (seconds) => {
+    if (seconds < 60) {
+      return seconds.toString();
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Recalculate score when points change
-  useEffect(() => {
-    calculateTotalScore();
-  }, [points]);
-
   return (
-    <div className="info-section">
+    <div className="timer-controls">
       <div className="game-timer" aria-live="polite">
-        <span>{isTimerEnded ? '' : `${countDown}..`}</span> seconds left
-      </div>
-      <div className="score">
-        Score: <span>{sum.toFixed(2)}</span> points
-      </div>
-      <div className="score">
-        Multiplier: x<span>{multiplier.toFixed(2)}</span>
+        <div className="timer-icon">⏱️</div>
+        <span className="timer-value">
+          {isTimerEnded ? '00:00' : formatTime(countDown)}
+        </span>
       </div>
       <button
         type="button"

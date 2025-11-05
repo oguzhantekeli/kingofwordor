@@ -1,0 +1,14 @@
+:root {
+  /* Fluid Font Sizes - Responsive across all screen sizes */
+  --font-xs: clamp(0.65rem, 0.6rem + 0.25vw, 0.75rem);
+  --font-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
+  --font-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  --font-md: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+  --font-lg: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
+  --font-xl: clamp(1.2rem, 1rem + 1vw, 1.5rem);
+  --font-2xl: clamp(1.4rem, 1.2rem + 1vw, 1.8rem);
+  --font-3xl: clamp(1.6rem, 1.4rem + 1vw, 2rem);
+  --font-4xl: clamp(1.8rem, 1.5rem + 1.5vw, 2.5rem);
+  --font-5xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+  --font-6xl: clamp(2.8rem, 2.5rem + 1.5vw, 3.75rem);
+}

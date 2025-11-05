@@ -11,11 +11,11 @@ const EndGame = ({ setGameStatus, totalScore }) => {
   return (
     <>
       <div className="endgame">
-        <h2>Well Done.. Rest Now.</h2>
-        <h3>Prepare for the next battle...</h3>
+        <h2>Well Done, Champion!</h2>
+        <h3>The next challenge awaits...</h3>
         <div className="showresult">
-          <h3>Your total score is</h3>
-          <span>{totalScore.toFixed(2)}</span>
+          <h3>Score</h3>
+          <span className="score-value">{totalScore.toFixed(2)}</span>
         </div>
         <div className="takescreenshot">
           <p>Share your score with your friends</p>

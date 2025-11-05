@@ -1,0 +1,20 @@
+:root {
+  /* Pseudo Element Positioning (for centering) */
+  --pseudo-offset-xs: 10px;
+  --pseudo-offset-sm: 15px;
+  --pseudo-offset-md: 20px;
+  --pseudo-offset-lg: 30px;
+  --pseudo-offset-xl: 40px;
+
+  /* Decorative Icon Spacing (stars, swords, etc.) */
+  --decorator-gap-sm: 15px;
+  --decorator-gap-md: 20px;
+  --decorator-gap-lg: 30px;
+  --decorator-gap-xl: 40px;
+
+  /* Component Specific Sizes */
+  --button-padding-sm: 10px 20px;
+  --button-padding-md: 12px 20px;
+  --button-padding-lg: 18px 60px;
+  --button-padding-xl: 18px 40px;
+}

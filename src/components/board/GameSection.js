@@ -15,8 +15,8 @@ const GameSection = ({
   const [rulesData, setRulesData] = useState({});
 
   return (
-    <>
-      <div className="game-section">
+    <div className="game-content">
+      <div className="game-main">
         <div className="game-area">
           <RuleSection answers={answers} setRulesData={setRulesData} />
           <AnswerInput
@@ -30,9 +30,11 @@ const GameSection = ({
             rulesData={rulesData}
           />
         </div>
+      </div>
+      <div className="game-sidebar">
         <AnswersList answers={answers} />
       </div>
-    </>
+    </div>
   );
 };
 

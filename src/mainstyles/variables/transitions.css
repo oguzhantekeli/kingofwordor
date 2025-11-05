@@ -1,0 +1,6 @@
+:root {
+  /* Transition Speeds */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}

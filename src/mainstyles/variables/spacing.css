@@ -1,0 +1,12 @@
+:root {
+  /* Spacing System (base: 4px) */
+  --space-xs: 4px;
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 15px;
+  --space-xl: 25px;
+  --space-2xl: 30px;
+  --space-3xl: 40px;
+  --space-4xl: 50px;
+  --space-5xl: 60px;
+}

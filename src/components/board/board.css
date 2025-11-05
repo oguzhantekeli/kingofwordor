@@ -1,129 +1,426 @@
 .board {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0.5vh 1vw;
+  width: 100vw;
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
+  box-sizing: border-box;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 .board-top {
   font-weight: bold;
-  letter-spacing: 10px;
+  letter-spacing: var(--space-sm);
   text-align: center;
+  background: url('./banner-bg.png') no-repeat center center;
+  background-size: contain;
+  padding: 2vh;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
 }
+
 .start-counter {
-  color: rgba(228, 175, 62, 0.8);
-  font-size: 3rem;
+  color: var(--accent-gold);
+  font-size: clamp(2rem, 4vw, 4rem);
+  text-shadow:
+    0 0 var(--space-sm) var(--shadow-dark),
+    0 0 var(--space-md) var(--shadow-light);
+  font-family: 'MedievalSharp', cursive;
+  padding: var(--space-md) var(--space-xl);
 }
+
 .started-message {
-  color: rgba(228, 87, 62, 0.8);
-  font-size: 2rem;
+  color: var(--accent-red);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   animation: 0.8s shake infinite;
+  text-shadow: 0 0 var(--space-sm) var(--shadow-dark);
+  font-family: 'MedievalSharp', cursive;
+  text-transform: uppercase;
 }
+
+/* Main Playground Container */
 .playground {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  margin-top: 20px;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  background: rgba(44, 28, 12, 0.4);
+  border: var(--border-thick) solid var(--accent-gold);
+  border-radius: var(--space-xs);
+  box-shadow: 0 var(--space-sm) var(--space-2xl) var(--shadow-dark);
+  padding: 1.5vh 1.5vw;
+  background-image: url('./parchment-texture.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+  overflow: hidden;
+  box-sizing: border-box;
 }
-.game-section {
-  width: 100%;
+
+/* Top Bar - Timer + Score */
+.game-top-bar {
   display: flex;
   justify-content: space-between;
-  padding: 0px 20px 0px 20px;
+  align-items: center;
+  padding: 1vh 1vw;
+  background: rgba(90, 58, 26, 0.8);
+  border: var(--border-normal) solid var(--accent-gold);
+  border-radius: var(--space-xs);
+  margin-bottom: 1.5vh;
+  gap: 2vw;
+  flex-shrink: 0;
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+.game-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+  background: rgba(44, 28, 12, 0.9);
+  padding: 0.8vh 1.2vw;
+  border: var(--border-normal) solid var(--accent-gold);
+  border-radius: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.timer-icon {
+  font-size: clamp(1.2rem, 2.5vh, 2rem);
+  line-height: 1;
+}
+
+.timer-value {
+  font-size: clamp(1.2rem, 2.2vh, 1.8rem);
+  font-family: 'MedievalSharp', cursive;
+  color: var(--accent-gold);
+  font-weight: bold;
+  min-width: 60px;
+  text-align: center;
+}
+
+.end-game-button {
+  font-size: clamp(0.8rem, 1.4vh, 1.1rem);
+  padding: 0.8vh 1.5vw;
+  background-color: var(--accent-red);
+  font-family: 'MedievalSharp', cursive;
+  border: var(--border-normal) solid var(--accent-gold);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.end-game-button:hover {
+  background-color: #a13636;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Score Display */
+.score-display {
+  display: flex;
+  gap: 2vw;
+  align-items: center;
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(44, 28, 12, 0.9);
+  padding: 0.6vh 1.2vw;
+  border: var(--border-normal) solid var(--accent-gold);
+  border-radius: var(--space-xs);
+  min-width: 80px;
+}
+
+.score-label {
+  font-size: clamp(0.7rem, 1.1vh, 0.9rem);
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.2vh;
+}
+
+.score-value {
+  font-size: clamp(1.2rem, 2vh, 1.6rem);
+  color: var(--accent-gold);
+  font-family: 'MedievalSharp', cursive;
+  font-weight: bold;
+  text-shadow: 0 0 5px var(--shadow-dark);
+}
+
+/* Game Content Layout */
+.game-content {
+  display: flex;
+  gap: 1.5vw;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Main Game Area */
+.game-main {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .game-area {
   text-align: center;
-  align-self: flex-start;
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: rgba(90, 58, 26, 0.5);
+  padding: 2vh 2vw;
+  border-radius: var(--space-xs);
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.game-area::before {
+  display: none;
+}
+
+/* Sidebar for Answers */
+.game-sidebar {
+  flex: 0 0 35%;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  max-width: 400px;
+  overflow: hidden;
+}
+
 .rule {
-  font-size: 1.8rem;
+  font-size: clamp(1rem, 1.8vh, 1.5rem);
   text-transform: uppercase;
+  margin-bottom: 1.5vh;
+  color: var(--accent-gold);
+  font-family: 'MedievalSharp', cursive;
+  text-shadow: 1px 1px 3px var(--primary-dark);
+  position: relative;
+  padding-bottom: 1vh;
+  line-height: 1.6;
+  word-spacing: 0.2em;
 }
+
+.rule::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-gold),
+    transparent
+  );
+}
+
 .condition,
 .letter {
-  font-size: 2rem;
-  color: #fff;
+  font-size: clamp(1rem, 2vh, 1.8rem);
+  color: var(--text-light);
   text-transform: uppercase;
+  margin-top: 0.5vh;
+  display: inline-block;
 }
+
 .letter {
-  color: rgba(255, 255, 255, 0.582);
-  font-size: 3rem;
+  color: var(--accent-gold);
+  font-size: clamp(1.5rem, 3vh, 2.5rem);
   font-weight: bold;
+  text-shadow:
+    0 0 var(--space-sm) var(--shadow-dark),
+    0 0 var(--space-md) var(--shadow-light);
+  margin: 0 0.5vw;
+  font-family: 'MedievalSharp', cursive;
+  display: inline-block;
+  position: relative;
 }
+
+.letter::before,
+.letter::after {
+  content: '★';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-xl);
+  color: var(--accent-gold);
+}
+
+.letter::before {
+  left: calc(-1 * var(--decorator-gap-lg));
+}
+
+.letter::after {
+  right: calc(-1 * var(--decorator-gap-lg));
+}
+
+.countinfo {
+  font-size: clamp(0.8rem, 1.4vh, 1.1rem);
+  color: var(--text-light);
+  margin: 1vh 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
 .answerinput {
   width: 100%;
+  margin: 1vh 0;
 }
+
 .answerinput input {
-  width: 80%;
-  font-size: 1.2rem;
+  width: 85%;
+  max-width: 500px;
+  font-size: clamp(1rem, 1.8vh, 1.4rem);
   outline: none;
-  border: none;
-  border-radius: 10px;
-  padding: 5px;
+  border: var(--border-normal) solid var(--accent-gold);
+  background-color: var(--parchment);
+  border-radius: 5px;
+  padding: 1.2vh 1.5vw;
+  font-family: 'Metamorphous', serif;
+  color: var(--text-dark);
+  box-shadow: 0 3px var(--space-sm) var(--shadow-dark);
+  transition: all var(--transition-fast);
 }
+
+.answerinput input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(201, 166, 107, 0.4);
+  border-color: var(--accent-gold);
+}
+
+/* Answers List Sidebar */
 .answers-list {
-  padding: 10px;
-  border: 1px solid #fff;
+  height: 100%;
+  padding: 1.5vh 1vw;
+  background-color: rgba(44, 28, 12, 0.6);
+  border-radius: var(--space-xs);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-gold) rgba(44, 28, 12, 0.8);
+}
+
+.answers-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.answers-list::-webkit-scrollbar-track {
+  background: rgba(44, 28, 12, 0.8);
   border-radius: 10px;
 }
+
+.answers-list::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 10px;
+}
+
+.answers-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
 .answers-list h3 {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 1.8vh, 1.5rem);
+  margin-bottom: 1vh;
+  color: var(--accent-gold);
+  text-align: center;
+  font-family: 'Cinzel Decorative', cursive;
+  position: relative;
+  padding-bottom: 0.5vh;
+}
+
+.answers-list h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: var(--accent-gold);
+}
+
+.answer-item {
+  padding: 0.5vh 0.3vw;
+  border-bottom: 1px solid rgba(201, 166, 107, 0.3);
+  color: var(--text-light);
+  font-size: clamp(0.7rem, 1.2vh, 1rem);
+}
+
+.answer-item:last-child {
+  border-bottom: none;
 }
 
 .answer-item .true {
-  color: #3f8b35;
+  color: #5db356;
+  font-weight: bold;
 }
+
 .answer-item .false {
-  color: #d44a38;
+  color: var(--accent-red);
+  font-weight: bold;
 }
+
 .answer-item .false,
 .true {
-  margin: 0px 10px;
+  margin: 0px 0.5vw;
 }
+
 .answer-item .pointsvalue {
-  margin: 0px 10px;
+  margin: 0px 0.5vw;
+  color: var(--accent-gold);
+  font-weight: bold;
 }
+
 .answer-item td {
-  padding-right: 10px;
+  padding: 0.5vh 1vw 0.5vh 0;
+  font-size: clamp(0.7rem, 1.2vh, 1rem);
 }
+
 .answer-item td:last-child {
   padding-right: 0px;
 }
 
-/* info section */
+/* Score display */
 
-.info-section {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-  text-align: right;
-  padding-right: 20px;
-}
-.game-timer span {
-  font-size: 3rem;
-  font-style: oblique;
-  margin: 0px 10px;
-  color: #d44a38;
-  padding: 0px 10px;
-  line-height: 200%;
-}
-
-.countinfo {
-  font-size: 0.75rem;
-}
 .score {
-  font-size: 1.1rem;
+  font-size: clamp(0.7rem, 1.2vh, 1rem);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.3vw;
+  white-space: nowrap;
 }
+
 .score span {
-  color: #3f8b35;
-  font-size: 1.5rem;
-}
-.info-section button {
-  font-size: 0.65rem;
-  width: 50%;
-  align-self: center;
-  margin-top: 20px;
+  color: var(--accent-gold);
+  font-size: clamp(1rem, 1.6vh, 1.3rem);
+  font-family: 'MedievalSharp', cursive;
+  text-shadow: 0 0 5px var(--shadow-dark);
 }
 
 @keyframes shake {
@@ -144,5 +441,141 @@
   }
   100% {
     transform: skewX(0deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .game-top-bar {
+    padding: 1.2vh 1.5vw;
+  }
+
+  .score-item {
+    padding: 0.8vh 1.2vw;
+  }
+
+  .game-content {
+    flex-direction: column;
+  }
+
+  .game-main {
+    flex: 1 1 auto;
+  }
+
+  .game-sidebar {
+    flex: 0 0 30vh;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .board {
+    padding: 0.3vh 0.5vw;
+  }
+
+  .playground {
+    padding: 0.8vh 0.8vw;
+  }
+
+  .game-top-bar {
+    padding: 1vh 1.2vw;
+    gap: 1vw;
+  }
+
+  .timer-controls {
+    gap: 1vw;
+  }
+
+  .game-timer {
+    padding: 0.8vh 1.5vw;
+  }
+
+  .timer-icon {
+    font-size: clamp(1rem, 2vh, 1.3rem);
+  }
+
+  .timer-value {
+    font-size: clamp(1rem, 2vh, 1.3rem);
+  }
+
+  .score-display {
+    gap: 1vw;
+  }
+
+  .score-item {
+    padding: 0.8vh 1vw;
+  }
+
+  .game-area {
+    padding: 1.5vh 1.2vw;
+  }
+
+  .game-sidebar {
+    flex: 0 0 25vh;
+  }
+
+  .answers-list {
+    padding: 1.2vh 1vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .board {
+    padding: 0.2vh 0.3vw;
+  }
+
+  .playground {
+    padding: 0.5vh 0.5vw;
+  }
+
+  .game-top-bar {
+    flex-direction: column;
+    padding: 0.8vh 1vw;
+    gap: 1vh;
+    align-items: stretch;
+  }
+
+  .timer-controls {
+    justify-content: center;
+  }
+
+  .score-display {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2vw;
+  }
+
+  .score-item {
+    padding: 0.6vh 2vw;
+    min-width: auto;
+  }
+
+  .score-label {
+    font-size: clamp(0.6rem, 1vh, 0.75rem);
+  }
+
+  .score-value {
+    font-size: clamp(1rem, 2vh, 1.3rem);
+  }
+
+  .game-area {
+    padding: 1vh 1vw;
+  }
+
+  .game-sidebar {
+    flex: 0 0 20vh;
+  }
+
+  .answers-list {
+    padding: 0.8vh 1vw;
+  }
+
+  .answers-list h3 {
+    margin-bottom: 0.5vh;
+    padding-bottom: 0.3vh;
+  }
+
+  .end-game-button {
+    padding: 0.6vh 1.5vw;
   }
 }

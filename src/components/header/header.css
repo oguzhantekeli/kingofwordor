@@ -1,25 +1,123 @@
 .navbar {
-  background-color: #1d1d1d;
-  color: #ececec;
+  background-color: var(--primary-dark);
+  background-image: url('./assets/header-banner.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--text-light);
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: var(--space-lg) var(--space-xl);
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 111;
+  z-index: var(--z-header);
+  box-shadow: 0 var(--space-xs) var(--space-md) var(--shadow-dark);
+  border-bottom: var(--border-thick) solid var(--accent-gold);
 }
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 28, 12, 0.6);
+  z-index: var(--z-below);
+}
+
 .navbar h1 {
-  font-size: 2rem;
-  color: #bb6736;
+  font-size: var(--font-xl);
+  color: var(--accent-gold);
+  text-shadow:
+    2px 2px 4px var(--primary-dark),
+    0 0 var(--space-md) var(--shadow-light);
+  font-weight: 900;
+  font-family: 'Cinzel Decorative', cursive;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
+
+.navbar h1::before,
+.navbar h1::after {
+  content: '⚔️';
+  font-size: var(--font-lg);
+  margin: 0 var(--space-lg);
+  opacity: 0.8;
+}
+
 .navbar button {
-  color: #bb6736;
-  padding: 5px 20px;
-  letter-spacing: 5px;
+  color: var(--accent-gold);
+  padding: var(--space-xs) var(--space-md);
+  letter-spacing: 3px;
+  font-weight: bold;
+  border-color: var(--accent-gold);
+}
+
+.navbar button.settings-button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.navbar button.donate-button {
+  background-color: var(--accent-red);
+  border-color: var(--accent-gold);
+  color: var(--text-light);
+}
+
+.settings-icon {
+  filter: drop-shadow(0 0 3px var(--accent-gold));
 }
 
 .header-actions {
   display: flex;
-  gap: 16px;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .navbar h1 {
+    font-size: var(--font-2xl);
+  }
+
+  .header-actions {
+    gap: var(--space-sm);
+  }
+
+  .navbar button.donate-button {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 12px;
+  }
+
+  .navbar h1 {
+    font-size: 1.4rem;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .navbar button.donate-button {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  .settings-icon {
+    width: 14px;
+    height: 14px;
+  }
 }
