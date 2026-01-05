@@ -54,7 +54,9 @@
   font-size: 10rem;
   z-index: 10;
   -webkit-text-stroke: 4px currentColor;
-  text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+  text-shadow:
+    0 0 20px currentColor,
+    0 0 40px currentColor;
 }
 
 .feedback.success {
