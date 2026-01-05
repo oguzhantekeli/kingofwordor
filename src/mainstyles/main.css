@@ -13,21 +13,21 @@
 
 * {
   font-family: 'Metamorphous', serif;
-  font-size: 18px;
+  font-size: 16px;
   box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
+/* Mobile-first: NO SCROLL - everything fits viewport */
+html,
 body {
-  padding-top: 10%;
-  background-color: var(--primary-dark);
-  background-image: url('./assets/parchment-bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  background: linear-gradient(135deg, #2c1c0c 0%, #3d2710 50%, #2c1c0c 100%);
   color: var(--text-light);
-  min-height: 100vh;
 }
 
 body::before {
@@ -41,24 +41,29 @@ body::before {
   z-index: -1;
 }
 
+/* Root container - full viewport */
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3 {
   font-family: 'Cinzel Decorative', cursive;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-weight: 700;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
 }
-
 h2 {
-  font-size: 2rem;
-}
-
-h3 {
   font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.2rem;
 }
 
 button {
@@ -72,10 +77,12 @@ button {
   font-family: 'MedievalSharp', cursive;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-radius: 0;
+  border-radius: var(--radius-sm, 4px);
   position: relative;
   box-shadow: 0 5px 15px var(--shadow-dark);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Touch target minimum */
+  min-width: 44px;
 }
 
 button:hover {
@@ -84,9 +91,63 @@ button:hover {
   box-shadow: 0 8px 20px var(--shadow-dark);
 }
 
+button:focus {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
 button:active {
   transform: translateY(1px);
   box-shadow: 0 2px 10px var(--shadow-dark);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button:disabled:hover {
+  background-color: var(--primary-medium);
+  transform: none;
+  box-shadow: 0 5px 15px var(--shadow-dark);
+}
+
+/* Loading state for buttons */
+button.loading {
+  pointer-events: none;
+  position: relative;
+  color: transparent;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid var(--accent-gold);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: button-spin 0.8s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Scroll styling */
@@ -115,4 +176,89 @@ input {
   color: var(--text-dark);
   padding: 10px 15px;
   font-family: 'Metamorphous', serif;
+}
+
+/* ==========================================================================
+   Mobile Optimizations
+   ========================================================================== */
+
+/* Safe area support for notched devices (iPhone X+, etc.) */
+.app {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Improve tap response - remove delay and highlight */
+button,
+.option,
+.clickable,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent text selection on game elements */
+.game-area,
+.board,
+.welcome,
+.endgame {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection on input and answers */
+input,
+.answers-list {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ==========================================================================
+   DESKTOP STYLES - min-width: 769px
+   ========================================================================== */
+@media (min-width: 769px) {
+  * {
+    font-size: 18px;
+  }
+
+  html,
+  body {
+    overflow: auto;
+    position: static;
+  }
+
+  #root {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  body {
+    padding-top: 5%;
+    padding-bottom: 5%;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

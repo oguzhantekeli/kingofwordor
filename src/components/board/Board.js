@@ -1,13 +1,64 @@
-import React, { useState } from 'react';
-import './board.css';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import './board-mobile.css';
 import BoardTop from './BoardTop';
 import GameSection from './GameSection';
 import InfoSection from './InfoSection';
+import { GlobalStateContext } from '../../context/GlobalStateContext';
 
-const Board = ({ setGameStatus, gameType, setTotalScore }) => {
-  const [points, setPoints] = useState([]);
-  const [multiplier, setMultiplier] = useState(1);
+const Board = () => {
+  const { state, resetGameSession } = useContext(GlobalStateContext);
+  const { pointsArray, multiplier } = state;
   const [showGame, setShowGame] = useState(false);
+  const hasResetRef = useRef(false);
+  const wakeLockRef = useRef(null);
+
+  // Reset game session only once when Board first mounts (new game starts)
+  useEffect(() => {
+    if (!hasResetRef.current) {
+      resetGameSession();
+      hasResetRef.current = true;
+    }
+  }, [resetGameSession]);
+
+  // Screen Wake Lock - prevent screen from turning off during gameplay
+  useEffect(() => {
+    const requestWakeLock = async () => {
+      if ('wakeLock' in navigator && showGame) {
+        try {
+          wakeLockRef.current = await navigator.wakeLock.request('screen');
+          console.log('Wake Lock activated');
+
+          // Re-acquire wake lock if page becomes visible again
+          wakeLockRef.current.addEventListener('release', () => {
+            console.log('Wake Lock released');
+          });
+        } catch (err) {
+          console.log('Wake Lock error:', err.message);
+        }
+      }
+    };
+
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'visible' && showGame) {
+        await requestWakeLock();
+      }
+    };
+
+    if (showGame) {
+      requestWakeLock();
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+    }
+
+    return () => {
+      // Release wake lock when game ends or component unmounts
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [showGame]);
+
   return (
     <>
       <div className="board">
@@ -15,18 +66,13 @@ const Board = ({ setGameStatus, gameType, setTotalScore }) => {
         {showGame ? (
           <div className="playground">
             <div className="game-top-bar">
-              <InfoSection
-                setGameStatus={setGameStatus}
-                points={points}
-                multiplier={multiplier}
-                setTotalScore={setTotalScore}
-              />
+              <InfoSection />
               <div className="score-display">
                 <div className="score-item">
                   <span className="score-label">Score</span>
                   <span className="score-value">
-                    {points.length > 0
-                      ? points.reduce((a, b) => a + b, 0).toFixed(2)
+                    {pointsArray.length > 0
+                      ? pointsArray.reduce((a, b) => a + b, 0).toFixed(2)
                       : '0.00'}
                   </span>
                 </div>
@@ -36,13 +82,7 @@ const Board = ({ setGameStatus, gameType, setTotalScore }) => {
                 </div>
               </div>
             </div>
-            <GameSection
-              gameType={gameType}
-              setPoints={setPoints}
-              setMultiplier={setMultiplier}
-              multiplier={multiplier}
-              points={points}
-            />
+            <GameSection />
           </div>
         ) : null}
       </div>

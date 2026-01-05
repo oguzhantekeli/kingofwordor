@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 
+// ES6 static imports for sound assets (CRA compatible)
+import swordSrc from '../assets/sword.flac';
+import correctSrc from '../assets/yay.wav';
+import wrongSrc from '../assets/pain.wav';
+import timeWarningSrc from '../assets/charge.wav';
+
 /**
  * Custom hook for managing game sounds
  *
@@ -7,7 +13,6 @@ import { useEffect, useState } from 'react';
  * @returns {Object} Object containing sound playing functions
  */
 export const useSoundEffects = (soundEnabled = true) => {
-  // Load sounds dynamically to prevent issues with imports
   const [sounds, setSounds] = useState({
     sword: null,
     correct: null,
@@ -18,31 +23,24 @@ export const useSoundEffects = (soundEnabled = true) => {
   useEffect(() => {
     // Only load sounds if enabled to save resources
     if (soundEnabled) {
-      const loadSounds = async () => {
-        // Use dynamic imports to load sounds
-        const swordSound = new Audio(require('../assets/sword.flac').default);
-        const correctSound = new Audio(require('../assets/yay.wav').default);
-        const wrongSound = new Audio(require('../assets/pain.wav').default);
-        const timeWarningSound = new Audio(
-          require('../assets/charge.wav').default
-        );
+      const swordSound = new Audio(swordSrc);
+      const correctSound = new Audio(correctSrc);
+      const wrongSound = new Audio(wrongSrc);
+      const timeWarningSound = new Audio(timeWarningSrc);
 
-        // Set volume for all sounds
-        [swordSound, correctSound, wrongSound, timeWarningSound].forEach(
-          (sound) => {
-            sound.volume = 0.25;
-          }
-        );
+      // Set volume for all sounds
+      [swordSound, correctSound, wrongSound, timeWarningSound].forEach(
+        (sound) => {
+          sound.volume = 0.25;
+        }
+      );
 
-        setSounds({
-          sword: swordSound,
-          correct: correctSound,
-          wrong: wrongSound,
-          timeWarning: timeWarningSound,
-        });
-      };
-
-      loadSounds().catch(console.error);
+      setSounds({
+        sword: swordSound,
+        correct: correctSound,
+        wrong: wrongSound,
+        timeWarning: timeWarningSound,
+      });
     }
   }, [soundEnabled]);
 

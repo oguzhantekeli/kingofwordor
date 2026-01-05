@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const AnswersList = ({ answers }) => {
+/**
+ * Displays the list of submitted answers
+ * Memoized to prevent re-renders when parent state changes
+ */
+const AnswersList = memo(({ answers }) => {
   return (
     <>
       <div className="answers-list">
-        <h3>Answers</h3>
+        <h3>Your Words ({answers.length})</h3>
         <table>
           <thead />
           <tbody>
-            {answers.map((item, idx) => {
+            {answers.map((item) => {
               return (
-                <tr className="answer-item" key={idx}>
+                <tr className="answer-item" key={item.id}>
                   <td className="answertext">{item.answerText}</td>
                   <td className={item.status.toLowerCase()}>{item.status}</td>
                   <td className="pointsvalue">{item.points}</td>
-                  <td>points.</td>
+                  <td>pts</td>
                 </tr>
               );
             })}
@@ -23,6 +27,8 @@ const AnswersList = ({ answers }) => {
       </div>
     </>
   );
-};
+});
+
+AnswersList.displayName = 'AnswersList';
 
 export default AnswersList;

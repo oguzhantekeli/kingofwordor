@@ -1,80 +1,62 @@
+/* Mobile-first welcome screen - no scroll, everything fits */
 .welcome {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 1s;
-  padding: 30px;
-  position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
-  background-image: url('./assets/scroll-bg.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  padding: 60px 40px;
+  justify-content: center;
+  gap: 30px;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: transparent;
 }
 
 .welcome h2 {
-  font-size: 3.5rem;
-  text-shadow: 3px 5px 10px var(--shadow-dark);
+  font-size: 1.8rem;
+  text-shadow: 2px 3px 6px var(--shadow-dark);
   color: var(--accent-gold);
-  margin-bottom: 40px;
+  margin: 0;
   text-align: center;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   font-family: 'Cinzel Decorative', cursive;
-  position: relative;
-  padding-bottom: 20px;
   text-transform: uppercase;
 }
 
-.welcome h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-gold),
-    transparent
-  );
-}
-
 .start-button {
-  margin-bottom: 40px;
-  width: 300px;
-  font-size: 2.2rem;
+  width: 80%;
+  max-width: 280px;
+  font-size: 1.4rem;
+  padding: 12px 20px;
   position: relative;
   overflow: hidden;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   background-color: var(--accent-red);
-  box-shadow: 0 5px 15px var(--shadow-dark);
+  box-shadow: 0 4px 12px var(--shadow-dark);
   animation: pulse 2s infinite;
+  flex-shrink: 0;
 }
 
 .start-button::before {
   content: '✦';
   position: absolute;
-  left: 20px;
+  left: 15px;
 }
 
 .start-button::after {
   content: '✦';
   position: absolute;
-  right: 20px;
+  right: 15px;
 }
 
 @keyframes pulse {
-  0% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
+    transform: scale(1.03);
   }
 }
 
@@ -82,47 +64,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
-  background-color: rgba(44, 28, 12, 0.6);
-  padding: 30px;
-  border-radius: 8px;
-  border: 2px solid var(--accent-gold);
-  box-shadow: 0 10px 30px var(--shadow-dark);
+  width: 100%;
+  max-width: 400px;
+  background: transparent;
+  padding: 10px 15px;
+  border-radius: 0;
+  border: none;
+  gap: 15px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mobile-carousel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .button-options h3 {
-  margin-bottom: 30px;
-  font-size: 2rem;
+  margin: 0;
+  font-size: 1.1rem;
   color: var(--accent-gold);
-  text-shadow: 2px 2px 5px var(--shadow-dark);
-  position: relative;
-  padding-bottom: 15px;
+  text-shadow: 1px 1px 3px var(--shadow-dark);
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.button-options h3::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-gold),
-    transparent
-  );
+/* Desktop options grid - MUST be hidden on mobile */
+.desktop-options {
+  display: none !important;
 }
 
+/* Ensure options inside desktop-options are hidden */
+.desktop-options .option {
+  display: none !important;
+}
+
+/* Desktop grid styles */
 .options {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   width: 100%;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
 }
 
 .option {
@@ -131,21 +118,43 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(90, 58, 26, 0.5);
-  padding: 20px;
+  padding: 15px;
   border: 1px solid var(--accent-gold);
   border-radius: 5px;
-  min-width: 250px;
+  min-width: 200px;
+  max-width: 250px;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .option:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px var(--shadow-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px var(--shadow-dark);
+  border-color: var(--accent-gold);
+}
+
+.option.selected {
+  border: 3px solid var(--accent-gold);
+  box-shadow: 0 0 20px rgba(201, 166, 107, 0.6);
+}
+
+.option h4 {
+  font-size: 1.2rem;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.option p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: center;
+  margin: 0;
+  line-height: 1.3;
 }
 
 .option label {
-  margin-bottom: 20px;
-  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-size: 1rem;
   color: var(--text-light);
   text-align: center;
   font-family: 'MedievalSharp', cursive;
@@ -162,4 +171,143 @@
 .option button:hover {
   background-color: var(--accent-red);
   border-color: var(--accent-gold);
+}
+
+/* Keyboard navigation for game options */
+.option:focus {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+.option:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.option:focus-visible {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+/* Start game button */
+.start-game-button {
+  width: 80%;
+  max-width: 250px;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  background-color: var(--accent-red);
+  color: var(--text-light);
+  border: 2px solid var(--accent-gold);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-top: 10px;
+}
+
+.start-game-button:hover {
+  background-color: #a13636;
+  transform: translateY(-2px);
+}
+
+/* Desktop styles - min-width 769px */
+@media (min-width: 769px) {
+  .welcome {
+    padding: 40px;
+    max-width: 900px;
+    margin: 20px auto;
+    height: auto;
+    justify-content: flex-start;
+    gap: 30px;
+  }
+
+  .welcome h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .welcome h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent-gold),
+      transparent
+    );
+  }
+
+  .start-button {
+    width: 280px;
+    font-size: 1.8rem;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+  }
+
+  .button-options {
+    padding: 25px;
+    flex: none;
+  }
+
+  .button-options h3 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+
+  .button-options h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent-gold),
+      transparent
+    );
+  }
+
+  /* Hide carousel on desktop */
+  .mobile-carousel {
+    display: none !important;
+  }
+
+  /* Show grid options on desktop */
+  .desktop-options {
+    display: block !important;
+    width: 100%;
+  }
+
+  .desktop-options .option {
+    display: flex !important;
+  }
+
+  .options {
+    gap: 25px;
+  }
+
+  .option {
+    padding: 20px;
+    min-width: 220px;
+  }
+
+  .option h4 {
+    font-size: 1.3rem;
+  }
+
+  .option p {
+    font-size: 1rem;
+  }
 }

@@ -4,6 +4,7 @@ const BoardTop = ({ setShowGame }) => {
   const timer = 3;
   const [countDown, setCountDown] = useState(timer);
   const [isTimerEnded, setIsTimerEnded] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -14,6 +15,7 @@ const BoardTop = ({ setShowGame }) => {
           setShowGame(true);
           return 0;
         }
+        setAnimKey((k) => k + 1);
         return prevCount - 1;
       });
     }, 1000);
@@ -22,8 +24,12 @@ const BoardTop = ({ setShowGame }) => {
   }, [setShowGame]);
 
   return (
-    <div className="board-top">
-      <div className="start-counter">{isTimerEnded ? '' : `${countDown}`}</div>
+    <div className="board-top countdown-screen">
+      {!isTimerEnded && (
+        <div key={animKey} className="countdown-number">
+          {countDown}
+        </div>
+      )}
     </div>
   );
 };

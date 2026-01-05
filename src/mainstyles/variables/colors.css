@@ -3,11 +3,24 @@
   --primary-dark: #2c1c0c;
   --primary-medium: #5a3a1a;
   --primary-light: #8b6d3d;
-  --accent-gold: #c9a66b;
+  --accent-gold: #d4b070;
+  --accent-gold-bright: #e8c589;
+  --accent-gold-light: #e0c896; /* Higher contrast for text */
   --accent-red: #872e2e;
-  --text-light: #f0e6d2;
-  --text-dark: #3a3223;
+  --text-light: #f5f0e1;
+  --text-dark: #2d2618;
+  --text-muted: rgba(255, 255, 255, 0.85); /* WCAG AA compliant */
   --parchment: #f4ecd8;
   --shadow-dark: rgba(0, 0, 0, 0.5);
   --shadow-light: rgba(201, 166, 107, 0.3);
+
+  /* High contrast adjustments */
+  --input-bg-light: rgba(255, 248, 230, 0.95);
+  --border-highlight: #d4b070;
+
+  /* Feedback colors */
+  --success-bg: rgba(76, 175, 80, 0.15);
+  --success-text: #81c784;
+  --error-bg: rgba(244, 67, 54, 0.15);
+  --error-text: #e57373;
 }

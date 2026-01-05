@@ -1,6 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalStateContext } from '../../context/GlobalStateContext';
 import './settings.css';
+
+/**
+ * Validate URL to prevent XSS attacks
+ * Only allows http:, https:, and data:image URLs
+ */
+const isValidImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+
+  const trimmedUrl = url.trim();
+  if (trimmedUrl === '') return true; // Empty is valid (no avatar)
+
+  try {
+    const urlObj = new URL(trimmedUrl);
+    // Only allow safe protocols
+    if (urlObj.protocol === 'http:' || urlObj.protocol === 'https:') {
+      return true;
+    }
+    // Allow data URLs only for images
+    if (urlObj.protocol === 'data:' && trimmedUrl.startsWith('data:image/')) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Sanitize user name - remove potentially dangerous characters
+ */
+const sanitizeUserName = (name) => {
+  if (!name || typeof name !== 'string') return '';
+  // Remove HTML tags and limit length
+  return name.replace(/<[^>]*>/g, '').slice(0, 50);
+};
 
 const Settings = ({ onSave }) => {
   const {
@@ -14,9 +49,32 @@ const Settings = ({ onSave }) => {
     setTheme,
   } = useContext(GlobalStateContext);
 
+  const [avatarError, setAvatarError] = useState('');
+
+  const handleUserNameChange = (e) => {
+    const sanitized = sanitizeUserName(e.target.value);
+    setUserName(sanitized);
+  };
+
+  const handleAvatarChange = (e) => {
+    const url = e.target.value;
+    if (url === '' || isValidImageUrl(url)) {
+      setAvatarError('');
+      setAvatar(url);
+    } else {
+      setAvatarError(
+        'Please enter a valid image URL (http, https, or data:image)'
+      );
+      setAvatar(url); // Still store for editing, but won't render unsafe URL
+    }
+  };
+
   const handleSave = () => {
     onSave();
   };
+
+  // Only render avatar if it's a valid URL
+  const safeAvatarUrl = isValidImageUrl(avatar) ? avatar : '';
 
   return (
     <div className="settings-page">
@@ -37,8 +95,9 @@ const Settings = ({ onSave }) => {
           <input
             type="text"
             value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={handleUserNameChange}
             placeholder="Enter your name"
+            maxLength={50}
           />
         </label>
       </div>
@@ -46,14 +105,24 @@ const Settings = ({ onSave }) => {
         <label>
           Avatar URL:
           <input
-            type="text"
+            type="url"
             value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
+            onChange={handleAvatarChange}
             placeholder="Enter avatar image URL"
+            className={avatarError ? 'input-error' : ''}
           />
         </label>
-        {avatar && (
-          <img src={avatar} alt="Avatar Preview" className="avatar-preview" />
+        {avatarError && <span className="error-message">{avatarError}</span>}
+        {safeAvatarUrl && (
+          <img
+            src={safeAvatarUrl}
+            alt="Avatar Preview"
+            className="avatar-preview"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              setAvatarError('Failed to load image');
+            }}
+          />
         )}
       </div>
       <div className="setting-item">

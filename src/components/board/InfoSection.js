@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { GlobalStateContext } from '../../context/GlobalStateContext';
 import { TIMERS, GAME_STATUSES } from '../../constants';
 import { useGameTimer } from '../../hooks/useGameTimer';
@@ -6,15 +6,13 @@ import { useSoundEffects } from '../../hooks/useSoundEffects';
 
 /**
  * Timer section with game timer and end game button
- *
- * @param {Object} props Component properties
- * @param {Function} props.setGameStatus Function to update game status
- * @param {Array} props.points Current points array
- * @param {Function} props.setTotalScore Function to update total score
+ * Now uses GlobalStateContext instead of props
  */
-const InfoSection = ({ setGameStatus, points, setTotalScore }) => {
-  const { state } = useContext(GlobalStateContext);
-  const { soundEnabled } = state;
+const InfoSection = () => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { state, setGameStatus, setTotalScore } =
+    useContext(GlobalStateContext);
+  const { soundEnabled, pointsArray } = state;
   const timer = TIMERS.FIVE_MINUTE;
   const sounds = useSoundEffects(soundEnabled);
 
@@ -27,18 +25,27 @@ const InfoSection = ({ setGameStatus, points, setTotalScore }) => {
   // Use our custom timer hook
   const { countDown, isTimerEnded } = useGameTimer(timer, handleTimeEnd);
 
-  // Handler for manual game end
+  // Handler for manual game end with confirmation
   const handleEndGame = () => {
+    setShowConfirm(true);
+  };
+
+  const confirmGiveUp = () => {
+    setShowConfirm(false);
     setGameStatus(GAME_STATUSES.ENDGAME);
+  };
+
+  const cancelGiveUp = () => {
+    setShowConfirm(false);
   };
 
   // Calculate total score when timer ends or game ends
   useEffect(() => {
-    if (points.length > 0) {
-      const scoreSum = points.reduce((a, b) => a + b, 0);
+    if (pointsArray.length > 0) {
+      const scoreSum = pointsArray.reduce((a, b) => a + b, 0);
       setTotalScore(scoreSum);
     }
-  }, [points, setTotalScore]);
+  }, [pointsArray, setTotalScore]);
 
   // Format seconds to MM:SS only for 60+ seconds
   const formatTime = (seconds) => {
@@ -50,23 +57,65 @@ const InfoSection = ({ setGameStatus, points, setTotalScore }) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Determine timer warning state
+  const getTimerClass = () => {
+    if (isTimerEnded) return 'timer-value ended';
+    if (countDown <= 10) return 'timer-value critical';
+    if (countDown <= 30) return 'timer-value warning';
+    return 'timer-value';
+  };
+
   return (
-    <div className="timer-controls">
-      <div className="game-timer" aria-live="polite">
-        <div className="timer-icon">⏱️</div>
-        <span className="timer-value">
-          {isTimerEnded ? '00:00' : formatTime(countDown)}
-        </span>
+    <>
+      {showConfirm && (
+        <div className="confirm-overlay" onClick={cancelGiveUp}>
+          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-icon">💀</div>
+            <p className="confirm-text">Are you sure you want to give up?</p>
+            <div className="confirm-buttons">
+              <div
+                className="confirm-btn confirm-yes"
+                onClick={confirmGiveUp}
+                role="button"
+                tabIndex={-1}
+              >
+                Yes, Give Up
+              </div>
+              <div
+                className="confirm-btn confirm-no"
+                onClick={cancelGiveUp}
+                role="button"
+                tabIndex={-1}
+              >
+                Keep Fighting
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="timer-controls">
+        <div
+          className={`game-timer ${countDown <= 30 ? 'timer-urgent' : ''}`}
+          aria-live="polite"
+          aria-label={`Time remaining: ${formatTime(countDown)}`}
+        >
+          <div className="timer-icon">⏱️</div>
+          <span className={getTimerClass()}>
+            {isTimerEnded ? '00:00' : formatTime(countDown)}
+          </span>
+        </div>
+        <div
+          onClick={handleEndGame}
+          className="end-game-button"
+          role="button"
+          tabIndex={-1}
+          aria-label="Give up"
+        >
+          <span className="give-up-icon">💀</span>
+          Give Up
+        </div>
       </div>
-      <button
-        type="button"
-        onClick={handleEndGame}
-        className="end-game-button"
-        aria-label="End game early"
-      >
-        End Game
-      </button>
-    </div>
+    </>
   );
 };
 
