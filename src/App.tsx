@@ -5,6 +5,7 @@ import { loadGameData } from './core/load';
 import { useGame } from './store/gameStore';
 import { useSettings } from './store/settingsStore';
 import { audio, music } from './platform/audio';
+import { armSplashFailsafe, hideSplash } from './platform/splash';
 import { Home } from './ui/screens/Home';
 import { Countdown } from './ui/screens/Countdown';
 import { Play } from './ui/screens/Play';
@@ -28,11 +29,14 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
+    armSplashFailsafe();
     loadGameData(`${import.meta.env.BASE_URL}dict/en.kowd`)
       .then((data) => { if (!cancelled) setData(data); })
       .catch((e: unknown) => {
         if (!cancelled) setLoadError(e instanceof Error ? e.message : String(e));
-      });
+      })
+      // Either way there is now something worth looking at underneath.
+      .finally(() => hideSplash());
     return () => { cancelled = true; };
   }, [setData, setLoadError]);
 

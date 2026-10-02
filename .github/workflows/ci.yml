@@ -81,6 +81,8 @@ jobs:
       - run: npm run build
       - run: npx cap add android
       - run: npx cap sync android
+      # the AdMob provider aborts startup without an App ID in the manifest
+      - run: node tools/android-config.mjs
 
       - name: Target SDK must be 36 (Google Play requirement since 2026-08-31)
         run: |
