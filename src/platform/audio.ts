@@ -70,3 +70,47 @@ export class AudioEngine {
 }
 
 export const audio = new AudioEngine();
+
+/**
+ * The theme loop.
+ *
+ * Deliberately an HTMLAudioElement, not a decoded Web Audio buffer: the SFX
+ * need to overlap and start on the exact frame, music needs neither, and
+ * decoding a 22-second track into memory to loop it would cost ~4 MB of PCM
+ * for nothing.
+ *
+ * Browsers and the Android WebView both refuse playback before a user gesture,
+ * so start() is only ever called from one.
+ */
+class Music {
+  private el: HTMLAudioElement | null = null;
+  private enabled = true;
+
+  setEnabled(v: boolean): void {
+    this.enabled = v;
+    if (!v) this.stop();
+  }
+
+  start(): void {
+    if (!this.enabled) return;
+    if (!this.el) {
+      this.el = new Audio(`${import.meta.env.BASE_URL}music/theme.opus`);
+      this.el.loop = true;
+      this.el.volume = 0.3;
+    }
+    // play() returns a promise in modern browsers and undefined in older ones
+    // and in jsdom, so it cannot be chained blindly - doing that threw inside
+    // the round and took the whole screen down. A rejection is normal anyway
+    // (no gesture yet, or no file in a test) and must never break a round.
+    const started: unknown = this.el.play();
+    if (started instanceof Promise) started.catch(() => {});
+  }
+
+  stop(): void {
+    if (!this.el) return;
+    this.el.pause();
+    this.el.currentTime = 0;
+  }
+}
+
+export const music = new Music();

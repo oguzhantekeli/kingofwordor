@@ -55,8 +55,9 @@ describe('full gameplay, through the real UI', () => {
     expect(screen.getByText(/Mustering the lexicon/i)).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('King of Wordor')).toBeInTheDocument(), { timeout: 5000 });
 
-    // 2. pick a difficulty and start
-    await user.click(screen.getByLabelText(/Squire/i, { selector: 'input' }).closest('label')!);
+    // 2. start. A guest gets one rank and no picker - choosing a rank is part
+    //    of what signing in opens up, so there is nothing to click here.
+    expect(screen.queryByLabelText(/Squire/i, { selector: 'input' })).toBeNull();
     await user.click(screen.getByRole('button', { name: /Enter the Battle/i }));
 
     // 3. countdown -> playing

@@ -1,0 +1,156 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-4);
+  padding: 0 var(--space-4) var(--space-4);
+  position: relative;
+  overflow-y: auto;
+}
+
+/* ------------------------------------------------------------------ top bar */
+.home-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+.crest {
+  width: 44px;
+  height: 48px;
+  padding: 0;
+  flex-shrink: 0;
+}
+/* A shield: square shoulders, point at the bottom. clip-path keeps it one
+   element, so the house colour is a single token swap. */
+.crest-field {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: var(--border-w) solid var(--c-gold);
+  clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
+}
+.crest-field--crimson { background: var(--c-crimson); }
+.crest-field--azure { background: var(--c-azure); }
+.crest-field--forest { background: #3e7a36; }
+.crest-field--violet { background: #5f3fa3; }
+
+.home-who { flex-grow: 1; min-width: 0; }
+.home-name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--c-parchment);
+}
+.home-best {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--c-parchment-dim);
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-w) solid var(--c-edge);
+  background: var(--c-panel);
+  color: var(--c-parchment-dim);
+  flex-shrink: 0;
+}
+.icon-btn svg { width: 20px; height: 20px; display: block; }
+
+/* -------------------------------------------------------------------- title */
+.home-title { text-align: center; margin-top: var(--space-1); }
+.home-title h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--c-gold-hi);
+  text-shadow: 3px 3px 0 var(--c-night);
+}
+.home-title p {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--c-parchment-dim);
+}
+
+/* -------------------------------------------------------------------- modes */
+.home-modes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.mode {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: var(--border);
+  background: var(--c-panel);
+}
+.mode--open {
+  background: var(--c-gold);
+  border-color: var(--c-gold-hi);
+  color: var(--c-night);
+  box-shadow: var(--shadow-hard);
+  min-height: 64px;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.mode--open:active { transform: translate(5px, 5px); box-shadow: none; }
+.mode--locked { opacity: 0.72; }
+
+.mode-name { font-family: var(--font-display); font-size: var(--text-base); }
+.mode-desc { font-size: var(--text-sm); color: inherit; opacity: 0.8; }
+.mode--locked .mode-desc { color: var(--c-parchment-dim); opacity: 1; }
+.mode-lock {
+  margin-top: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--c-gold);
+}
+
+/* ------------------------------------------------------------------- ranks */
+.ranks { display: flex; gap: var(--space-2); border: none; }
+.ranks-legend { display: none; }
+.rank {
+  flex: 1;
+  padding: var(--space-3) var(--space-2);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  border: var(--border-w) solid var(--c-edge-dim);
+  background: var(--c-night-2);
+  color: var(--c-parchment-dim);
+  cursor: pointer;
+}
+.rank.is-selected {
+  border-color: var(--c-gold);
+  color: var(--c-gold-hi);
+  background: var(--c-panel);
+}
+.rank:focus-within { outline: 3px solid var(--c-gold-hi); outline-offset: 2px; }
+
+/* -------------------------------------------------------------- guest hint */
+.guest-hint {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: var(--border-w) dashed var(--c-edge);
+  background: transparent;
+}
+.guest-hint-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--c-gold);
+}
+.guest-hint-body { font-size: var(--text-sm); color: var(--c-parchment-dim); }
+
+.home-credits { align-self: center; }

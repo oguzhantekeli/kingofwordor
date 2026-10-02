@@ -34,6 +34,7 @@ jobs:
           npm run build:assets
           npm run build:sprites
           npm run build:music
+          npm run build:fonts
 
       - name: Asset integrity
         run: node tools/verify-assets.mjs
@@ -76,6 +77,7 @@ jobs:
       - run: npm run build:assets
       - run: npm run build:sprites
       - run: npm run build:music
+      - run: npm run build:fonts
       - run: npm run build
       - run: npx cap add android
       - run: npx cap sync android

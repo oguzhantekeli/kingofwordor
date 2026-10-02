@@ -1,7 +1,23 @@
 {
-  "app": { "title": "King of Wordor", "tagline": "Fight for the words of the realm" },
-  "loading": { "dictionary": "Mustering the lexicon…", "failed": "The lexicon could not be summoned." },
-  "welcome": { "start": "Enter the Battle", "difficulty": "Choose your rank", "credits": "Credits" },
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Fight for the words of the realm"
+  },
+  "loading": {
+    "dictionary": "Mustering the lexicon…",
+    "failed": "The lexicon could not be raised."
+  },
+  "nav": {
+    "keep": "Keep",
+    "you": "You",
+    "settings": "Settings",
+    "back": "Back"
+  },
+  "welcome": {
+    "start": "Enter the Battle",
+    "difficulty": "Choose your rank",
+    "credits": "Credits"
+  },
   "difficulty": {
     "squire": "Squire",
     "squireDesc": "Gentle prompts, 90 seconds.",
@@ -10,18 +26,39 @@
     "warlord": "Warlord",
     "warlordDesc": "Merciless prompts, 45 seconds."
   },
+  "home": {
+    "best": "Best {{score}}",
+    "noBest": "No run yet",
+    "solo": "Solo Run",
+    "soloDesc": "One rule, one minute, your own record.",
+    "daily": "Daily Siege",
+    "dailyDesc": "The same prompts for the whole realm, once a day.",
+    "duel": "Ranked Duel",
+    "duelDesc": "Head to head. Climb the ladder.",
+    "locked": "Sign in to unlock"
+  },
+  "guest": {
+    "title": "You are playing as a guest",
+    "body": "Everything works. Signing in adds what one phone cannot do on its own:",
+    "benefitLadder": "Your scores go on the ladder against other players",
+    "benefitCarry": "Your progress survives a new phone",
+    "benefitDuel": "Duels and the daily siege open up",
+    "cta": "Continue with Google",
+    "later": "Not now",
+    "noForce": "You are never made to sign in to play."
+  },
   "round": {
     "startsWith": "starts with",
     "endsWith": "ends with",
     "includes": "contains",
-    "categoryHint": "a {{category}} that {{condition}} \"{{letter}}\"",
+    "categoryHint": "{{category}} that {{condition}} \"{{letter}}\"",
     "plainHint": "a word that {{condition}} \"{{letter}}\"",
     "placeholder": "Type your word…",
     "submit": "Strike",
     "giveUp": "Give Up",
     "score": "Score",
     "timeLeft": "Time",
-    "possible": "{{count}} possible words"
+    "possible": "{{count}} words will do it"
   },
   "reject": {
     "tooShort": "Too short",
@@ -30,24 +67,59 @@
     "notAWord": "Not in the lexicon"
   },
   "category": {
-    "animal": "animal", "food": "food", "person": "person", "plant": "plant",
-    "body": "body part", "place": "place", "object": "object",
-    "substance": "substance", "time": "time", "communication": "communication"
+    "animal": "an animal",
+    "food": "a food",
+    "person": "a person",
+    "plant": "a plant",
+    "body": "a body part",
+    "place": "a place",
+    "object": "an object",
+    "substance": "a substance",
+    "time": "a time",
+    "communication": "a communication"
   },
   "results": {
     "title": "The Battle Is Done",
     "score": "Final score",
-    "words": "Words taken",
+    "words": "Words",
     "best": "Best word",
-    "again": "Fight Again",
+    "newBest": "A new personal best",
+    "again": "Again",
     "share": "Share",
-    "home": "Return"
+    "home": "To the Keep"
+  },
+  "settings": {
+    "title": "Settings",
+    "sound": "Sound",
+    "haptics": "Vibration",
+    "language": "Language",
+    "on": "On",
+    "off": "Off"
+  },
+  "profile": {
+    "title": "You",
+    "guest": "Guest",
+    "signedIn": "Signed in with Google",
+    "name": "Name",
+    "house": "House colours",
+    "bestRun": "Best run",
+    "signOut": "Sign out",
+    "signIn": "Sign in with Google",
+    "deleteAccount": "Delete account and data",
+    "deleteBody": "This removes your account and everything stored with it. Your scores leave the ladder. It cannot be undone.",
+    "deleteConfirm": "Delete everything",
+    "notConfigured": "Google sign-in is not wired up yet — the OAuth client is still missing."
   },
   "credits": {
     "title": "Credits",
     "dictionary": "Word list",
-    "categories": "Word categories",
+    "categories": "Categories",
+    "art": "Art, sound and music",
     "back": "Back"
   },
-  "confirm": { "giveUp": "Abandon the field?", "yes": "Yes, retreat", "no": "Keep fighting" }
+  "confirm": {
+    "giveUp": "Yield the field?",
+    "yes": "Yes, retreat",
+    "no": "Fight on"
+  }
 }

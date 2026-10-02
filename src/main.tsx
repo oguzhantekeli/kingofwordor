@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './i18n';
+import './ui/theme/fonts.css';
 import './ui/theme/tokens.css';
 import './ui/theme/base.css';
-import './ui/app.css';
 import App from './App';
 import { ErrorBoundary } from './ui/ErrorBoundary';
 

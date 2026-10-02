@@ -1,31 +1,57 @@
 /* Design tokens. Imported by main.tsx - unlike the audited app, where an
-   entire token system existed but was never loaded. */
-:root {
-  --c-ink: #f0e6d2;
-  --c-ink-dim: #c9b896;
-  --c-parchment: #f4ecd8;
-  --c-dark: #1d1207;
-  --c-dark-2: #2c1c0c;
-  --c-brown: #5a3a1a;
-  --c-brown-light: #8b6d3d;
-  --c-gold: #c9a66b;
-  --c-gold-light: #e0c896;
-  --c-blood: #872e2e;
-  --c-green: #4a7c3f;
+   entire token system existed but was never loaded.
 
+   Pixel-heraldic: the layout and heraldry of a medieval banner, executed at a
+   4px grid with hard edges and no gradients on UI chrome. The old palette was
+   one brown hue at five lightnesses, so nothing could be prioritised over
+   anything else; this one keeps the warm ground but gives each role a
+   different hue - gold for what you can act on, crimson for your house,
+   azure for the opponent, moss for a word that scored. */
+:root {
+  /* ground */
+  --c-night: #140f0a;
+  --c-night-2: #1c1510;
+  --c-panel: #241a14;
+  --c-edge: #5a4426;
+  --c-edge-dim: #3a2c18;
+
+  /* text */
+  --c-parchment: #f2e4c6;
+  --c-parchment-dim: #c9a66b;
+  --c-parchment-faint: #7a6240;
+
+  /* roles */
+  --c-gold: #d9a441;
+  --c-gold-hi: #f3d9a4;
+  --c-gold-low: #8a6520;
+  --c-crimson: #9b2c2c;
+  --c-crimson-hi: #d45656;
+  --c-azure: #2b4a7d;
+  --c-azure-hi: #5a86d6;
+  --c-moss: #5e8c3f;
+  --c-moss-hi: #a8d77e;
+  --c-moss-dark: #223018;
+
+  /* a 4px grid, because the art is on one */
   --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
   --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px;
 
-  --text-sm: 0.875rem; --text-base: 1rem;  --text-lg: 1.25rem;
-  --text-xl: 1.5rem;   --text-2xl: 2rem;   --text-3xl: 2.75rem;
+  --text-xs: 0.6875rem; --text-sm: 0.8125rem; --text-base: 0.9375rem;
+  --text-lg: 1.125rem;  --text-xl: 1.375rem;  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
 
-  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
-  --border-gold: 2px solid var(--c-gold);
-  --shadow-deep: 0 8px 24px rgb(0 0 0 / 55%);
-  --font-display: 'Cinzel Decorative', 'Georgia', serif;
-  --font-body: 'Metamorphous', 'Georgia', serif;
+  /* pixel chrome: square corners, chunky borders, one hard shadow */
+  --border-w: 3px;
+  --border: var(--border-w) solid var(--c-edge);
+  --border-gold: var(--border-w) solid var(--c-gold-hi);
+  --shadow-hard: 5px 5px 0 #0c0906;
+  --shadow-hard-sm: 3px 3px 0 #0c0906;
+
+  --font-display: 'Silkscreen', ui-monospace, monospace;
+  --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+
   --z-modal: 100; --z-toast: 200;
-  --t-fast: 120ms; --t-base: 220ms;
+  --t-fast: 100ms; --t-base: 180ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

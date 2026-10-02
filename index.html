@@ -11,12 +11,10 @@
     <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="preload" as="fetch" href="/dict/en.kowd" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Metamorphous&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Fonts are bundled (public/fonts, see tools/build-fonts.mjs): a packaged
+         app must not depend on a CDN for its display face, and must not hand a
+         user's IP to a third party on every launch. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/silkscreen-400.woff2" crossorigin />
   </head>
   <body>
     <noscript>King of Wordor needs JavaScript enabled.</noscript>

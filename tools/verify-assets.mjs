@@ -72,8 +72,19 @@ for (const file of assets) {
   if (buf.subarray(0, 200).toString('utf8').includes('<Error>')) {
     failures.push(`${file}: contains an XML <Error> body - this is a failed download, not an asset`);
   }
+  // A file counts as referenced when its path appears literally, or when the
+  // static prefix of a generated family does - the knight sheets are reached as
+  // `sprites/knight-${house}.png`, so no literal filename is ever in the source.
   const base = path.basename(file);
-  if (!refs.includes(rel) && !refs.includes(base)) {
+  // The leading slash is dropped too: a path built on import.meta.env.BASE_URL
+  // is written `${BASE_URL}sprites/knight-`, with no slash of its own.
+  const family = base.includes('-') ? rel.slice(1, rel.lastIndexOf('-') + 1) : null;
+  const referenced =
+    refs.includes(rel) ||
+    refs.includes(rel.slice(1)) ||
+    refs.includes(base) ||
+    (family !== null && refs.includes(family));
+  if (!referenced) {
     failures.push(`${file}: never referenced from src/ or index.html`);
   }
   console.log(`  ok  ${rel.padEnd(34)} ${String(buf.length).padStart(7)} bytes`);

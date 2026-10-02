@@ -41,6 +41,17 @@ export function Credits() {
         </p>
       </section>
 
+      <section>
+        <h3>{t('credits.art')}</h3>
+        <p className="credits-notice">
+          The knights, their heraldry and every animation frame are drawn by
+          tools/knight.mjs; the sound effects and the theme are synthesised by
+          tools/build-assets.mjs and tools/build-music.mjs. No asset pack, no
+          stock library, nothing traced. Fonts: Silkscreen and Outfit, both
+          under the SIL Open Font Licence.
+        </p>
+      </section>
+
       <button type="button" className="btn btn--ghost" onClick={() => goto('welcome')}>
         {t('credits.back')}
       </button>

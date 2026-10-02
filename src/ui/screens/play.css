@@ -1,52 +1,129 @@
-.play { display: flex; flex-direction: column; gap: var(--space-3); flex: 1; min-height: 0; }
-.play-hud { display: flex; justify-content: space-between; gap: var(--space-2); }
-.hud-item {
-  display: flex; flex-direction: column; align-items: center; flex: 1;
-  padding: var(--space-2); border: 1px solid var(--c-brown);
-  border-radius: var(--radius-sm); background: rgb(20 13 6 / 75%);
+.play {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-3);
+  padding: 0 var(--space-3) var(--space-3);
+  min-height: 0;
 }
-.hud-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-ink-dim); }
-.hud-value { font-family: var(--font-display); font-size: var(--text-lg); color: var(--c-gold-light); font-variant-numeric: tabular-nums; }
-.hud-timer.is-urgent { border-color: var(--c-blood); }
-.hud-timer.is-urgent .hud-value { color: #ff8a7a; animation: hud-throb 900ms ease-in-out infinite; }
-@keyframes hud-throb { 50% { opacity: 0.45; } }
 
-.prompt { text-align: center; padding: var(--space-4) var(--space-2); }
-.prompt-text { font-family: var(--font-display); font-size: var(--text-xl); color: var(--c-parchment); line-height: 1.35; }
-.prompt-count { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--c-ink-dim); }
+/* The round's clock, as a fuse burning along the top edge. The number in the
+   HUD is exact; this is the thing you feel without reading. */
+.fuse {
+  height: 10px;
+  background: var(--c-night-2);
+  border-bottom: 2px solid var(--c-edge-dim);
+  margin: 0 calc(var(--space-3) * -1);
+}
+.fuse-burn {
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg, var(--c-crimson) 0 6px, #7a2222 6px 12px
+  );
+  border-right: 3px solid #e07a2b;
+}
+
+.play-hud { display: flex; gap: var(--space-2); }
+.hud-item {
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-w) solid var(--c-edge-dim);
+  background: var(--c-panel);
+  text-align: center;
+}
+.hud-label {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--c-parchment-faint);
+}
+.hud-value {
+  display: block;
+  margin-top: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--c-parchment);
+}
+.hud-timer.is-urgent { border-color: var(--c-crimson); }
+.hud-timer.is-urgent .hud-value { color: var(--c-crimson-hi); }
+
+.play-stage {
+  display: flex;
+  justify-content: center;
+  min-height: 92px;
+}
+
+/* The prompt is the loudest thing on the screen: it is what you are answering. */
+.prompt {
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  background: var(--c-crimson);
+  border: var(--border-gold);
+  box-shadow: var(--shadow-hard);
+}
+.prompt-text {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--c-parchment);
+}
+.prompt-count {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: #efc3a6;
+}
 
 .answer { display: flex; gap: var(--space-2); }
 .answer-input {
-  flex: 1; min-width: 0; min-height: 52px;
-  padding: 0 var(--space-4);
-  border: 2px solid var(--c-brown-light); border-radius: var(--radius-md);
-  background: rgb(244 236 216 / 94%); color: #2b2113;
-  font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: 0.08em;
+  flex-grow: 1;
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--c-night);
+  background: var(--c-parchment);
+  border: var(--border-w) solid var(--c-night);
+  border-radius: 0;
 }
-.answer-input::placeholder { color: #8a7b60; letter-spacing: normal; font-size: var(--text-base); }
-.answer-input.is-bad { border-color: var(--c-blood); }
-.answer-go { flex: 0 0 auto; }
-.answer-go:disabled { opacity: 0.45; cursor: not-allowed; }
+.answer-input::placeholder { color: #8a7a5e; }
+.answer-input.is-bad { border-color: var(--c-crimson); }
+.answer-go { min-width: 92px; }
 
-.feedback { text-align: center; min-height: 1.4em; font-family: var(--font-display); color: #ff8a7a; }
-.feedback.is-good { color: #8fd27a; }
-
-.played { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; list-style: none; min-height: 2em; }
-.played li { padding: 2px 8px; border-radius: 999px; font-size: var(--text-sm); }
-.played li.is-good { background: rgb(74 124 63 / 35%); color: #cbe8c0; }
-.played li.is-bad { background: rgb(135 46 46 / 30%); color: #e8bdbd; text-decoration: line-through; }
-
-.play-quit { align-self: center; margin-top: auto; }
-
-.modal {
-  position: fixed; inset: 0; z-index: var(--z-modal);
-  display: flex; align-items: center; justify-content: center;
-  padding: var(--space-4); background: rgb(0 0 0 / 72%);
+.feedback {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--c-crimson-hi);
 }
-.modal-card {
-  display: flex; flex-direction: column; gap: var(--space-4);
-  padding: var(--space-5); max-width: 380px; text-align: center;
-  border: var(--border-gold); border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, #33200e, #1d1207); box-shadow: var(--shadow-deep);
+.feedback.is-good { color: var(--c-moss-hi); }
+
+.played {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--space-2);
+  list-style: none;
+  /* absorbs the slack, so the keyboard sits on the bottom edge instead of
+     leaving a dead band under it */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
-.modal-actions { display: flex; gap: var(--space-2); justify-content: center; flex-wrap: wrap; }
+.played li {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  border: 2px solid var(--c-edge-dim);
+}
+.played li.is-good {
+  background: var(--c-moss-dark);
+  border-color: #4a7030;
+  color: #cfe6c4;
+}
+.played li.is-bad {
+  background: #2e1414;
+  border-color: #8a3030;
+  color: #e8a0a0;
+  text-decoration: line-through;
+}
+
+.play-quit { align-self: center; }

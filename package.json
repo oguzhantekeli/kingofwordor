@@ -22,7 +22,8 @@
     "serve:report": "vite preview --outDir .vitest --port 5174 --host 0.0.0.0",
     "build:sprites": "node tools/build-sprites.mjs",
     "build:music": "node tools/build-music.mjs",
-    "build:all": "npm run build:dict && npm run build:assets && npm run build:sprites && npm run build:music"
+    "build:all": "npm run build:dict && npm run build:assets && npm run build:sprites && npm run build:music && npm run build:fonts",
+    "build:fonts": "node tools/build-fonts.mjs"
   },
   "dependencies": {
     "@capacitor-community/admob": "8.1.0",

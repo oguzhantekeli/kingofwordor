@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./vitest.config.ts","./tools/build-assets.mjs","./tools/build-dict.mjs","./tools/build-music.mjs","./tools/build-sprites.mjs","./tools/knight.mjs","./tools/pixel.mjs","./tools/verify-assets.mjs"],"version":"6.0.3"}
+{"root":["./vite.config.ts","./vitest.config.ts","./tools/build-assets.mjs","./tools/build-dict.mjs","./tools/build-fonts.mjs","./tools/build-music.mjs","./tools/build-sprites.mjs","./tools/knight.mjs","./tools/pixel.mjs","./tools/verify-assets.mjs"],"version":"6.0.3"}

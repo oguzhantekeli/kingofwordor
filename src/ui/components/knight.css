@@ -1,0 +1,12 @@
+/* Pixel art must never be resampled smoothly, and the sheet must not bleed
+   between frames, so no repeat. The run distance is set per element. */
+.knight {
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+@keyframes kow-run {
+  from { background-position-x: 0; }
+  to { background-position-x: var(--kow-run); }
+}

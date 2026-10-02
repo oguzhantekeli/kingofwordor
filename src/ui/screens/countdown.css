@@ -1,11 +1,20 @@
-.countdown { display: flex; flex: 1; align-items: center; justify-content: center; }
-.countdown-n {
-  font-family: var(--font-display); font-size: 6rem; color: var(--c-gold);
-  text-shadow: 0 0 40px rgb(201 166 107 / 60%);
-  animation: cd-pop 750ms ease-out both;
+.countdown {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }
-@keyframes cd-pop {
+
+.countdown-n {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--c-gold-hi);
+  text-shadow: 4px 4px 0 var(--c-night);
+  /* steps(), so the count snaps in like the rest of the art rather than easing */
+  animation: countdown-pop 320ms steps(4) both;
+}
+
+@keyframes countdown-pop {
   from { transform: scale(0.4); opacity: 0; }
-  40%  { transform: scale(1.12); opacity: 1; }
-  to   { transform: scale(1); opacity: 0.85; }
+  to { transform: scale(1); opacity: 1; }
 }

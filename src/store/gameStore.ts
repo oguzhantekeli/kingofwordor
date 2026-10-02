@@ -3,7 +3,9 @@ import type { GameData } from '../core/load';
 import { Round, configFor } from '../core/round';
 import type { Difficulty, Prompt, Submission } from '../core/types';
 
-export type Screen = 'loading' | 'welcome' | 'countdown' | 'playing' | 'results' | 'credits' | 'error';
+export type Screen =
+  | 'loading' | 'welcome' | 'countdown' | 'playing'
+  | 'results' | 'credits' | 'settings' | 'profile' | 'error';
 
 interface GameState {
   screen: Screen;

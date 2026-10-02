@@ -1,4 +1,35 @@
-.credits { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; overflow-y: auto; padding-bottom: var(--space-5); }
-.credits-title { font-family: var(--font-display); font-size: var(--text-2xl); color: var(--c-gold); text-align: center; }
-.credits h3 { font-family: var(--font-display); font-size: var(--text-base); color: var(--c-gold-light); margin-bottom: var(--space-2); }
-.credits-notice { font-size: 0.78rem; line-height: 1.6; color: var(--c-ink-dim); }
+.credits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--space-4) var(--space-5);
+}
+
+.credits-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--c-gold-hi);
+  text-align: center;
+  padding-top: var(--space-3);
+}
+
+.credits h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--c-gold);
+  margin-bottom: var(--space-2);
+}
+
+.credits-notice {
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  color: var(--c-parchment-dim);
+  border-left: var(--border-w) solid var(--c-edge-dim);
+  padding-left: var(--space-3);
+}
+
+.credits .btn { align-self: center; }
