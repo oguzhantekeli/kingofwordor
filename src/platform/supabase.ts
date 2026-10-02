@@ -57,10 +57,18 @@ export async function signInWithGoogle(): Promise<{ id: string; name?: string | 
   if (!webClientId) throw new NotConfiguredError('Google sign-in');
 
   const { SocialLogin } = await import('@capgo/capacitor-social-login');
+  // webClientId, not the Android one: the id token is minted for the web client
+  // and that is the audience Supabase validates against.
   await SocialLogin.initialize({ google: { webClientId } });
-  const res = await SocialLogin.login({ provider: 'google', options: {} });
+  const { result } = await SocialLogin.login({ provider: 'google', options: {} });
 
-  const idToken = (res.result as { idToken?: string } | undefined)?.idToken;
+  // The response is a union. Offline mode returns a serverAuthCode and no token
+  // at all, and even online mode types idToken as nullable, so neither can be
+  // assumed - a blind cast here would fail at runtime, not at compile time.
+  if (result.responseType !== 'online') {
+    throw new Error(`Google returned a ${result.responseType} response; expected an id token`);
+  }
+  const idToken = result.idToken;
   if (!idToken) throw new Error('Google returned no idToken');
 
   const sb = await supabase();
@@ -69,5 +77,5 @@ export async function signInWithGoogle(): Promise<{ id: string; name?: string | 
   if (!data.user) throw new Error('Supabase returned no user');
 
   const meta = data.user.user_metadata as { full_name?: string; name?: string } | undefined;
-  return { id: data.user.id, name: meta?.full_name ?? meta?.name };
+  return { id: data.user.id, name: meta?.full_name ?? meta?.name ?? result.profile.name ?? undefined };
 }
