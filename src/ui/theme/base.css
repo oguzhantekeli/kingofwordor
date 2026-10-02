@@ -1,0 +1,68 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--c-ink);
+  background: var(--c-dark);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Every interactive element is a real button and keyboard-reachable. The
+   audited app had 15 <div onClick> with zero key handlers, 10 of them
+   role="button" with tabIndex={-1}. */
+:focus-visible {
+  outline: 3px solid var(--c-gold-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: max(var(--space-3), env(safe-area-inset-top)) var(--space-4)
+           max(var(--space-3), env(safe-area-inset-bottom));
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-gold);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--c-brown-light), var(--c-brown));
+  color: var(--c-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  letter-spacing: 0.04em;
+  transition: transform var(--t-fast), filter var(--t-fast);
+}
+.btn:hover { filter: brightness(1.12); }
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: linear-gradient(180deg, var(--c-gold), #a8863f); color: var(--c-dark); font-weight: 700; }
+.btn--ghost { background: transparent; border-color: var(--c-brown-light); }
+.btn--danger { border-color: var(--c-blood); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}

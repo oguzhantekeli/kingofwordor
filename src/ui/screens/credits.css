@@ -1,0 +1,4 @@
+.credits { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; overflow-y: auto; padding-bottom: var(--space-5); }
+.credits-title { font-family: var(--font-display); font-size: var(--text-2xl); color: var(--c-gold); text-align: center; }
+.credits h3 { font-family: var(--font-display); font-size: var(--text-base); color: var(--c-gold-light); margin-bottom: var(--space-2); }
+.credits-notice { font-size: 0.78rem; line-height: 1.6; color: var(--c-ink-dim); }

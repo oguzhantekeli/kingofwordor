@@ -1,0 +1,37 @@
+/* Design tokens. Imported by main.tsx - unlike the audited app, where an
+   entire token system existed but was never loaded. */
+:root {
+  --c-ink: #f0e6d2;
+  --c-ink-dim: #c9b896;
+  --c-parchment: #f4ecd8;
+  --c-dark: #1d1207;
+  --c-dark-2: #2c1c0c;
+  --c-brown: #5a3a1a;
+  --c-brown-light: #8b6d3d;
+  --c-gold: #c9a66b;
+  --c-gold-light: #e0c896;
+  --c-blood: #872e2e;
+  --c-green: #4a7c3f;
+
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px;
+
+  --text-sm: 0.875rem; --text-base: 1rem;  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;   --text-2xl: 2rem;   --text-3xl: 2.75rem;
+
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
+  --border-gold: 2px solid var(--c-gold);
+  --shadow-deep: 0 8px 24px rgb(0 0 0 / 55%);
+  --font-display: 'Cinzel Decorative', 'Georgia', serif;
+  --font-body: 'Metamorphous', 'Georgia', serif;
+  --z-modal: 100; --z-toast: 200;
+  --t-fast: 120ms; --t-base: 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

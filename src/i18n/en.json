@@ -1,0 +1,53 @@
+{
+  "app": { "title": "King of Wordor", "tagline": "Fight for the words of the realm" },
+  "loading": { "dictionary": "Mustering the lexicon…", "failed": "The lexicon could not be summoned." },
+  "welcome": { "start": "Enter the Battle", "difficulty": "Choose your rank", "credits": "Credits" },
+  "difficulty": {
+    "squire": "Squire",
+    "squireDesc": "Gentle prompts, 90 seconds.",
+    "knight": "Knight",
+    "knightDesc": "The true test. 60 seconds.",
+    "warlord": "Warlord",
+    "warlordDesc": "Merciless prompts, 45 seconds."
+  },
+  "round": {
+    "startsWith": "starts with",
+    "endsWith": "ends with",
+    "includes": "contains",
+    "categoryHint": "a {{category}} that {{condition}} \"{{letter}}\"",
+    "plainHint": "a word that {{condition}} \"{{letter}}\"",
+    "placeholder": "Type your word…",
+    "submit": "Strike",
+    "giveUp": "Give Up",
+    "score": "Score",
+    "timeLeft": "Time",
+    "possible": "{{count}} possible words"
+  },
+  "reject": {
+    "tooShort": "Too short",
+    "duplicate": "Already played",
+    "ruleMismatch": "Breaks the rule",
+    "notAWord": "Not in the lexicon"
+  },
+  "category": {
+    "animal": "animal", "food": "food", "person": "person", "plant": "plant",
+    "body": "body part", "place": "place", "object": "object",
+    "substance": "substance", "time": "time", "communication": "communication"
+  },
+  "results": {
+    "title": "The Battle Is Done",
+    "score": "Final score",
+    "words": "Words taken",
+    "best": "Best word",
+    "again": "Fight Again",
+    "share": "Share",
+    "home": "Return"
+  },
+  "credits": {
+    "title": "Credits",
+    "dictionary": "Word list",
+    "categories": "Word categories",
+    "back": "Back"
+  },
+  "confirm": { "giveUp": "Abandon the field?", "yes": "Yes, retreat", "no": "Keep fighting" }
+}
