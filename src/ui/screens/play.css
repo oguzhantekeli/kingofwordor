@@ -127,7 +127,10 @@
    the side for the same reason */
 .rule-letter {
   display: flex; align-items: center; justify-content: center;
-  width: 64px; height: 64px;
+  /* in em, so the tile grows with its own letter. A fixed 64 px tile held at
+     1.3x system font size but the glyph overflowed it at 2x (measured). */
+  width: 1.55em; height: 1.55em;
+  flex-shrink: 0;
   font-family: var(--font-display);
   font-size: 2.6rem;
   line-height: 1;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSettings } from '../../store/settingsStore';
@@ -10,6 +10,7 @@ import {
   RANKS, rankFor, dayKey, dailyNumber, liveStreak, playedToday, msUntilNextDaily,
 } from '../../core/progress';
 import type { Difficulty } from '../../core/types';
+import { FRAME } from '../sprites.generated';
 import './home.css';
 
 const ORDER: Difficulty[] = ['squire', 'knight', 'warlord'];
@@ -31,6 +32,37 @@ function useNow(): Date {
 }
 
 /**
+ * The largest whole-number scale at which the knight fits the stage.
+ *
+ * Found on a real Galaxy M31: Android's system font size was 1.3x, the
+ * WebView applied it (root font 20.8 px), the taller text squeezed the stage
+ * to its 120 px minimum, and the 138 px knight overflowed into the title by
+ * 20 px. Players who enlarge text must not be punished for it, so the hero
+ * steps down a size instead of the text being blocked from scaling.
+ * Measured before paint (layout effect), so there is no visible jump.
+ */
+function useFitScale(ref: React.RefObject<HTMLElement | null>, max: number, min: number): number {
+  const [scale, setScale] = useState(max);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const fit = () => {
+      const h = el.getBoundingClientRect().height;
+      // headroom for the plume above the helm
+      let s = max;
+      while (s > min && FRAME.h * s + 12 > h) s--;
+      setScale(s);
+    };
+    fit();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref, max, min]);
+  return scale;
+}
+
+/**
  * The keep. Everything that works without a server works for a guest: every
  * difficulty and the daily siege. What needs a server is shown honestly as
  * coming, not as "sign in to unlock" - signing in cannot unlock a mode that
@@ -46,6 +78,8 @@ export function Home() {
   const { status, name, house, localBest, xp, daily, dailyScores } = useSession();
   const now = useNow();
   const wallRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const knightScale = useFitScale(stageRef, 3, 2);
 
   const today = dayKey(now);
   const done = playedToday(daily, today);
@@ -95,10 +129,10 @@ export function Home() {
         </p>
       </div>
 
-      <div className="home-stage">
+      <div className="home-stage" ref={stageRef}>
         <div className="home-wall" aria-hidden="true">
           <div className="home-feet" ref={wallRef}>
-            <Knight house={house} anim="idle" scale={3} />
+            <Knight house={house} anim="idle" scale={knightScale} />
           </div>
         </div>
       </div>
