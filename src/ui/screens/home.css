@@ -1,10 +1,11 @@
 .home {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding: 0 var(--space-4) var(--space-4);
-  position: relative;
   overflow-y: auto;
 }
 
@@ -13,21 +14,11 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding-top: var(--space-2);
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
 }
-
-.crest {
-  width: 44px;
-  height: 48px;
-  padding: 0;
-  flex-shrink: 0;
-}
-/* A shield: square shoulders, point at the bottom. clip-path keeps it one
-   element, so the house colour is a single token swap. */
+.crest { width: 44px; height: 48px; padding: 0; flex-shrink: 0; }
 .crest-field {
-  display: block;
-  width: 100%;
-  height: 100%;
+  display: block; width: 100%; height: 100%;
   border: var(--border-w) solid var(--c-gold);
   clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
 }
@@ -41,116 +32,165 @@
   font-family: var(--font-display);
   font-size: var(--text-base);
   color: var(--c-parchment);
+  text-shadow: 2px 2px 0 #000;
 }
-.home-best {
-  margin-top: var(--space-1);
+.home-rank {
+  font-family: var(--font-display);
   font-size: var(--text-xs);
-  color: var(--c-parchment-dim);
+  color: var(--c-gold);
+  text-shadow: 2px 2px 0 #000;
 }
+.home-xp { height: 6px; margin-top: 3px; max-width: 180px; background: rgb(0 0 0 / 60%); border: 1px solid var(--c-edge); }
+.home-xp-fill { height: 100%; background: var(--c-gold); }
 
 .icon-btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
   border: var(--border-w) solid var(--c-edge);
-  background: var(--c-panel);
+  background: rgb(20 15 10 / 85%);
   color: var(--c-parchment-dim);
   flex-shrink: 0;
 }
 .icon-btn svg { width: 20px; height: 20px; display: block; }
 
 /* -------------------------------------------------------------------- title */
-.home-title { text-align: center; margin-top: var(--space-1); }
+.home-title { text-align: center; }
 .home-title h1 {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.3;
   color: var(--c-gold-hi);
-  text-shadow: 3px 3px 0 var(--c-night);
+  /* a solid outline so the title reads over the moving battle */
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 .home-title p {
-  margin-top: var(--space-2);
-  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
   color: var(--c-parchment-dim);
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* --------------------------------------------- the hero on the castle wall */
+.home-stage {
+  flex: 1 1 120px;
+  min-height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.home-wall {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: calc(100% + var(--space-4) * 2);
+  margin: 0 calc(var(--space-4) * -1);
+  padding-bottom: 14px;
+}
+/* the parapet he stands on: a band with merlons, the same 4px grid */
+.home-wall::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 18px;
+  background:
+    repeating-linear-gradient(90deg, #241a14 0 18px, transparent 18px 30px) 0 0 / 100% 6px no-repeat,
+    linear-gradient(#241a14, #1a120c) 0 6px / 100% 12px no-repeat;
+  border-bottom: 2px solid #0c0906;
+  z-index: -1;
 }
 
 /* -------------------------------------------------------------------- modes */
-.home-modes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-top: auto;
-}
+.home-modes { display: flex; flex-direction: column; gap: var(--space-2); }
 
 .mode {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
   padding: var(--space-3) var(--space-4);
   text-align: left;
   border: var(--border);
-  background: var(--c-panel);
+  background: rgb(20 15 10 / 92%);
+  color: var(--c-parchment);
 }
+.mode-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.mode-name { font-family: var(--font-display); font-size: var(--text-base); }
+.mode-desc { font-size: var(--text-sm); opacity: 0.85; }
+.mode-best, .mode-tag, .mode-cta, .mode-lock { font-family: var(--font-display); font-size: var(--text-xs); }
+
+.mode--daily {
+  background: linear-gradient(180deg, #6e2214, #4a160c);
+  border-color: #f59a2e;
+  box-shadow: var(--shadow-hard);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.mode--daily:active:not(.is-done) { transform: translate(5px, 5px); box-shadow: none; }
+.mode--daily .mode-cta {
+  align-self: flex-start;
+  margin-top: var(--space-1);
+  padding: 2px var(--space-2);
+  color: var(--c-night);
+  background: #ffd45a;
+  border: 2px solid #fff2b0;
+}
+.mode--daily.is-done { background: rgb(20 15 10 / 92%); border-color: var(--c-edge); box-shadow: none; cursor: default; }
+.mode--daily .mode-lock { color: var(--c-gold); margin-top: var(--space-1); }
+.mode-streak {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-size: var(--text-sm); color: #fff2b0;
+}
+.flame {
+  width: 8px; height: 12px;
+  background:
+    linear-gradient(#ffd45a, #ffd45a) 2px 4px / 4px 8px no-repeat,
+    linear-gradient(#f59a2e, #f59a2e) 0 6px / 8px 6px no-repeat,
+    linear-gradient(#fff2b0, #fff2b0) 3px 0 / 2px 6px no-repeat;
+  animation: flicker 0.3s steps(2) infinite;
+}
+@keyframes flicker { 50% { transform: scaleY(0.82) translateY(1px); } }
+
 .mode--open {
   background: var(--c-gold);
   border-color: var(--c-gold-hi);
   color: var(--c-night);
   box-shadow: var(--shadow-hard);
-  min-height: 64px;
   transition: transform var(--t-fast), box-shadow var(--t-fast);
 }
 .mode--open:active { transform: translate(5px, 5px); box-shadow: none; }
-.mode--locked { opacity: 0.72; }
+.mode--open .mode-best { color: var(--c-gold-low); }
 
-.mode-name { font-family: var(--font-display); font-size: var(--text-base); }
-.mode-desc { font-size: var(--text-sm); color: inherit; opacity: 0.8; }
-.mode--locked .mode-desc { color: var(--c-parchment-dim); opacity: 1; }
-.mode-lock {
-  margin-top: var(--space-1);
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  color: var(--c-gold);
-}
+.mode--soon { opacity: 0.7; }
+.mode--soon .mode-tag { color: var(--c-parchment-faint); border: 2px solid var(--c-edge-dim); padding: 1px 6px; }
+
+.mode--ladder { border-color: var(--c-azure-hi); }
+.mode--ladder .mode-desc { font-size: var(--text-xs); }
+.mode-tag--go { color: var(--c-azure-hi); border: 2px solid var(--c-azure-hi); padding: 1px 6px; }
 
 /* ------------------------------------------------------------------- ranks */
 .ranks { display: flex; gap: var(--space-2); border: none; }
 .ranks-legend { display: none; }
 .rank {
   flex: 1;
-  padding: var(--space-3) var(--space-2);
+  padding: var(--space-2);
   text-align: center;
   font-family: var(--font-display);
   font-size: var(--text-xs);
   border: var(--border-w) solid var(--c-edge-dim);
-  background: var(--c-night-2);
+  background: rgb(20 15 10 / 92%);
   color: var(--c-parchment-dim);
   cursor: pointer;
 }
-.rank.is-selected {
-  border-color: var(--c-gold);
-  color: var(--c-gold-hi);
-  background: var(--c-panel);
-}
+.rank.is-selected { border-color: var(--c-gold); color: var(--c-gold-hi); background: var(--c-panel); }
 .rank:focus-within { outline: 3px solid var(--c-gold-hi); outline-offset: 2px; }
 
 /* -------------------------------------------------------------- guest hint */
 .guest-hint {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-3) var(--space-4);
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--space-2) var(--space-3);
   text-align: left;
   border: var(--border-w) dashed var(--c-edge);
-  background: transparent;
+  background: rgb(20 15 10 / 80%);
 }
-.guest-hint-title {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  color: var(--c-gold);
-}
+.guest-hint-title { font-family: var(--font-display); font-size: var(--text-xs); color: var(--c-gold); }
 .guest-hint-body { font-size: var(--text-sm); color: var(--c-parchment-dim); }
-
-.home-credits { align-self: center; }
+.home-credits { align-self: center; min-height: 36px; font-size: var(--text-xs); }

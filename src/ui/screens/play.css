@@ -1,129 +1,278 @@
+/* The play screen sits on the battlefield. Every panel over it is solid, so
+   the battle never costs the player a fraction of a second reading the rule. */
 .play {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: var(--space-3);
-  padding: 0 var(--space-3) var(--space-3);
+  gap: var(--space-2);
+  padding: 0 var(--space-3) var(--space-2);
   min-height: 0;
 }
 
-/* The round's clock, as a fuse burning along the top edge. The number in the
-   HUD is exact; this is the thing you feel without reading. */
+/* ------------------------------------------------------------------- fuse */
 .fuse {
-  height: 10px;
-  background: var(--c-night-2);
+  height: 8px;
+  background: rgb(10 7 5 / 80%);
   border-bottom: 2px solid var(--c-edge-dim);
   margin: 0 calc(var(--space-3) * -1);
 }
 .fuse-burn {
   height: 100%;
-  background: repeating-linear-gradient(
-    90deg, var(--c-crimson) 0 6px, #7a2222 6px 12px
-  );
-  border-right: 3px solid #e07a2b;
+  background: repeating-linear-gradient(90deg, var(--c-gold) 0 6px, var(--c-gold-low) 6px 12px);
+  border-right: 3px solid #fff2b0;
+  transition: background var(--t-base);
 }
+.fuse-burn.is-urgent {
+  background: repeating-linear-gradient(90deg, var(--c-crimson-hi) 0 6px, var(--c-crimson) 6px 12px);
+  animation: fuse-throb 0.5s steps(2) infinite;
+}
+@keyframes fuse-throb { 50% { filter: brightness(1.5); } }
 
-.play-hud { display: flex; gap: var(--space-2); }
-.hud-item {
-  flex: 1;
-  padding: var(--space-2) var(--space-3);
+/* -------------------------------------------------------------------- HUD */
+.play-hud { display: flex; align-items: stretch; gap: var(--space-2); }
+.hud-quit {
+  flex: 0 0 44px;
+  display: flex; align-items: center; justify-content: center;
   border: var(--border-w) solid var(--c-edge-dim);
-  background: var(--c-panel);
-  text-align: center;
+  background: rgb(20 15 10 / 88%);
+  color: var(--c-parchment-dim);
 }
+.hud-quit svg { width: 20px; height: 20px; }
+.hud-score, .hud-words, .hud-timer {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-w) solid var(--c-edge-dim);
+  background: rgb(20 15 10 / 88%);
+}
+.hud-timer { flex: 1.1; border-color: var(--c-gold-low); }
 .hud-label {
-  display: block;
   font-size: var(--text-xs);
   letter-spacing: 0.08em;
   color: var(--c-parchment-faint);
 }
 .hud-value {
-  display: block;
-  margin-top: var(--space-1);
   font-family: var(--font-display);
   font-size: var(--text-lg);
   color: var(--c-parchment);
+  font-variant-numeric: tabular-nums;
 }
-.hud-timer.is-urgent { border-color: var(--c-crimson); }
-.hud-timer.is-urgent .hud-value { color: var(--c-crimson-hi); }
+.hud-timer .hud-value { font-size: var(--text-2xl); color: var(--c-gold-hi); }
+.hud-timer.is-urgent { border-color: var(--c-crimson-hi); }
+.hud-timer.is-urgent .hud-value { color: var(--c-crimson-hi); animation: fuse-throb 0.5s steps(2) infinite; }
 
+/* ---------------------------------------------- the stage over the battle */
 .play-stage {
+  position: relative;
+  flex: 1 1 120px;
+  min-height: 96px;
   display: flex;
+  align-items: flex-end;
   justify-content: center;
-  min-height: 92px;
 }
+.streak {
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: #fff2b0;
+  background: rgb(110 34 20 / 88%);
+  border: 2px solid #f59a2e;
+  box-shadow: var(--shadow-hard-sm);
+  animation: streak-in 220ms steps(3);
+  white-space: nowrap;
+}
+/* a pixel flame: three stacked rects, flickered with steps() */
+.streak-flame {
+  width: 8px; height: 12px;
+  background:
+    linear-gradient(#ffd45a, #ffd45a) 2px 4px / 4px 8px no-repeat,
+    linear-gradient(#f59a2e, #f59a2e) 0 6px / 8px 6px no-repeat,
+    linear-gradient(#fff2b0, #fff2b0) 3px 0 / 2px 6px no-repeat;
+  animation: flicker 0.3s steps(2) infinite;
+}
+@keyframes flicker { 50% { transform: scaleY(0.82) translateY(1px); } }
+@keyframes streak-in { from { transform: translate(-50%, 6px); opacity: 0; } }
 
-/* The prompt is the loudest thing on the screen: it is what you are answering. */
-.prompt {
-  padding: var(--space-4) var(--space-3);
-  text-align: center;
+/* --------------------------------------------------------------- the rule */
+.rule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
   background: var(--c-crimson);
   border: var(--border-gold);
   box-shadow: var(--shadow-hard);
 }
-.prompt-text {
+.rule-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+.rule-cond {
   font-family: var(--font-display);
-  font-size: var(--text-base);
-  line-height: 1.6;
+  font-size: var(--text-lg);
   color: var(--c-parchment);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
-.prompt-count {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
-  color: #efc3a6;
-}
-
-.answer { display: flex; gap: var(--space-2); }
-.answer-input {
-  flex-grow: 1;
-  min-width: 0;
-  padding: var(--space-3) var(--space-4);
+/* the letter is the hero of the screen - Stop puts a single huge letter at
+   the side for the same reason */
+.rule-letter {
+  display: flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px;
   font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--c-night);
+  background: var(--c-gold-hi);
+  border: var(--border-w) solid #fff7dd;
+  box-shadow: inset -4px -4px 0 var(--c-gold), var(--shadow-hard-sm);
+  animation: letter-in 260ms steps(4);
+}
+@keyframes letter-in { from { transform: scale(0.6) rotate(-6deg); } }
+.rule-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  color: #f2c9b0;
+}
+/* the category reads as a bonus, never as the rule */
+.rule-bonus {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: 2px var(--space-2);
+  background: rgb(20 10 6 / 45%);
+  border: 2px solid var(--c-gold);
+  color: var(--c-gold-hi);
+  font-family: var(--font-display);
+}
+.rule-bonus-tag { color: #fff2b0; }
+
+/* ------------------------------------------------------------ word tiles */
+.word { position: relative; }
+.word-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.word-tiles {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 56px;
+  padding: var(--space-2);
+  background: rgb(12 9 6 / 90%);
+  border: var(--border-w) solid var(--c-edge);
+  cursor: text;
+  flex-wrap: wrap;
+}
+.word-tiles.is-ready { border-color: var(--c-moss-hi); }
+.word:focus-within .word-tiles { outline: 2px solid var(--c-gold); outline-offset: 2px; }
+.word-placeholder {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--c-parchment-faint);
+  letter-spacing: 0.08em;
+}
+.tile {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 36px;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
   color: var(--c-night);
   background: var(--c-parchment);
-  border: var(--border-w) solid var(--c-night);
-  border-radius: 0;
+  border: 2px solid #fff7dd;
+  box-shadow: inset -3px -3px 0 #cdb88c;
+  animation: tile-in 120ms steps(2);
 }
-.answer-input::placeholder { color: #8a7a5e; }
-.answer-input.is-bad { border-color: var(--c-crimson); }
-.answer-go { min-width: 92px; }
+@keyframes tile-in { from { transform: translateY(-6px); } }
+.word-caret {
+  width: 3px; height: 30px;
+  background: var(--c-gold);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+.word.is-shaking .word-tiles { animation: shake 280ms steps(6); border-color: var(--c-crimson-hi); }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+}
 
-.feedback {
+/* floating "+54" / "Not in the lexicon": rises from the hero's head into the
+   sky. Two earlier positions failed on screen - over the rule card it hid the
+   bonus badge, inside the word box it hid the next word being typed. */
+.pops {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 96px;
+  height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.pop {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+  padding: 2px var(--space-2);
   font-family: var(--font-display);
-  font-size: var(--text-sm);
-  text-align: center;
-  color: var(--c-crimson-hi);
+  font-size: var(--text-lg);
+  white-space: nowrap;
+  text-shadow: 2px 2px 0 #000;
+  animation: pop-up 900ms steps(9) forwards;
 }
-.feedback.is-good { color: var(--c-moss-hi); }
+.pop.is-good { color: var(--c-moss-hi); font-size: 2rem; }
+.pop.is-bad { color: var(--c-crimson-hi); font-size: var(--text-base); }
+@keyframes pop-up {
+  0% { transform: translate(-50%, 10px) scale(0.6); opacity: 0; }
+  15% { transform: translate(-50%, 0) scale(1.2); opacity: 1; }
+  70% { transform: translate(-50%, -48px) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -70px) scale(1); opacity: 0; }
+}
 
+/* ---------------------------------------------------------- played words */
 .played {
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: var(--space-2);
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 6px;
   list-style: none;
-  /* absorbs the slack, so the keyboard sits on the bottom edge instead of
-     leaving a dead band under it */
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
+  /* ONE fixed-height row. Wrapping to a second row shrank the stage and made
+     the hero jump mid-round; a timed typing game must not move under you.
+     Newest first, so what clips is always the oldest. */
+  height: 30px;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, #000 85%, transparent);
 }
 .played li {
-  padding: var(--space-2) var(--space-3);
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px var(--space-2);
   font-size: var(--text-sm);
   border: 2px solid var(--c-edge-dim);
+  background: rgb(20 15 10 / 88%);
 }
-.played li.is-good {
-  background: var(--c-moss-dark);
-  border-color: #4a7030;
-  color: #cfe6c4;
-}
-.played li.is-bad {
-  background: #2e1414;
-  border-color: #8a3030;
-  color: #e8a0a0;
-  text-decoration: line-through;
-}
+.played li b { font-family: var(--font-display); font-size: var(--text-xs); color: var(--c-moss-hi); }
+.played li.is-good { border-color: #4a7030; color: #cfe6c4; }
+.played li.is-bad { border-color: #6a2a2a; color: #d89090; text-decoration: line-through; }
 
-.play-quit { align-self: center; }
+/* --------------------------------------------------------------- actions */
+.play-actions { display: flex; justify-content: flex-end; }
+.skip { min-height: 36px; padding: var(--space-1) var(--space-3); font-size: var(--text-sm); }
+.skip-cost { color: var(--c-crimson-hi); margin-left: var(--space-1); }
+.skip:disabled { opacity: 0.4; }

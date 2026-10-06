@@ -11,6 +11,15 @@ import { TIERS, type Prompt, type Tier } from './types';
  */
 
 export const CATEGORY_BONUS = 1.5;
+
+/**
+ * Points are whole numbers. The formula is unchanged; only the unit is: the raw
+ * product is multiplied by 10 and rounded once, per word. Every competitor
+ * shows integer scores (Word Blitz 2024, Word Domination 115, "+20"), and
+ * "17.32" reads as a measurement rather than a score. Rounding per word, not
+ * per round, means the total always equals the sum of what the player saw.
+ */
+export const POINTS_SCALE = 10;
 export const RARITY_MIN = 1.0;
 export const RARITY_MAX = 4.0;
 
@@ -56,7 +65,7 @@ export function scoreWord(input: ScoreInput): number {
     rarityWeight(prompt.everydayCount, maxEverydayCount) *
     tierWeight(tier) *
     (matchedCategory ? CATEGORY_BONUS : 1);
-  return round2(score);
+  return Math.round(score * POINTS_SCALE);
 }
 
 function clamp(n: number, lo: number, hi: number): number {

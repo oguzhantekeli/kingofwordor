@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSession } from '../../store/sessionStore';
-import { NotConfiguredError, signInWithGoogle } from '../../platform/supabase';
+import {
+  NotConfiguredError, deleteAccount, isConfigured, signInWithGoogle, signOutEverywhere,
+} from '../../platform/supabase';
 import { Knight } from '../components/Knight';
 import { HOUSES } from '../sprites.generated';
 import './profile.css';
@@ -26,6 +28,32 @@ export function Profile() {
   const [busy, setBusy] = useState(false);
 
   const guest = status === 'guest';
+
+  /**
+   * Delete must do what the dialog promises. It used to call only forget(),
+   * which wiped this phone and left the server account and every score intact.
+   * If the server delete fails, local data is KEPT so the player can retry -
+   * otherwise they would lose their progress and keep their server data.
+   */
+  const destroy = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      if (!guest && isConfigured()) await deleteAccount();
+      forget();
+      setConfirming(false);
+      goto('welcome');
+    } catch (e) {
+      setError(String(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const signOut = async () => {
+    try { await signOutEverywhere(); } catch { /* local sign-out still proceeds */ }
+    signedOut();
+  };
 
   const signIn = async () => {
     setBusy(true);
@@ -103,7 +131,7 @@ export function Profile() {
         </section>
       ) : (
         <section className="account">
-          <button type="button" className="btn wide" onClick={signedOut}>
+          <button type="button" className="btn wide" onClick={() => void signOut()}>
             {t('profile.signOut')}
           </button>
           <button type="button" className="btn btn--danger wide" onClick={() => setConfirming(true)}>
@@ -117,9 +145,10 @@ export function Profile() {
              aria-label={t('profile.deleteAccount')}>
           <div className="panel modal-card">
             <p className="modal-text">{t('profile.deleteBody')}</p>
+            {error && <p className="error" role="alert">{error}</p>}
             <div className="modal-actions">
-              <button type="button" className="btn btn--danger"
-                      onClick={() => { forget(); setConfirming(false); goto('welcome'); }}>
+              <button type="button" className="btn btn--danger" disabled={busy}
+                      onClick={() => void destroy()}>
                 {t('profile.deleteConfirm')}
               </button>
               <button type="button" className="btn" onClick={() => setConfirming(false)}>

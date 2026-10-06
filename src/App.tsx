@@ -13,6 +13,7 @@ import { Results } from './ui/screens/Results';
 import { Credits } from './ui/screens/Credits';
 import { Settings } from './ui/screens/Settings';
 import { Profile } from './ui/screens/Profile';
+import { Ladder } from './ui/screens/Ladder';
 
 export default function App() {
   const { t } = useTranslation();
@@ -56,6 +57,7 @@ export default function App() {
       {screen === 'credits' && <Credits />}
       {screen === 'settings' && <Settings />}
       {screen === 'profile' && <Profile />}
+      {screen === 'ladder' && <Ladder />}
     </div>
   );
 }

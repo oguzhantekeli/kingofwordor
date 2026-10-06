@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-  baseScore, CATEGORY_BONUS, rarityWeight, RARITY_MAX, RARITY_MIN,
+  baseScore, CATEGORY_BONUS, POINTS_SCALE, rarityWeight, RARITY_MAX, RARITY_MIN,
   round2, scoreWord, TIER_WEIGHT_MAX, TIER_WEIGHT_MIN, tierWeight,
 } from '../scoring';
 import { TIERS, type Prompt } from '../types';
@@ -45,7 +45,8 @@ describe('scoring', () => {
     const args = { word: 'dragon', tier: 20 as const, prompt: prompt(500), maxEverydayCount: 41797 };
     const plain = scoreWord({ ...args, matchedCategory: false });
     const bonus = scoreWord({ ...args, matchedCategory: true });
-    expect(bonus).toBeCloseTo(round2(plain * CATEGORY_BONUS), 1);
+    // both are rounded to whole points independently, so allow one point of slack
+    expect(Math.abs(bonus - plain * CATEGORY_BONUS)).toBeLessThanOrEqual(1);
   });
 
   it('a rarer prompt pays more for the same word', () => {
@@ -65,6 +66,14 @@ describe('scoring', () => {
   it('a rarer word pays more', () => {
     const args = { word: 'sword', prompt: prompt(500), maxEverydayCount: 41797, matchedCategory: false };
     expect(scoreWord({ ...args, tier: 70 })).toBeGreaterThan(scoreWord({ ...args, tier: 10 }));
+  });
+
+  it('points are whole numbers on the 10x scale', () => {
+    const p = scoreWord({ word: 'sword', tier: 20, prompt: prompt(500), maxEverydayCount: 41797, matchedCategory: false });
+    expect(Number.isInteger(p)).toBe(true);
+    expect(POINTS_SCALE).toBe(10);
+    // 5 letters x rarity x tier, x10 - a five-letter word lands in the tens, not at "5.43"
+    expect(p).toBeGreaterThanOrEqual(50);
   });
 
   it('rounds to 2dp', () => {

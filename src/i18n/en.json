@@ -32,17 +32,27 @@
     "solo": "Solo Run",
     "soloDesc": "One rule, one minute, your own record.",
     "daily": "Daily Siege",
-    "dailyDesc": "The same prompts for the whole realm, once a day.",
+    "dailyDesc": "Today's prompts are the same for the whole realm. One attempt.",
     "duel": "Ranked Duel",
     "duelDesc": "Head to head. Climb the ladder.",
-    "locked": "Sign in to unlock"
+    "locked": "Sign in to unlock",
+    "dailyPlay": "Besiege",
+    "dailyDone": "Today's siege is won",
+    "dailyNext": "Next siege in {{time}}",
+    "dailyStreak": "{{count}}-day streak",
+    "dailyStreakKeep": "Play today to keep your {{count}}-day streak",
+    "duelSoon": "Coming soon",
+    "duelLocked": "Needs an account and the realm ladder",
+    "rank": "Rank",
+    "xpToNext": "{{xp}} XP to {{rank}}",
+    "xpTop": "You rule the realm"
   },
   "guest": {
     "title": "You are playing as a guest",
     "body": "Everything works. Signing in adds what one phone cannot do on its own:",
     "benefitLadder": "Your scores go on the ladder against other players",
     "benefitCarry": "Your progress survives a new phone",
-    "benefitDuel": "Duels and the daily siege open up",
+    "benefitDuel": "Duels and the realm ladder open up",
     "cta": "Continue with Google",
     "later": "Not now",
     "noForce": "You are never made to sign in to play."
@@ -58,25 +68,32 @@
     "giveUp": "Give Up",
     "score": "Score",
     "timeLeft": "Time",
-    "possible": "{{count}} words will do it"
+    "possible": "{{count}} words fit",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1.5",
+    "bonusFor": "{{category}}",
+    "skip": "Skip",
+    "skipCost": "-3s",
+    "streak": "{{count}} in a row"
   },
   "reject": {
     "tooShort": "Too short",
     "duplicate": "Already played",
     "ruleMismatch": "Breaks the rule",
-    "notAWord": "Not in the lexicon"
+    "notAWord": "Not in the lexicon",
+    "skipped": "Skipped"
   },
   "category": {
-    "animal": "an animal",
-    "food": "a food",
-    "person": "a person",
-    "plant": "a plant",
-    "body": "a body part",
-    "place": "a place",
-    "object": "an object",
-    "substance": "a substance",
-    "time": "a time",
-    "communication": "a communication"
+    "animal": "Animals",
+    "food": "Food",
+    "person": "People",
+    "plant": "Plants",
+    "body": "Body parts",
+    "place": "Places",
+    "object": "Objects",
+    "substance": "Substances",
+    "time": "Time",
+    "communication": "Language"
   },
   "results": {
     "title": "The Battle Is Done",
@@ -84,9 +101,17 @@
     "words": "Words",
     "best": "Best word",
     "newBest": "A new personal best",
-    "again": "Again",
+    "again": "Fight Again",
     "share": "Share",
-    "home": "To the Keep"
+    "home": "To the Keep",
+    "dailyTitle": "Daily Siege #{{n}}",
+    "rarest": "Rarest word",
+    "bestStreak": "Best streak",
+    "xp": "+{{xp}} XP",
+    "promoted": "Promoted to {{rank}}",
+    "streakDay": "{{count}}-day siege streak",
+    "shareCopied": "Copied — paste it anywhere",
+    "toKeep": "To the Keep"
   },
   "settings": {
     "title": "Settings",
@@ -121,5 +146,34 @@
     "giveUp": "Yield the field?",
     "yes": "Yes, retreat",
     "no": "Fight on"
+  },
+  "rank": {
+    "peasant": "Peasant",
+    "footman": "Footman",
+    "manAtArms": "Man-at-Arms",
+    "sergeant": "Sergeant",
+    "captain": "Captain",
+    "baron": "Baron",
+    "earl": "Earl",
+    "duke": "Duke",
+    "king": "King of Wordor"
+  },
+  "ladder": {
+    "title": "The Realm Ladder",
+    "day": "Today",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "explain": "Ranked by the Daily Siege - the same prompts for everyone. Week, month and year add up your sieges.",
+    "loading": "Summoning the heralds…",
+    "notConfigured": "The ladder opens when the realm's server is raised.",
+    "empty": "No one has besieged yet. Be the first.",
+    "failed": "The heralds could not be reached.",
+    "sieges": "{{count}} sieges",
+    "you": "You",
+    "open": "Ladder",
+    "posting": "Posting to the ladder…",
+    "posted": "Posted to the realm ladder",
+    "postFailed": "Could not post - your score is kept on this phone"
   }
 }

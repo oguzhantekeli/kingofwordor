@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { RoundSubmission } from '../core/verify';
 
 /**
  * The Supabase client, created on first use.
@@ -78,4 +79,63 @@ export async function signInWithGoogle(): Promise<{ id: string; name?: string | 
 
   const meta = data.user.user_metadata as { full_name?: string; name?: string } | undefined;
   return { id: data.user.id, name: meta?.full_name ?? meta?.name ?? result.profile.name ?? undefined };
+}
+
+// --------------------------------------------------------------- the ladder
+
+export type Period = 'day' | 'week' | 'month' | 'year';
+
+export interface LadderRow {
+  rank: number;
+  name: string;
+  house: string;
+  score: number;
+  sieges: number;
+  isMe: boolean;
+}
+
+export interface Posted {
+  ok: boolean;
+  /** The server's own score from its replay - the only one that counts. */
+  score: number;
+  reasons: string[];
+}
+
+/**
+ * Send a finished round for server-side verification. The client sends what
+ * happened (seed + events); the submit-round function replays it and stores its
+ * own score. A score the client computed is never trusted - see core/verify.ts.
+ */
+export async function submitRound(sub: RoundSubmission): Promise<Posted> {
+  const sb = await supabase();
+  const { data, error } = await sb.functions.invoke<Posted>('submit-round', { body: sub });
+  if (error) throw error;
+  if (!data) throw new Error('submit-round returned nothing');
+  return data;
+}
+
+/** The four ladders from the brief. Public: anon may read them. */
+export async function fetchLeaderboard(period: Period, anchor: string, lim = 50): Promise<LadderRow[]> {
+  const sb = await supabase();
+  const { data, error } = await sb.rpc('leaderboard', { period, anchor, lim });
+  if (error) throw error;
+  return ((data ?? []) as Array<Record<string, unknown>>).map((r) => ({
+    rank: Number(r.rank), name: String(r.name), house: String(r.house),
+    score: Number(r.score), sieges: Number(r.sieges), isMe: r.is_me === true,
+  }));
+}
+
+/** Google Play User Data policy: in-app deletion of the account and its data. */
+export async function deleteAccount(): Promise<void> {
+  const sb = await supabase();
+  const { error } = await sb.rpc('delete_my_account');
+  if (error) throw error;
+  await sb.auth.signOut();
+}
+
+/** End the server session too - the client persists sessions across launches. */
+export async function signOutEverywhere(): Promise<void> {
+  if (!isConfigured()) return;
+  const sb = await supabase();
+  await sb.auth.signOut();
 }

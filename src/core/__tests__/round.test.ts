@@ -3,7 +3,8 @@ import { configFor, DIFFICULTY_DEFAULTS, Round } from '../round';
 import type { Condition } from '../types';
 import { gameData } from './fixture';
 
-const { dict, pools, viability } = gameData();
+const data = gameData();
+const { dict, pools, viability } = data;
 const deps = { pools, viability };
 
 /** Build a round and force a known prompt so tests are not seed-dependent. */
@@ -94,10 +95,54 @@ describe('Round', () => {
     expect(squire.submit(rare, 0).submission.reason).toBe('notAWord');
   });
 
-  it('the prompt advances after every submission, valid or not', () => {
+  it('RULE: a rejected word keeps the prompt (a typo must not steal it)', () => {
     const before = r.state.prompt;
-    r.submit('zzzz', 0);
+    r.submit('zzzz', 0);            // not a word
+    r.submit('castle', 0);          // breaks the "starts with s" rule
+    expect(r.state.prompt).toBe(before);
+  });
+
+  it('RULE: an accepted word advances the prompt', () => {
+    const before = r.state.prompt;
+    expect(r.submit('sword', 0).submission.accepted).toBe(true);
     expect(r.state.prompt).not.toBe(before);
+  });
+
+  it('RULE: skip advances the prompt and is logged for server replay', () => {
+    const before = r.state.prompt;
+    const { submission, state } = r.skip(4200);
+    expect(state.prompt).not.toBe(before);
+    expect(submission.reason).toBe('skipped');
+    expect(submission.points).toBe(0);
+    expect(state.submissions.at(-1)).toMatchObject({ reason: 'skipped', at: 4200 });
+  });
+
+  it('skip does nothing once the round is finished', () => {
+    r.finish();
+    const before = r.state.prompt;
+    r.skip(0);
+    expect(r.state.prompt).toBe(before);
+  });
+
+  it('REPLAY: the same seed + the same event log reproduces the exact prompts and score', () => {
+    // This is the property server-side scoring depends on.
+    const play = () => {
+      const x = new Round(dict, configFor('knight', 4242), deps);
+      const seen: string[] = [];
+      for (let i = 0; i < 12; i++) {
+        const p = x.state.prompt;
+        seen.push(`${p.condition}:${p.letter}:${p.category}`);
+        if (i % 4 === 3) { x.skip(i * 1000); continue; }
+        const w = data.words.find((cand) =>
+          cand.length >= 4 && cand.length <= 8 && !x.playedWords.has(cand) &&
+          (dict.tierOf(cand) ?? 99) <= x.config.maxTier &&
+          (p.condition === 'startsWith' ? cand.startsWith(p.letter)
+            : p.condition === 'endsWith' ? cand.endsWith(p.letter) : cand.includes(p.letter)));
+        x.submit(w ?? 'zzzz', i * 1000);
+      }
+      return { seen, total: x.state.totalScore };
+    };
+    expect(play()).toEqual(play());
   });
 
   it('records submission timestamps for server-side rate checks', () => {
@@ -142,6 +187,7 @@ describe('Round', () => {
       const { submission } = r2.submit(w, 0);
       if (submission.accepted) expected += submission.points;
     }
-    expect(r2.state.totalScore).toBeCloseTo(Math.round(expected * 100) / 100, 2);
+    expect(r2.state.totalScore).toBe(expected);
+    expect(Number.isInteger(r2.state.totalScore)).toBe(true);
   });
 });

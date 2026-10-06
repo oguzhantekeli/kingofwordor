@@ -4,7 +4,7 @@
 **Scope:** greenfield mobile app. The existing CRA codebase is ignored entirely, per your instruction.
 **Method:** every version, constraint and measurement below was verified by running a command on this machine today. The stack was **actually scaffolded, installed, built and given an Android platform** before being recommended. Commands and verbatim outputs are inline.
 **Honesty note:** §13 lists exactly what I could *not* verify locally and why.
-**Revision:** v3 (2026-10-01) — **Phases 0 and 1 are built and verified; Phase 2 is partially built.** See §15 for exactly what exists, §16 for what is left, and §17 for your action items. v2 locked your answers of 2026-09-30: web deferred, TypeScript confirmed, **assets produced by me** (§5, capability proven), no ad/store accounts yet (§6, lead times verified), **accounts required with Google Sign-In** (§4.4, integration path verified).
+**Revision:** v4 (2026-10-06) — **Phases 0–2 built; Phase 3 backend built and tested locally, not yet deployed.** The 2026-10-06 work (battlefield, retention systems, backend, every screen) is documented in `INVENTORY.md`; §16–§17 below are rewritten to match. v3 (2026-10-01): Phases 0 and 1 built and verified. See §15 for exactly what exists, §16 for what is left, and §17 for your action items. v2 locked your answers of 2026-09-30: web deferred, TypeScript confirmed, **assets produced by me** (§5, capability proven), no ad/store accounts yet (§6, lead times verified), **accounts required with Google Sign-In** (§4.4, integration path verified).
 
 ---
 
@@ -888,40 +888,58 @@ $ find src tools -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' -o -n
 
 ---
 
-## 16. WHAT IS NOT BUILT YET
+## 16. STATUS — 2026-10-06
 
-Stated plainly. None of it is blocked by anything except your action items in §17.
+### Built and verified
 
-1. **Supabase backend** (Phase 3): schema, RLS, server-authoritative scoring Edge Function, leaderboards. Needs a Supabase project.
-2. **Google Sign-In wiring** (Phase 3): the integration path is verified (§4.6) but needs a real Google Cloud OAuth client.
-3. **AdMob and IAP wiring** (Phase 4): plugins are installed and sync into the Android project; no ad units or products exist yet.
-4. **The art vertical slice** (Phase 2): the battlefield, theme tokens, icons and SFX exist and are wired, but you have not seen and approved the look. I am not building the remaining polish until you do.
-5. **The Android APK has never been compiled.** `cap add`/`cap sync` succeed and the Gradle config is correct, but there is still no JDK or Android SDK on this machine (`java: command not found`). The CI job in §8 is written to close this on the first push.
-6. **Real-device performance.** The 30 ms / 8.9 MB dictionary figures are Node on this machine.
-7. **Languages beyond English.** The pipeline is language-agnostic by design but only `en` is built.
+| Phase | Item | Evidence |
+|---|---|---|
+| 0–1 | Engine, dictionary, rules, scoring, i18n, audio, CI | 137 tests, coverage 99.36% lines |
+| 2 | Pixel battlefield (warriors, fire, embers, dust, smoke), redesigned Home/Play/Results | screenshots + `INVENTORY.md` §4 |
+| — | Daily Siege, day streaks, 9-rank ladder to *King of Wordor* | 17 progress tests |
+| 3 | Server-side replay verification (anti-cheat) | 13 tests |
+| 3 | Schema, RLS, day/week/month/year leaderboards, account deletion | 17 tests on real PostgreSQL 18.3 (PGlite) |
+| 3 | Client→server contract: a round played in the real store verifies to the identical score | 2 tests |
+| 3 | Ladder screen; real account deletion; real sign-out | 3 UI tests |
+| — | Web account-deletion page (Play User Data policy) | loads HTTP 200, no errors |
+| 4 | Debug APK assembled and run on a Galaxy M31 (Oct 2) | commit `f79f346` |
+
+### Not built, or built but not run
+
+1. **Edge Function `submit-round` has never executed** — no Deno or Supabase CLI on this machine. Its logic is tested; the HTTP wrapper is not.
+2. **Schema not deployed** — verified against your project: `GET /rest/v1/profiles` → `404 PGRST205 "Could not find the table 'public.profiles'"`.
+3. **In-game store, boosters, currency** — needs product decisions.
+4. **AdMob wiring** — plugin installed (Google's sample App ID is injected by `tools/android-config.mjs`); no real ad units.
+5. **Ranked Duel** — shown in-app as "Coming soon".
 
 ---
 
-## 17. YOUR ACTION ITEMS — TBD
+## 17. YOUR ACTION ITEMS
 
-Nothing here is something I can do for you. Roughly in the order they block work.
+### Correction to the previous list
+v3 listed "Create a Supabase project" and "Create a Google Cloud OAuth client" as yours to do. **Both already exist.** A `.env` created on 2026-10-02 holds `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` and `VITE_GOOGLE_WEB_CLIENT_ID`; my earlier status check missed the file. Verified against the live project with the public anon key (read-only):
 
-| # | Action | Blocks | Notes |
+```
+GET /auth/v1/settings   ->  enabled providers: google, email
+GET /rest/v1/profiles   ->  404 "Could not find the table 'public.profiles'"
+```
+
+So the project and Google sign-in are set up; the schema is not deployed.
+
+### Open items, in the order they block work
+
+| # | Action | Blocks | How |
 |---|---|---|---|
-| 1 | **Recruit 12 closed testers** (12 distinct Google accounts) | Phase 4 launch | **Longest lead time in the project.** 14 *continuous* days; dropping below 12 restarts the clock. Start now — the build does not need to be finished. |
-| 2 | **Finish Play Console verification** | Publishing | In progress. Personal account, so your **legal name will be public** on the listing. |
-| 3 | **Approve the art direction** | Phase 2 polish | Run `npm run dev` and look at it. Geometric/heraldic vector. Tell me keep, adjust, or change — I will not build the rest until you do. |
-| 4 | **Create an AdMob account** | Phase 4 ads | Free. Verification is "typically up to 24 hours, but in rare cases, can take up to 2 weeks" — start before you need it. Needs name, account type, payment address. |
-| 5 | **Create a Supabase project** (Pro, $25/mo) | Phase 3 | Send me the project URL and anon key; keep the service-role key to yourself. |
-| 6 | **Create a Google Cloud OAuth client** (Android + Web) | Phase 3 sign-in | Needs your app's package name `com.kingofwordor.game` and the release keystore SHA-1 (item 7). |
-| 7 | **Generate and safely store a release keystore** | Any release build | If this is lost you can never update the app under the same listing. Back it up in two places. |
-| 8 | **Decide the store listing name and short description** | Listing | "King of Wordor" is the working title; confirm it is final before the listing is created. |
-| 9 | **Confirm the IAP catalogue** | Phase 4 store | Which power-ups, what prices, consumable or not. I can propose a set if you would rather react to one. |
-| 10 | **Install JDK 21 + Android SDK locally** *(optional)* | Local device testing | CI covers the build; this is only needed if you want to run on a device from this machine. |
-
-### What I do next, without waiting on you
-
-Phase 3 groundwork that needs no accounts: the server-authoritative scoring contract and its shared seed generator, the leaderboard schema as migration files, and the round-submission protocol with a test that rejects a forged score. All of it can be written and tested against a local Postgres, then pointed at your Supabase project when item 5 lands.
+| 1 | **Push the branch** (or say yes and I will) | Backup + first CI run | All work since 2026-09-30 exists only on this machine: `git ls-remote` shows only `master` (the old app). |
+| 2 | **12 testers / 14 days**, or convert to an organization account | Production launch | Unchanged — still the longest lead time. |
+| 3 | **Deploy the schema** | Ladders, posting scores | Supabase dashboard → SQL Editor → paste `supabase/migrations/20261006000000_init.sql` → Run. Or `npx supabase link` + `npx supabase db push`. |
+| 4 | **Deploy the Edge Function** | Posting scores | `npx supabase functions deploy submit-round`, then set the secret `DICT_URL` to wherever `en.kowd` is hosted. |
+| 5 | **Host `delete-account.html`** and put its URL in Play Console | Play's User Data policy | Any static host serving `dist/`. Add its URL to the OAuth client's redirect list. |
+| 6 | **Set `VITE_DEVELOPER_NAME` and `VITE_SUPPORT_EMAIL`** in `.env` | The deletion page must name the developer as on the store listing | Your Play listing shows your legal name (personal account). |
+| 7 | **Android OAuth client (SHA-1)** | Native Google sign-in on device | Unknown whether it exists — please confirm. |
+| 8 | **Create an AdMob account**, then ad unit IDs | Ads | Verification "typically up to 24 hours, but in rare cases, can take up to 2 weeks". |
+| 9 | **Generate and back up a release keystore** | Any release build | Lose it and you can never update the listing. |
+| 10 | **Review the four decisions** in `INVENTORY.md` §8 | — | Especially: difficulty is now open to guests (reverses an Oct 2 decision). |
 
 ---
 

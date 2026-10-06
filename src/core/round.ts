@@ -1,6 +1,12 @@
 import { Dictionary, matchesRule } from './dictionary';
 import { createPromptGenerator, type PromptGeneratorOptions } from './rules';
-import { round2, scoreWord } from './scoring';
+import { scoreWord } from './scoring';
+
+/**
+ * Skipping costs round time, so it is a decision rather than a free action.
+ * Exported because the server re-derives round timing from the same rule.
+ */
+export const SKIP_PENALTY_MS = 3000;
 import type {
   Category, Difficulty, Prompt, RejectReason, RoundConfig, Submission, Tier,
 } from './types';
@@ -64,7 +70,7 @@ export class Round {
       config: this.config,
       prompt: this.prompt,
       submissions: this.submissions,
-      totalScore: round2(this.total),
+      totalScore: this.total,
       finished: this.done,
     };
   }
@@ -78,6 +84,22 @@ export class Round {
     this.done = true;
   }
 
+  /**
+   * Abandon the current prompt for a new one. Logged as an event so the server
+   * can replay the exact prompt sequence: the prompt advances on an accepted
+   * word or a skip, and on nothing else.
+   */
+  skip(atMs: number): SubmitResult {
+    const submission: Submission = {
+      word: '', accepted: false, reason: 'skipped', points: 0, tier: null,
+      matchedCategory: false, at: atMs,
+    };
+    if (this.done) return { state: this.state, submission };
+    this.submissions = [...this.submissions, submission];
+    this.prompt = this.nextPrompt();
+    return { state: this.state, submission };
+  }
+
   submit(raw: string, atMs: number): SubmitResult {
     const word = raw.trim().toLowerCase();
     const reject = (reason: RejectReason): SubmitResult => {
@@ -86,9 +108,10 @@ export class Round {
         matchedCategory: false, at: atMs,
       };
       this.submissions = [...this.submissions, submission];
-      // A rejected word still advances the prompt, so a player cannot stall on
-      // an easy prompt by submitting rubbish.
-      this.prompt = this.nextPrompt();
+      // A rejected word KEEPS the prompt. Advancing on rejection meant a single
+      // typo threw away the prompt the player was halfway through answering,
+      // and it made typing junk a free skip. Skipping is now explicit and
+      // costs time - see skip().
       return { state: this.state, submission };
     };
 

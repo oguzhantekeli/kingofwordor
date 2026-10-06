@@ -15,3 +15,14 @@ export type AnimName = keyof typeof ANIMS;
 
 /** Widest row on the sheet, in frames. */
 export const COLUMNS = 5;
+
+/** Battlefield foot soldiers (realm-<house>.png, horde.png) and fire.png. */
+export const SOLDIER = { w: 16, h: 20 } as const;
+export const SOLDIER_ANIMS = {
+  walk: { row: 0, frames: 4 },
+  attack: { row: 1, frames: 4 },
+  block: { row: 2, frames: 2 },
+  fall: { row: 3, frames: 4 },
+} as const;
+export type SoldierAnim = keyof typeof SOLDIER_ANIMS;
+export const FIRE = { w: 12, h: 18, frames: 6 } as const;

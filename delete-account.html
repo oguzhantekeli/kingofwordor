@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Delete your King of Wordor account</title>
+    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="del">
+      <h1>Delete your King of Wordor account</h1>
+      <p class="del-who">King of Wordor, by <span id="developer"></span></p>
+
+      <section class="del-card" aria-labelledby="what">
+        <h2 id="what">What is deleted</h2>
+        <ul>
+          <li>Your account and its link to your Google sign-in</li>
+          <li>Your profile: display name and house colours</li>
+          <li>Every round you posted, and your places on every ladder</li>
+        </ul>
+        <h2>What is kept, and for how long</h2>
+        <p>Nothing is kept in the live database: deletion is immediate. Encrypted
+           daily backups expire on a rolling basis, so a deleted account can
+           persist in a backup for <strong>up to 7 days</strong>, after which it is gone.</p>
+        <p>Progress stored only on your phone (as a guest) is not on our servers.
+           Remove it by uninstalling the app, or with "Delete" on the profile screen.</p>
+      </section>
+
+      <section class="del-card" aria-labelledby="how">
+        <h2 id="how">Delete it now</h2>
+        <p>You do not need the app. Sign in with the Google account you play with,
+           then confirm.</p>
+        <div id="flow" aria-live="polite"></div>
+      </section>
+
+      <section class="del-card" id="email-section" hidden>
+        <h2>Cannot sign in?</h2>
+        <p>Email <a id="email-link"></a> from the address of your Google account,
+           with the subject "Delete my King of Wordor account". We delete it and
+           confirm within 7 days.</p>
+      </section>
+    </main>
+    <script type="module" src="/src/web/delete-account.ts"></script>
+  </body>
+</html>

@@ -34,7 +34,9 @@ export type RejectReason =
   | 'tooShort'
   | 'duplicate'
   | 'ruleMismatch'
-  | 'notAWord';
+  | 'notAWord'
+  /** Not a rejection of a word: the player chose to skip the prompt. */
+  | 'skipped';
 
 export interface Submission {
   word: string;

@@ -1,37 +1,45 @@
-/* The game's own keyboard. Keys are on the pixel grid and 44px tall so they
-   clear the minimum touch target on a phone. */
+/* The game's own keyboard. Keys are on the pixel grid and 46px tall so they
+   clear the 44px minimum touch target with room to spare. */
 .kb {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 5px;
   margin: 0 calc(var(--space-3) * -1);
-  padding: var(--space-2) var(--space-1) var(--space-3);
+  padding: var(--space-2) var(--space-1) max(var(--space-3), env(safe-area-inset-bottom));
   background: #0c0906;
   border-top: var(--border-w) solid var(--c-edge);
 }
-
-.kb-row {
-  display: flex;
-  gap: var(--space-1);
-  justify-content: center;
-}
-
+.kb-row { display: flex; gap: 4px; justify-content: center; }
 .kb-key {
   flex: 1;
   min-width: 0;
-  min-height: 44px;
+  min-height: 46px;
   font-family: var(--font-display);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: var(--c-parchment);
   background: var(--c-panel);
   border: 2px solid var(--c-edge);
+  /* a raised key: highlight top-left, shadow bottom-right */
+  box-shadow: inset 2px 2px 0 #3a2c1e, inset -2px -3px 0 #120d09;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.kb-key:active { background: var(--c-edge); }
+/* pressed: the shadow flips and the key drops - instant feedback a player can
+   feel without looking, which matters at typing speed */
+.kb-key:active {
+  background: var(--c-edge);
+  box-shadow: inset 2px 3px 0 #120d09;
+  transform: translateY(1px);
+}
 .kb-key:disabled { opacity: 0.4; }
-
-.kb-key--wide { flex: 1.6; font-size: var(--text-xs); }
+.kb-key--wide { flex: 1.6; }
+.kb-key--icon { display: flex; align-items: center; justify-content: center; }
+.kb-key--icon svg { width: 26px; height: 19px; }
 .kb-key--go {
   background: var(--c-moss);
   border-color: var(--c-moss-hi);
   color: #0e1a08;
+  box-shadow: inset 2px 2px 0 #8fc26a, inset -2px -3px 0 #2e4a1e;
 }
+.kb-key--go:active { background: #4a7030; box-shadow: inset 2px 3px 0 #2e4a1e; }

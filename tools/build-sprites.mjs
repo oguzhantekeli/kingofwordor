@@ -11,6 +11,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Px } from './pixel.mjs';
 import { HOUSES, ANIMS, knightFrame, W, H } from './knight.mjs';
+import {
+  SW, SH, FW, FH, SOLDIER_ANIMS, soldierFrame, HORDE, fireFrame, FIRE_FRAMES,
+} from './battle-sprites.mjs';
 
 const OUT = path.resolve('public/sprites');
 
@@ -49,6 +52,43 @@ for (const [name, house] of Object.entries(HOUSES)) {
   );
 }
 
+// ------------------------------------------------------------ battlefield
+const battleNames = Object.keys(SOLDIER_ANIMS);
+const battleCols = Math.max(...battleNames.map((n) => SOLDIER_ANIMS[n].length));
+function battleSheet(side, palette) {
+  const out = new Px(SW * battleCols, SH * battleNames.length);
+  battleNames.forEach((name, row) => {
+    SOLDIER_ANIMS[name].forEach((pose, col) => {
+      out.blit(soldierFrame(side, palette, pose), col * SW, row * SH);
+    });
+  });
+  return out;
+}
+manifest.battle = { frame: { w: SW, h: SH }, anims: {}, fire: { w: FW, h: FH, frames: FIRE_FRAMES } };
+battleNames.forEach((name, row) => {
+  manifest.battle.anims[name] = { row, frames: SOLDIER_ANIMS[name].length };
+});
+for (const [name, house] of Object.entries(HOUSES)) {
+  const png = battleSheet('realm', house).png();
+  fs.writeFileSync(path.join(OUT, `realm-${name}.png`), png);
+  total += png.length;
+  console.log(`  realm-${name}.png`.padEnd(28), String(png.length).padStart(6), 'bytes');
+}
+{
+  const png = battleSheet('horde', HORDE).png();
+  fs.writeFileSync(path.join(OUT, 'horde.png'), png);
+  total += png.length;
+  console.log('  horde.png'.padEnd(28), String(png.length).padStart(6), 'bytes');
+}
+{
+  const fire = new Px(FW * FIRE_FRAMES, FH);
+  for (let i = 0; i < FIRE_FRAMES; i++) fire.blit(fireFrame(i), i * FW, 0);
+  const png = fire.png();
+  fs.writeFileSync(path.join(OUT, 'fire.png'), png);
+  total += png.length;
+  console.log('  fire.png'.padEnd(28), String(png.length).padStart(6), 'bytes');
+}
+
 fs.writeFileSync(path.join(OUT, 'sprites.json'), JSON.stringify(manifest, null, 2) + '\n');
 
 // A typed manifest for the UI, so a frame count can never drift from the sheet.
@@ -64,6 +104,15 @@ const ts =
   `\n} as const;\n` +
   `export type AnimName = keyof typeof ANIMS;\n\n` +
   `/** Widest row on the sheet, in frames. */\n` +
-  `export const COLUMNS = ${Math.max(...Object.values(manifest.anims).map((a) => a.frames))};\n`;
+  `export const COLUMNS = ${Math.max(...Object.values(manifest.anims).map((a) => a.frames))};\n\n` +
+  `/** Battlefield foot soldiers (realm-<house>.png, horde.png) and fire.png. */\n` +
+  `export const SOLDIER = { w: ${SW}, h: ${SH} } as const;\n` +
+  `export const SOLDIER_ANIMS = {\n` +
+  Object.entries(manifest.battle.anims)
+    .map(([k, v]) => `  ${k}: { row: ${v.row}, frames: ${v.frames} },`)
+    .join('\n') +
+  `\n} as const;\n` +
+  `export type SoldierAnim = keyof typeof SOLDIER_ANIMS;\n` +
+  `export const FIRE = { w: ${FW}, h: ${FH}, frames: ${FIRE_FRAMES} } as const;\n`;
 fs.writeFileSync(path.resolve('src/ui/sprites.generated.ts'), ts);
 console.log(`  ---\n  ${Object.keys(HOUSES).length} houses, ${(total / 1024).toFixed(1)} KB total`);

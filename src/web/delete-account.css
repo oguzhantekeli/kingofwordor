@@ -1,0 +1,22 @@
+@import '../ui/theme/fonts.css';
+@import '../ui/theme/tokens.css';
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--c-night); color: var(--c-parchment); font-family: var(--font-body); line-height: 1.55; }
+.del { max-width: 640px; margin: 0 auto; padding: 32px 16px 48px; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-family: var(--font-display); font-size: 1.5rem; color: var(--c-gold-hi); line-height: 1.3; }
+h2 { font-family: var(--font-display); font-size: 0.95rem; color: var(--c-gold); margin-bottom: 8px; }
+h2:not(:first-child) { margin-top: 16px; }
+.del-who { color: var(--c-parchment-dim); }
+.del-card { padding: 16px; background: var(--c-panel); border: 3px solid var(--c-edge); }
+.del-card ul { padding-left: 20px; }
+.del-card p + p { margin-top: 8px; }
+a { color: var(--c-gold-hi); }
+.del-btn {
+  margin-top: 12px; min-height: 48px; padding: 0 20px;
+  font: inherit; font-family: var(--font-display); font-size: 0.85rem;
+  color: var(--c-night); background: var(--c-gold); border: 3px solid var(--c-gold-hi); cursor: pointer;
+}
+.del-btn--danger { color: #fff; background: var(--c-crimson); border-color: var(--c-crimson-hi); }
+.del-btn:disabled { opacity: 0.5; }
+.del-warn { color: var(--c-crimson-hi); }
+.del-done { color: var(--c-moss-hi); font-family: var(--font-display); }
