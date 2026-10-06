@@ -87,6 +87,9 @@ export function Home() {
   const rank = rankFor(xp);
   const nextRank = rank.next !== null ? RANKS[rank.index + 1]!.id : null;
 
+  // back at the keep the battle falls quiet
+  useEffect(() => { audio.stopLoop('ambience', 1.2); }, []);
+
   const go = async (fn: () => void) => {
     await audio.unlock();
     void audio.preload();

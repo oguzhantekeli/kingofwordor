@@ -60,7 +60,11 @@ function buildLayers(w: number, h: number, groundY: number): Layers {
     const y = i * band - 1;
     for (let x = i % 2; x < w; x += 2) gs.fillRect(x, y, 1, 1);
   }
-  moon(gs, Math.round(w * 0.2), Math.round(horizon * 0.55), Math.max(6, Math.round(w * 0.045)));
+  // Rising behind the hills, not a fraction of the sky's height: on a real phone
+  // the fraction put it behind the title. Tied to the horizon, it stays in the
+  // hero's stage. Measured clear of the subtitle at 1.0x, 1.3x and 2x system
+  // font size; horizon - 22 was not (the wall's padding and the halo add ~20 px).
+  moon(gs, Math.round(w * 0.16), horizon - 14, Math.max(6, Math.round(w * 0.045)));
   // ground and scorched patches
   gs.fillStyle = '#1e1310';
   gs.fillRect(0, horizon + 10, w, h - horizon - 10);

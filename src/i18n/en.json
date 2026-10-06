@@ -115,11 +115,12 @@
   },
   "settings": {
     "title": "Settings",
-    "sound": "Sound",
+    "sound": "Sound effects",
     "haptics": "Vibration",
     "language": "Language",
     "on": "On",
-    "off": "Off"
+    "off": "Off",
+    "music": "Music & battle sounds"
   },
   "profile": {
     "title": "You",

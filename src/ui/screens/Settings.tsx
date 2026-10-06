@@ -12,7 +12,7 @@ import './settings.css';
 export function Settings() {
   const { t } = useTranslation();
   const goto = useGame((s) => s.goto);
-  const { soundEnabled, hapticsEnabled, language, setSoundEnabled, setHapticsEnabled, setLanguage } =
+  const { soundEnabled, musicEnabled, hapticsEnabled, language, setSoundEnabled, setMusicEnabled, setHapticsEnabled, setLanguage } =
     useSettings();
 
   return (
@@ -39,6 +39,15 @@ export function Settings() {
                   onClick={() => setSoundEnabled(!soundEnabled)}>
             <span className="toggle-knob" />
             <span className="visually-hidden">{soundEnabled ? t('settings.on') : t('settings.off')}</span>
+          </button>
+        </li>
+        <li className="row">
+          <span className="row-label">{t('settings.music')}</span>
+          <button type="button" role="switch" aria-checked={musicEnabled}
+                  className={`toggle${musicEnabled ? ' is-on' : ''}`}
+                  onClick={() => setMusicEnabled(!musicEnabled)}>
+            <span className="toggle-knob" />
+            <span className="visually-hidden">{musicEnabled ? t('settings.on') : t('settings.off')}</span>
           </button>
         </li>
         <li className="row">

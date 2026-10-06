@@ -4,7 +4,7 @@ import './i18n'; // must initialise before the first render reads a translation
 import { loadGameData } from './core/load';
 import { useGame } from './store/gameStore';
 import { useSettings } from './store/settingsStore';
-import { audio, music } from './platform/audio';
+import { audio } from './platform/audio';
 import { armSplashFailsafe, hideSplash } from './platform/splash';
 import { Home } from './ui/screens/Home';
 import { Countdown } from './ui/screens/Countdown';
@@ -22,11 +22,10 @@ export default function App() {
   const setData = useGame((s) => s.setData);
   const setLoadError = useGame((s) => s.setLoadError);
   const soundEnabled = useSettings((s) => s.soundEnabled);
+  const musicEnabled = useSettings((s) => s.musicEnabled);
 
-  useEffect(() => {
-    audio.setEnabled(soundEnabled);
-    music.setEnabled(soundEnabled);
-  }, [soundEnabled]);
+  useEffect(() => { audio.setEnabled(soundEnabled); }, [soundEnabled]);
+  useEffect(() => { audio.setMusicEnabled(musicEnabled); }, [musicEnabled]);
 
   useEffect(() => {
     let cancelled = false;

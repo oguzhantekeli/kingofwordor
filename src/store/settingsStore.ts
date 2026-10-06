@@ -5,13 +5,17 @@ import type { Difficulty } from '../core/types';
 export type InputMethod = 'touch' | 'keyboard';
 
 interface SettingsState {
+  /** Sound effects. */
   soundEnabled: boolean;
+  /** The battle theme and the battlefield ambience. */
+  musicEnabled: boolean;
   hapticsEnabled: boolean;
   difficulty: Difficulty;
   language: string;
   /** Recorded on every round but never scored on (audit §7). */
   inputMethod: InputMethod;
   setSoundEnabled: (v: boolean) => void;
+  setMusicEnabled: (v: boolean) => void;
   setHapticsEnabled: (v: boolean) => void;
   setDifficulty: (v: Difficulty) => void;
   setLanguage: (v: string) => void;
@@ -22,11 +26,13 @@ export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
       soundEnabled: true,
+      musicEnabled: true,
       hapticsEnabled: true,
       difficulty: 'knight',
       language: 'en',
       inputMethod: 'keyboard',
       setSoundEnabled: (soundEnabled) => set({ soundEnabled }),
+      setMusicEnabled: (musicEnabled) => set({ musicEnabled }),
       setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
       setDifficulty: (difficulty) => set({ difficulty }),
       setLanguage: (language) => set({ language }),

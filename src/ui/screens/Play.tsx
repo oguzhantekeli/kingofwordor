@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSettings } from '../../store/settingsStore';
 import { useSession } from '../../store/sessionStore';
-import { audio, music } from '../../platform/audio';
+import { audio } from '../../platform/audio';
 import { tap } from '../../platform/haptics';
 import { Keyboard } from '../components/Keyboard';
 import { Knight } from '../components/Knight';
@@ -51,7 +51,13 @@ export function Play() {
   const minLen = round?.config.minWordLength ?? 3;
 
   useEffect(() => { inputRef.current?.focus(); }, []);
-  useEffect(() => { music.start(); return () => music.stop(); }, []);
+  // The theme plays for the round and fades out with it; the battlefield
+  // ambience carries on into the results, where the battle is still raging.
+  useEffect(() => {
+    void audio.startLoop('theme');
+    void audio.startLoop('ambience');
+    return () => audio.stopLoop('theme', 1.5);
+  }, []);
   useEffect(() => {
     if (react === 'idle') return;
     const id = setTimeout(() => setReact('idle'), REACT_MS);
@@ -67,8 +73,12 @@ export function Play() {
     if (sec === 10 || (sec >= 1 && sec <= 5)) audio.play('warning');
   }, [remaining]);
 
-  // the battle heats up with the streak
-  useEffect(() => { battle.intensity(0.3 + Math.min(1, streak / STREAK_FULL) * 0.7); }, [streak]);
+  // the battle - and the music - heat up with the streak
+  useEffect(() => {
+    const v = 0.3 + Math.min(1, streak / STREAK_FULL) * 0.7;
+    battle.intensity(v);
+    audio.setIntensity(v);
+  }, [streak]);
 
   const pop = useCallback((text: string, good: boolean) => {
     const id = ++popId.current;
