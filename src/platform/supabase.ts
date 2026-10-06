@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { RoundSubmission } from '../core/verify';
+import type { Lang } from '../core/lang';
 
 /**
  * The Supabase client, created on first use.
@@ -114,10 +115,12 @@ export async function submitRound(sub: RoundSubmission): Promise<Posted> {
   return data;
 }
 
-/** The four ladders from the brief. Public: anon may read them. */
-export async function fetchLeaderboard(period: Period, anchor: string, lim = 50): Promise<LadderRow[]> {
+/** The four ladders from the brief, one set per language. Public: anon may read them. */
+export async function fetchLeaderboard(
+  period: Period, anchor: string, lim = 50, lang: Lang = 'en'
+): Promise<LadderRow[]> {
   const sb = await supabase();
-  const { data, error } = await sb.rpc('leaderboard', { period, anchor, lim });
+  const { data, error } = await sb.rpc('leaderboard', { period, anchor, lim, lang });
   if (error) throw error;
   return ((data ?? []) as Array<Record<string, unknown>>).map((r) => ({
     rank: Number(r.rank), name: String(r.name), house: String(r.house),

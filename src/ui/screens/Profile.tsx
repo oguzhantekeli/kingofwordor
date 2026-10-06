@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
-import { useSession } from '../../store/sessionStore';
+import { DEFAULT_NAME, useSession } from '../../store/sessionStore';
+import { useSettings } from '../../store/settingsStore';
+import { PROFILES } from '../../core/lang';
 import {
   NotConfiguredError, deleteAccount, isConfigured, signInWithGoogle, signOutEverywhere,
 } from '../../platform/supabase';
@@ -20,8 +22,10 @@ import './profile.css';
 export function Profile() {
   const { t } = useTranslation();
   const goto = useGame((s) => s.goto);
-  const { status, name, house, localBest, setName, setHouse, signedIn, signedOut, forget } =
+  const { status, name, house, bests, setName, setHouse, signedIn, signedOut, forget } =
     useSession();
+  const lang = useSettings((s) => s.language);
+  const best = bests[lang] ?? 0;
 
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +92,7 @@ export function Profile() {
         <div className="id-fields">
           <label className="field">
             <span className="field-label">{t('profile.name')}</span>
-            <input className="field-input" value={name} maxLength={16}
+            <input className="field-input" value={name === DEFAULT_NAME ? t('profile.defaultName') : name} maxLength={16}
                    onChange={(e) => setName(e.target.value)} />
           </label>
           <p className="id-status">{guest ? t('profile.guest') : t('profile.signedIn')}</p>
@@ -109,8 +113,9 @@ export function Profile() {
       </section>
 
       <section className="panel stat">
-        <span className="stat-label">{t('profile.bestRun')}</span>
-        <span className="stat-value">{localBest > 0 ? localBest.toFixed(1) : '—'}</span>
+        <span className="stat-label">{t('profile.bestRunIn', { language: PROFILES[lang].name })}</span>
+        {/* points are whole numbers since the x10 scale; toFixed(1) printed "640.0" */}
+        <span className="stat-value">{best > 0 ? best : '—'}</span>
       </section>
 
       {guest ? (

@@ -11,6 +11,7 @@ import { formatTime, useCountdown } from '../components/Timer';
 import { Battlefield } from '../battlefield/Battlefield';
 import { battle } from '../battlefield/bus';
 import { SKIP_PENALTY_MS } from '../../core/round';
+import { normalizeWord, upper } from '../../core/lang';
 import type { AnimName } from '../sprites.generated';
 import './play.css';
 
@@ -34,6 +35,7 @@ export function Play() {
   const endRound = useGame((s) => s.endRound);
   const round = useGame((s) => s.round);
   const mode = useGame((s) => s.mode);
+  const lang = useGame((s) => s.lang);
   const setInputMethod = useSettings((s) => s.setInputMethod);
   const haptics = useSettings((s) => s.hapticsEnabled);
   const house = useSession((s) => s.house);
@@ -182,7 +184,7 @@ export function Play() {
           <>
             <div className="rule-main">
               <span className="rule-cond">{t(`round.${prompt.condition}`)}</span>
-              <span className="rule-letter">{prompt.letter.toUpperCase()}</span>
+              <span className="rule-letter">{upper(prompt.letter, lang)}</span>
             </div>
             <div className="rule-meta">
               <span className="rule-count">{t('round.possible', { count: prompt.everydayCount })}</span>
@@ -208,7 +210,9 @@ export function Play() {
           value={word}
           onChange={(e) => {
             setInputMethod('keyboard');
-            setWord(e.target.value.replace(/[^a-zA-Z]/g, '').slice(0, MAX_LEN).toLowerCase());
+            // the dictionary key as you type: accents folded, Turkish casing,
+            // anything the language cannot spell dropped (was /[^a-zA-Z]/)
+            setWord(normalizeWord(e.target.value, lang).slice(0, MAX_LEN));
           }}
           aria-label={t('round.placeholder')}
           autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false}
@@ -218,7 +222,7 @@ export function Play() {
              onClick={() => inputRef.current?.focus()}>
           {word.length === 0
             ? <span className="word-placeholder">{t('round.placeholder')}</span>
-            : [...word].map((ch, i) => <span key={i} className="tile">{ch.toUpperCase()}</span>)}
+            : [...word].map((ch, i) => <span key={i} className="tile">{upper(ch, lang)}</span>)}
           <span className="word-caret" />
         </div>
       </form>
@@ -238,7 +242,7 @@ export function Play() {
         </button>
       </div>
 
-      <Keyboard onKey={onKey} onBackspace={onBackspace} onEnter={send} />
+      <Keyboard lang={lang} onKey={onKey} onBackspace={onBackspace} onEnter={send} />
 
       {confirming && (
         <div className="modal" role="dialog" aria-modal="true" aria-label={t('confirm.giveUp')}>

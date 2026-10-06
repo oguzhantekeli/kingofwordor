@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSession } from '../../store/sessionStore';
 import { rankFor, dailyNumber } from '../../core/progress';
+import { PROFILES } from '../../core/lang';
 import type { Submission } from '../../core/types';
 import { Knight } from '../components/Knight';
 import { Battlefield } from '../battlefield/Battlefield';
@@ -43,6 +44,7 @@ export function Results() {
   const outcome = useGame((s) => s.outcome);
   const mode = useGame((s) => s.mode);
   const day = useGame((s) => s.day);
+  const lang = useGame((s) => s.lang);
   const again = useGame((s) => s.again);
   const goto = useGame((s) => s.goto);
   const house = useSession((s) => s.house);
@@ -70,7 +72,7 @@ export function Results() {
       : `⚔️ ${t('app.title')}`;
     const text = [
       head,
-      `🏆 ${totalScore} · ${accepted.length} ${t('results.words').toLowerCase()} · 🔥${bestStreak}`,
+      `🏆 ${totalScore} · ${accepted.length} ${t('results.words').toLocaleLowerCase(PROFILES[lang].locale)} · 🔥${bestStreak}`,
       shareGrid(submissions),
     ].join('\n');
     try {

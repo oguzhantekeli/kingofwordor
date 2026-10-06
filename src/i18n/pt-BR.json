@@ -1,0 +1,190 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Lute pelas palavras do reino"
+  },
+  "loading": {
+    "dictionary": "Reunindo o léxico…",
+    "failed": "Não foi possível erguer o léxico."
+  },
+  "nav": {
+    "keep": "Fortaleza",
+    "you": "Você",
+    "settings": "Ajustes",
+    "back": "Voltar"
+  },
+  "welcome": {
+    "start": "Entrar na batalha",
+    "difficulty": "Escolha sua patente",
+    "credits": "Créditos"
+  },
+  "difficulty": {
+    "squire": "Escudeiro",
+    "squireDesc": "Desafios leves, 90 segundos.",
+    "knight": "Cavaleiro",
+    "knightDesc": "O verdadeiro teste. 60 segundos.",
+    "warlord": "Senhor da guerra",
+    "warlordDesc": "Desafios impiedosos, 45 segundos."
+  },
+  "home": {
+    "best": "Recorde {{score}}",
+    "noBest": "Nenhuma partida ainda",
+    "solo": "Partida solo",
+    "soloDesc": "Uma regra, um minuto, seu próprio recorde.",
+    "daily": "Cerco diário",
+    "dailyDesc": "Os desafios de hoje são os mesmos para todo o reino. Uma tentativa.",
+    "duel": "Duelo ranqueado",
+    "duelDesc": "Cara a cara. Suba no ranking.",
+    "locked": "Entre para desbloquear",
+    "dailyPlay": "Sitiar",
+    "dailyDone": "O cerco de hoje foi vencido",
+    "dailyNext": "Próximo cerco em {{time}}",
+    "dailyStreak": "Sequência de {{count}} dias",
+    "dailyStreak_one": "Sequência de {{count}} dia",
+    "dailyStreakKeep": "Jogue hoje para manter sua sequência de {{count}} dias",
+    "dailyStreakKeep_one": "Jogue hoje para manter sua sequência de {{count}} dia",
+    "duelSoon": "Em breve",
+    "duelLocked": "Requer uma conta e o ranking do reino",
+    "rank": "Patente",
+    "xpToNext": "{{xp}} XP para {{rank}}",
+    "xpTop": "Você governa o reino"
+  },
+  "guest": {
+    "title": "Você está jogando como convidado",
+    "body": "Tudo funciona. Entrar acrescenta o que um único celular não consegue fazer:",
+    "benefitLadder": "Suas pontuações entram no ranking contra outros jogadores",
+    "benefitCarry": "Seu progresso sobrevive a um celular novo",
+    "benefitDuel": "Duelos e o ranking do reino são liberados",
+    "cta": "Continuar com o Google",
+    "later": "Agora não",
+    "noForce": "Você nunca é obrigado a entrar para jogar."
+  },
+  "round": {
+    "startsWith": "começa com",
+    "endsWith": "termina com",
+    "includes": "contém",
+    "categoryHint": "{{category}} que {{condition}} “{{letter}}”",
+    "plainHint": "uma palavra que {{condition}} “{{letter}}”",
+    "placeholder": "Digite sua palavra…",
+    "submit": "Golpear",
+    "giveUp": "Desistir",
+    "score": "Pontos",
+    "timeLeft": "Tempo",
+    "possible": "{{count}} palavras possíveis",
+    "possible_one": "{{count}} palavra possível",
+    "rule": "{{condition}}",
+    "bonus": "Bônus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Pular",
+    "skipCost": "-3s",
+    "streak": "{{count}} seguidas"
+  },
+  "reject": {
+    "tooShort": "Curta demais",
+    "duplicate": "Já jogada",
+    "ruleMismatch": "Quebra a regra",
+    "notAWord": "Não está no léxico",
+    "skipped": "Pulada"
+  },
+  "category": {
+    "animal": "Animais",
+    "food": "Comida",
+    "person": "Pessoas",
+    "plant": "Plantas",
+    "body": "Partes do corpo",
+    "place": "Lugares",
+    "object": "Objetos",
+    "substance": "Substâncias",
+    "time": "Tempo",
+    "communication": "Linguagem"
+  },
+  "results": {
+    "title": "A batalha terminou",
+    "score": "Pontuação final",
+    "words": "Palavras",
+    "best": "Melhor palavra",
+    "newBest": "Novo recorde pessoal",
+    "again": "Lutar de novo",
+    "share": "Compartilhar",
+    "home": "Para a fortaleza",
+    "dailyTitle": "Cerco diário nº {{n}}",
+    "rarest": "Palavra mais rara",
+    "bestStreak": "Melhor sequência",
+    "xp": "+{{xp}} XP",
+    "promoted": "Promovido a {{rank}}",
+    "streakDay": "Sequência de cercos de {{count}} dias",
+    "streakDay_one": "Sequência de cercos de {{count}} dia",
+    "shareCopied": "Copiado — cole onde quiser",
+    "toKeep": "Para a fortaleza"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "sound": "Efeitos sonoros",
+    "haptics": "Vibração",
+    "language": "Idioma",
+    "languageHint": "Muda os menus e as palavras que você joga.",
+    "on": "Ligado",
+    "off": "Desligado",
+    "music": "Música e sons de batalha"
+  },
+  "profile": {
+    "title": "Você",
+    "guest": "Convidado",
+    "defaultName": "Andarilho",
+    "signedIn": "Conectado com o Google",
+    "name": "Nome",
+    "house": "Cores da casa",
+    "bestRun": "Melhor partida",
+    "bestRunIn": "Melhor partida · {{language}}",
+    "signOut": "Sair",
+    "signIn": "Entrar com o Google",
+    "deleteAccount": "Excluir conta e dados",
+    "deleteBody": "Isto remove sua conta e tudo o que está salvo com ela. Suas pontuações saem do ranking. Não pode ser desfeito.",
+    "deleteConfirm": "Excluir tudo",
+    "notConfigured": "O login com o Google ainda não está pronto — falta o cliente OAuth."
+  },
+  "credits": {
+    "title": "Créditos",
+    "dictionary": "Lista de palavras",
+    "categories": "Categorias",
+    "art": "Arte, som e música",
+    "languages": "Listas de palavras por idioma",
+    "frequency": "Frequência de palavras",
+    "back": "Voltar"
+  },
+  "confirm": {
+    "giveUp": "Abandonar o campo?",
+    "yes": "Sim, recuar",
+    "no": "Continuar lutando"
+  },
+  "rank": {
+    "peasant": "Camponês",
+    "footman": "Soldado raso",
+    "manAtArms": "Homem de armas",
+    "sergeant": "Sargento",
+    "captain": "Capitão",
+    "baron": "Barão",
+    "earl": "Conde",
+    "duke": "Duque",
+    "king": "Rei de Wordor"
+  },
+  "ladder": {
+    "title": "O ranking do reino",
+    "day": "Hoje",
+    "week": "Semana",
+    "month": "Mês",
+    "year": "Ano",
+    "explain": "Classificado pelo Cerco diário: os mesmos desafios para todos. Semana, mês e ano somam seus cercos.",
+    "loading": "Convocando os arautos…",
+    "notConfigured": "O ranking abre quando o servidor do reino for erguido.",
+    "empty": "Ninguém sitiou ainda. Seja o primeiro.",
+    "failed": "Não foi possível falar com os arautos.",
+    "sieges": "{{count}} cercos",
+    "sieges_one": "{{count}} cerco",
+    "you": "Você",
+    "open": "Ranking",
+    "posting": "Enviando ao ranking…",
+    "posted": "Enviado ao ranking do reino",
+    "postFailed": "Não foi possível enviar — sua pontuação fica neste celular"
+  }
+}

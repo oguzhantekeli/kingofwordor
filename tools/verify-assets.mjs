@@ -13,12 +13,20 @@
  * Audio is additionally checked for CONTENT reproducibility by decoding to PCM
  * and hashing that - the Ogg container embeds a random bitstream serial, so a
  * raw byte hash is not stable across runs and would be a false alarm.
+ *
+ * Every language must have exactly one dictionary, and every character the
+ * UI can show in any language must exist in the font that draws it, read
+ * from the font's own cmap: Silkscreen once silently lacked U+232B and U+2212,
+ * and lacks the Turkish Ğ Ş İ ı (supplied by Silkscreen TR).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
+
+import { LANGUAGES, PROFILES, upper } from '../src/core/lang.ts';
+import { woff2CodePoints } from './woff2-cmap.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -27,8 +35,9 @@ const MAGIC = {
   '.opus': [0x4f, 0x67, 0x67, 0x53], // "OggS"
   '.svg': null,                       // text; checked separately
   '.kowd': [0x4b, 0x4f, 0x57, 0x44], // "KOWD"
+  '.woff2': [0x77, 0x4f, 0x46, 0x32], // "wOF2"
 };
-const MIN_BYTES = { '.png': 300, '.opus': 400, '.svg': 200, '.kowd': 100_000 };
+const MIN_BYTES = { '.png': 300, '.opus': 400, '.svg': 200, '.kowd': 100_000, '.woff2': 1000 };
 
 function walk(dir) {
   if (!fs.existsSync(dir)) return [];
@@ -79,7 +88,10 @@ for (const file of assets) {
   // The leading slash is dropped too: a path built on import.meta.env.BASE_URL
   // is written `${BASE_URL}sprites/knight-`, with no slash of its own.
   const family = base.includes('-') ? rel.slice(1, rel.lastIndexOf('-') + 1) : null;
+  // dictionaries are fetched as `dict/${language}.kowd`: one per LANGUAGES entry
+  const dictLang = ext === '.kowd' ? base.slice(0, -'.kowd'.length) : null;
   const referenced =
+    (dictLang !== null && LANGUAGES.includes(dictLang) && refs.includes('dict/${')) ||
     refs.includes(rel) ||
     refs.includes(rel.slice(1)) ||
     refs.includes(base) ||
@@ -100,6 +112,44 @@ if (ffmpeg && fs.existsSync(ffmpeg)) {
       { maxBuffer: 64 * 1024 * 1024 });
     const hash = crypto.createHash('sha256').update(pcm).digest('hex').slice(0, 16);
     console.log(`  pcm ${path.basename(file).padEnd(16)} ${hash}  ${pcm.length} samples*2`);
+  }
+}
+
+// one dictionary per language, none missing, none stray
+const dicts = assets.filter((f) => f.endsWith('.kowd')).map((f) => path.basename(f, '.kowd')).sort();
+const want = [...LANGUAGES].sort();
+if (dicts.join(',') !== want.join(',')) {
+  failures.push(`dictionaries ${dicts.join(', ')} do not match LANGUAGES ${want.join(', ')}`);
+}
+
+// glyph coverage: every character a language can put on screen, per font stack
+const strings = [];
+for (const lang of LANGUAGES) {
+  const bundle = JSON.parse(fs.readFileSync(path.join('src/i18n', `${lang}.json`), 'utf8'));
+  const walkJson = (o) => Object.values(o).forEach((v) => (typeof v === 'string' ? strings.push(v.replace(/{{\w+}}/g, '')) : walkJson(v)));
+  walkJson(bundle);
+  const { alphabet, name } = PROFILES[lang];
+  strings.push(alphabet, upper(alphabet, lang), name, '0123456789+-#·×%:');
+}
+const needed = new Set([...strings.join('')].map((c) => c.codePointAt(0)).filter((c) => c > 0x20 && c !== 0xa0));
+const cmapOf = (file) => woff2CodePoints(fs.readFileSync(path.join('public/fonts', file)));
+const STACKS = {
+  'display 400 (Silkscreen + Silkscreen TR)': ['silkscreen-400.woff2', 'silkscreen-400-ext.woff2', 'silkscreen-tr-400.woff2'],
+  'display 700 (Silkscreen + Silkscreen TR)': ['silkscreen-700.woff2', 'silkscreen-700-ext.woff2', 'silkscreen-tr-700.woff2'],
+  'body (Outfit)': ['outfit-var.woff2', 'outfit-var-ext.woff2'],
+};
+console.log(`  --- glyph coverage: ${needed.size} distinct characters across ${LANGUAGES.length} languages`);
+for (const [stack, files] of Object.entries(STACKS)) {
+  if (!files.every((f) => fs.existsSync(path.join('public/fonts', f)))) {
+    failures.push(`${stack}: font files missing - run npm run build:fonts`);
+    continue;
+  }
+  const have = new Set(files.flatMap((f) => [...cmapOf(f)]));
+  const missing = [...needed].filter((c) => !have.has(c));
+  if (missing.length > 0) {
+    failures.push(`${stack} has no glyph for ${missing.map((c) => `${String.fromCodePoint(c)} U+${c.toString(16).toUpperCase().padStart(4, '0')}`).join(', ')}`);
+  } else {
+    console.log(`  glyphs ${stack.padEnd(42)} all ${needed.size} present`);
   }
 }
 

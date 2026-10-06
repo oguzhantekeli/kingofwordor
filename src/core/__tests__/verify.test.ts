@@ -8,6 +8,7 @@ import { gameData } from './fixture';
 const data = gameData();
 const { dict, pools, viability } = data;
 const deps = { dict, pools, viability, now: new Date(2026, 9, 6, 12), today: '2026-10-06' };
+const words = dict.list();
 
 /** Play an honest round the way the client does, recording its event log. */
 function honest(seed: number, difficulty: 'squire' | 'knight' | 'warlord' = 'knight', gap = 2000) {
@@ -17,7 +18,7 @@ function honest(seed: number, difficulty: 'squire' | 'knight' | 'warlord' = 'kni
   for (let i = 0; i < 10; i++) {
     const p = r.state.prompt;
     if (i === 4) { r.skip(at); events.push({ word: '', at, skip: true }); at += gap; continue; }
-    const w = data.words.find((c) => c.length >= r.config.minWordLength && c.length <= 8
+    const w = words.find((c) => c.length >= r.config.minWordLength && c.length <= 8
       && !r.playedWords.has(c) && (dict.tierOf(c) ?? 99) <= r.config.maxTier
       && matchesRule(c, p.condition, p.letter))!;
     r.submit(w, at);

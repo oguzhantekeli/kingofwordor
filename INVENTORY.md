@@ -136,6 +136,7 @@ I had written `−3s` (U+2212) into the new Skip label; this check caught it bef
 | **Streak** | 🆕 | Consecutive days; one missed day resets but keeps the best; exact across month/year/leap boundaries | ✅ |
 | **Rank ladder** | 🆕 | 9 ranks, Peasant → **King of Wordor**; XP = points + 10, doubled for the daily | ✅ |
 | **verify.ts** | 🆕 | Server-side replay; a forged score is replaced and flagged | 13 anti-cheat tests |
+| **Languages** | 🆕 2026-10-07 | 7 languages (`lang.ts`): per-language alphabet, accent folding, Turkish casing; dictionary format 2 (`.kowd` carries its language, everyday tier and band scale; read as bytes + binary search, no strings); prompt bands scaled to each language's everyday pool | 60 language tests, golden English test |
 
 ### 4.5 Backend (`supabase/`) — new, tested on real PostgreSQL 18.3 (PGlite)
 
@@ -231,3 +232,11 @@ The dialog promised deletion of "your account and everything stored with it"; th
 2. **The prompt survives a wrong word; Skip costs 3 s.** A rule change — previously any rejection advanced.
 3. **Integer points (×10).** The formula is unchanged. Bests stored by the Oct 2 builds are **migrated** (17.32 → 173), so no player gets a false "new best" — covered by a migration test.
 4. **The ladders rank the Daily Siege**, with week/month/year as sums. Solo scores across difficulties aren't comparable.
+
+Added 2026-10-07, with the languages:
+
+5. **One setting for menus and words.** Picking Türkçe plays Turkish words in a Turkish interface; there is no "English menus, Turkish words". First launch follows the phone's language; existing installs stay English.
+6. **Accents are folded, letters in their own right are kept** — the convention of Termo, Wordle ES and Sutom: *canción* = *cancion*, but *año* ≠ *ano*, and Turkish *ı* ≠ *i*. The keyboards carry Ñ, Æ Ø Å and the Turkish letters, no accent keys.
+7. **Outside English every valid word is accepted at every difficulty.** English Squire still rejects SCOWL's obscure tiers; no other language has that split, so there the frequency tiers (from Tatoeba) only shape scoring and prompt difficulty.
+8. **Records are per language; rank is not.** Best score, the daily (one per language per day) and the ladder are per language; XP, rank and the day streak count every language.
+9. **Portuguese and Turkish lists are trimmed**, by measurement: Portuguese keeps every form of each lemma seen in use (99.86% of real word uses accepted), Turkish keeps lemmas, seen forms and the 1000 most-used suffixes (98.82%). Turkish names, which its dictionary stores in lowercase, are removed when people only ever write them capitalised: 261 lemmas, including about ten real words mostly seen inside names (*gaga*, *terazi*, *tuval*).

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import './i18n'; // must initialise before the first render reads a translation
+import { applyLanguage } from './i18n'; // must initialise before the first render reads a translation
 import { loadGameData } from './core/load';
 import { useGame } from './store/gameStore';
 import { useSettings } from './store/settingsStore';
@@ -21,24 +21,34 @@ export default function App() {
   const loadError = useGame((s) => s.loadError);
   const setData = useGame((s) => s.setData);
   const setLoadError = useGame((s) => s.setLoadError);
+  const unload = useGame((s) => s.unload);
+  const language = useSettings((s) => s.language);
   const soundEnabled = useSettings((s) => s.soundEnabled);
   const musicEnabled = useSettings((s) => s.musicEnabled);
 
   useEffect(() => { audio.setEnabled(soundEnabled); }, [soundEnabled]);
   useEffect(() => { audio.setMusicEnabled(musicEnabled); }, [musicEnabled]);
 
+  // One dictionary per language: loaded at boot, and again whenever the player
+  // picks another language. The old one is dropped first, so no round can
+  // start against the wrong words while the new file loads.
+  const booted = useRef(false);
   useEffect(() => {
     let cancelled = false;
-    armSplashFailsafe();
-    loadGameData(`${import.meta.env.BASE_URL}dict/en.kowd`)
+    applyLanguage(language);
+    const first = !booted.current;
+    booted.current = true;
+    if (first) armSplashFailsafe();
+    else unload();
+    loadGameData(`${import.meta.env.BASE_URL}dict/${language}.kowd`)
       .then((data) => { if (!cancelled) setData(data); })
       .catch((e: unknown) => {
         if (!cancelled) setLoadError(e instanceof Error ? e.message : String(e));
       })
       // Either way there is now something worth looking at underneath.
-      .finally(() => hideSplash());
+      .finally(() => { if (first) hideSplash(); });
     return () => { cancelled = true; };
-  }, [setData, setLoadError]);
+  }, [language, setData, setLoadError, unload]);
 
   return (
     <div className="app">

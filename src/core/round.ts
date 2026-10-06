@@ -1,4 +1,5 @@
 import { Dictionary, matchesRule } from './dictionary';
+import { normalizeWord } from './lang';
 import { createPromptGenerator, type PromptGeneratorOptions } from './rules';
 import { scoreWord } from './scoring';
 
@@ -75,7 +76,7 @@ export class Round {
     };
   }
 
-  /** Words already played this round, lowercased. */
+  /** Words already played this round, as dictionary keys. */
   get playedWords(): ReadonlySet<string> {
     return this.played;
   }
@@ -101,7 +102,10 @@ export class Round {
   }
 
   submit(raw: string, atMs: number): SubmitResult {
-    const word = raw.trim().toLowerCase();
+    // The dictionary key, in the dictionary's language: folded accents,
+    // Turkish casing. Idempotent, so the server replaying the logged word
+    // reaches the same key.
+    const word = normalizeWord(raw, this.dict.lang);
     const reject = (reason: RejectReason): SubmitResult => {
       const submission: Submission = {
         word, accepted: false, reason, points: 0, tier: null,

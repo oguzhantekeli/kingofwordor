@@ -1,0 +1,185 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Diyarın kelimeleri için savaş"
+  },
+  "loading": {
+    "dictionary": "Sözlük toplanıyor…",
+    "failed": "Sözlük kurulamadı."
+  },
+  "nav": {
+    "keep": "Kale",
+    "you": "Sen",
+    "settings": "Ayarlar",
+    "back": "Geri"
+  },
+  "welcome": {
+    "start": "Savaşa gir",
+    "difficulty": "Rütbeni seç",
+    "credits": "Emeği geçenler"
+  },
+  "difficulty": {
+    "squire": "Silahtar",
+    "squireDesc": "Kolay görevler, 90 saniye.",
+    "knight": "Şövalye",
+    "knightDesc": "Gerçek sınav. 60 saniye.",
+    "warlord": "Savaş beyi",
+    "warlordDesc": "Acımasız görevler, 45 saniye."
+  },
+  "home": {
+    "best": "Rekor {{score}}",
+    "noBest": "Henüz oyun yok",
+    "solo": "Tek kişilik",
+    "soloDesc": "Bir kural, bir dakika, kendi rekorun.",
+    "daily": "Günlük Kuşatma",
+    "dailyDesc": "Bugünün görevleri tüm diyar için aynı. Tek deneme.",
+    "duel": "Dereceli Düello",
+    "duelDesc": "Birebir. Sıralamada yüksel.",
+    "locked": "Kilidi açmak için giriş yap",
+    "dailyPlay": "Kuşat",
+    "dailyDone": "Bugünün kuşatması kazanıldı",
+    "dailyNext": "Sonraki kuşatma {{time}} sonra",
+    "dailyStreak": "{{count}} günlük seri",
+    "dailyStreakKeep": "{{count}} günlük serini korumak için bugün oyna",
+    "duelSoon": "Yakında",
+    "duelLocked": "Hesap ve diyar sıralaması gerekir",
+    "rank": "Rütbe",
+    "xpToNext": "{{rank}} rütbesine {{xp}} XP",
+    "xpTop": "Diyara sen hükmediyorsun"
+  },
+  "guest": {
+    "title": "Misafir olarak oynuyorsun",
+    "body": "Her şey çalışıyor. Giriş yapmak, tek bir telefonun kendi başına yapamadıklarını ekler:",
+    "benefitLadder": "Puanların diğer oyuncularla birlikte sıralamaya girer",
+    "benefitCarry": "İlerlemen yeni bir telefona taşınır",
+    "benefitDuel": "Düellolar ve diyar sıralaması açılır",
+    "cta": "Google ile devam et",
+    "later": "Şimdi değil",
+    "noForce": "Oynamak için asla giriş yapmak zorunda değilsin."
+  },
+  "round": {
+    "startsWith": "İlk harf",
+    "endsWith": "Son harf",
+    "includes": "İçerir",
+    "categoryHint": "{{condition}} «{{letter}}» olan {{category}}",
+    "plainHint": "{{condition}} «{{letter}}» olan bir kelime",
+    "placeholder": "Kelimeni yaz…",
+    "submit": "Vur",
+    "giveUp": "Pes et",
+    "score": "Puan",
+    "timeLeft": "Süre",
+    "possible": "{{count}} kelime uyar",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Geç",
+    "skipCost": "-3sn",
+    "streak": "{{count}} üst üste"
+  },
+  "reject": {
+    "tooShort": "Çok kısa",
+    "duplicate": "Zaten oynandı",
+    "ruleMismatch": "Kurala uymuyor",
+    "notAWord": "Sözlükte yok",
+    "skipped": "Geçildi"
+  },
+  "category": {
+    "animal": "Hayvanlar",
+    "food": "Yiyecek",
+    "person": "İnsanlar",
+    "plant": "Bitkiler",
+    "body": "Vücut bölümleri",
+    "place": "Yerler",
+    "object": "Nesneler",
+    "substance": "Maddeler",
+    "time": "Zaman",
+    "communication": "Dil"
+  },
+  "results": {
+    "title": "Savaş bitti",
+    "score": "Son puan",
+    "words": "Kelime",
+    "best": "En iyi kelime",
+    "newBest": "Yeni kişisel rekor",
+    "again": "Yeniden savaş",
+    "share": "Paylaş",
+    "home": "Kaleye",
+    "dailyTitle": "Günlük Kuşatma #{{n}}",
+    "rarest": "En nadir kelime",
+    "bestStreak": "En iyi seri",
+    "xp": "+{{xp}} XP",
+    "promoted": "{{rank}} rütbesine yükseldin",
+    "streakDay": "{{count}} günlük kuşatma serisi",
+    "shareCopied": "Kopyalandı — istediğin yere yapıştır",
+    "toKeep": "Kaleye"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "sound": "Ses efektleri",
+    "haptics": "Titreşim",
+    "language": "Dil",
+    "languageHint": "Menüleri ve oynadığın kelimeleri birlikte değiştirir.",
+    "on": "Açık",
+    "off": "Kapalı",
+    "music": "Müzik ve savaş sesleri"
+  },
+  "profile": {
+    "title": "Sen",
+    "guest": "Misafir",
+    "defaultName": "Gezgin",
+    "signedIn": "Google ile giriş yapıldı",
+    "name": "Ad",
+    "house": "Hanedan renkleri",
+    "bestRun": "En iyi oyun",
+    "bestRunIn": "En iyi oyun · {{language}}",
+    "signOut": "Çıkış yap",
+    "signIn": "Google ile giriş yap",
+    "deleteAccount": "Hesabı ve verileri sil",
+    "deleteBody": "Bu, hesabını ve onunla saklanan her şeyi siler. Puanların sıralamadan çıkar. Geri alınamaz.",
+    "deleteConfirm": "Her şeyi sil",
+    "notConfigured": "Google ile giriş henüz hazır değil — OAuth istemcisi eksik."
+  },
+  "credits": {
+    "title": "Emeği geçenler",
+    "dictionary": "Kelime listesi",
+    "categories": "Kategoriler",
+    "art": "Çizim, ses ve müzik",
+    "languages": "Dillere göre kelime listeleri",
+    "frequency": "Kelime sıklığı",
+    "back": "Geri"
+  },
+  "confirm": {
+    "giveUp": "Meydanı terk mi ediyorsun?",
+    "yes": "Evet, geri çekil",
+    "no": "Savaşa devam"
+  },
+  "rank": {
+    "peasant": "Köylü",
+    "footman": "Piyade",
+    "manAtArms": "Silahşor",
+    "sergeant": "Çavuş",
+    "captain": "Yüzbaşı",
+    "baron": "Baron",
+    "earl": "Kont",
+    "duke": "Dük",
+    "king": "Wordor Kralı"
+  },
+  "ladder": {
+    "title": "Diyar Sıralaması",
+    "day": "Bugün",
+    "week": "Hafta",
+    "month": "Ay",
+    "year": "Yıl",
+    "explain": "Günlük Kuşatma’ya göre sıralanır: herkes için aynı görevler. Hafta, ay ve yıl kuşatmalarını toplar.",
+    "loading": "Haberciler çağrılıyor…",
+    "notConfigured": "Diyarın sunucusu kurulunca sıralama açılacak.",
+    "empty": "Henüz kimse kuşatmadı. İlk sen ol.",
+    "failed": "Habercilere ulaşılamadı.",
+    "sieges": "{{count}} kuşatma",
+    "you": "Sen",
+    "open": "Sıralama",
+    "posting": "Sıralamaya gönderiliyor…",
+    "posted": "Diyar sıralamasına gönderildi",
+    "postFailed": "Gönderilemedi — puanın bu telefonda saklanıyor"
+  }
+}

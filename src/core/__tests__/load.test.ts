@@ -14,7 +14,7 @@ describe('loadGameData', () => {
       ({ ok: true, status: 200, statusText: 'OK', arrayBuffer: async () => blob() }) as Response;
     const data = await loadGameData('/dict/en.kowd', fake);
     expect(data.dict.size).toBe(110248);
-    expect(data.words.length).toBe(110248);
+    expect(data.dict.list()).toHaveLength(110248);
     expect(Object.keys(data.pools.byBand)).toHaveLength(5);
   });
 

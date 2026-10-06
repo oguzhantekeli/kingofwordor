@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSettings } from '../../store/settingsStore';
 import { SUPPORTED_LANGUAGES } from '../../i18n';
+import { PROFILES, isLang } from '../../core/lang';
 import './settings.css';
 
 /**
@@ -14,6 +15,7 @@ export function Settings() {
   const goto = useGame((s) => s.goto);
   const { soundEnabled, musicEnabled, hapticsEnabled, language, setSoundEnabled, setMusicEnabled, setHapticsEnabled, setLanguage } =
     useSettings();
+  const loading = useGame((s) => s.data === null || s.data.dict.lang !== language);
 
   return (
     <div className="settings">
@@ -59,14 +61,21 @@ export function Settings() {
             <span className="visually-hidden">{hapticsEnabled ? t('settings.on') : t('settings.off')}</span>
           </button>
         </li>
-        <li className="row">
-          <label className="row-label" htmlFor="lang">{t('settings.language')}</label>
-          <select id="lang" className="row-select" value={language}
-                  onChange={(e) => setLanguage(e.target.value)}>
-            {SUPPORTED_LANGUAGES.map((l) => (
-              <option key={l} value={l}>{l.toUpperCase()}</option>
-            ))}
-          </select>
+        <li className="row row--stack">
+          <div className="row-line">
+            <label className="row-label" htmlFor="lang">{t('settings.language')}</label>
+            {/* each language in its own name: a player who cannot read the
+                current one must still be able to find theirs */}
+            <select id="lang" className="row-select" value={language}
+                    onChange={(e) => { if (isLang(e.target.value)) setLanguage(e.target.value); }}>
+              {SUPPORTED_LANGUAGES.map((l) => (
+                <option key={l} value={l} lang={PROFILES[l].locale}>{PROFILES[l].name}</option>
+              ))}
+            </select>
+          </div>
+          <p className="row-hint" role="status">
+            {loading ? t('loading.dictionary') : t('settings.languageHint')}
+          </p>
         </li>
       </ul>
     </div>

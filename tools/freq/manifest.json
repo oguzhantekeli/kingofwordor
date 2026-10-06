@@ -1,0 +1,77 @@
+{
+  "libreofficeCommit": "32b006a2c22a4ac7e8ed3f03346f7b3d85a970a4",
+  "languages": {
+    "es": {
+      "tatoeba": {
+        "file": "spa_sentences.tsv.bz2",
+        "sha256": "aef78e2e2d383f32d15beee1e406ed12291dcd72c1c2bfbfe2d8c27868516439",
+        "bytes": 6358447,
+        "sentences": 442407
+      },
+      "words": 60008,
+      "seenLowercase": 59286,
+      "seenLowercaseTwice": 38917,
+      "compounds": 4
+    },
+    "fr": {
+      "tatoeba": {
+        "file": "fra_sentences.tsv.bz2",
+        "sha256": "35642092ea1de824882942c3519860cf900109d3921160e65482f64031bea13a",
+        "bytes": 9751209,
+        "sentences": 727867
+      },
+      "words": 59068,
+      "seenLowercase": 58416,
+      "seenLowercaseTwice": 40877,
+      "compounds": 0
+    },
+    "nl": {
+      "tatoeba": {
+        "file": "nld_sentences.tsv.bz2",
+        "sha256": "c08b598dede48e960ca17322eeec04426c37471406abce5392677ea5c5049032",
+        "bytes": 2498328,
+        "sentences": 201245
+      },
+      "words": 30849,
+      "seenLowercase": 30423,
+      "seenLowercaseTwice": 17806,
+      "compounds": 3221
+    },
+    "pt-BR": {
+      "tatoeba": {
+        "file": "por_sentences.tsv.bz2",
+        "sha256": "9d7a138f6cc512131c6daab4bb60c36d5fdbc3f256878917b196c530863d8c94",
+        "bytes": 6386341,
+        "sentences": 445058
+      },
+      "words": 58495,
+      "seenLowercase": 56976,
+      "seenLowercaseTwice": 36693,
+      "compounds": 0
+    },
+    "da": {
+      "tatoeba": {
+        "file": "dan_sentences.tsv.bz2",
+        "sha256": "bcacfa3293016234bc4676a3e0054027f9aabb536863661e00160e2e84e24e5b",
+        "bytes": 822700,
+        "sentences": 66540
+      },
+      "words": 19290,
+      "seenLowercase": 19039,
+      "seenLowercaseTwice": 10586,
+      "compounds": 795
+    },
+    "tr": {
+      "tatoeba": {
+        "file": "tur_sentences.tsv.bz2",
+        "sha256": "b41ff083d48834af8522887e312407e27b7e9e426703965a5b841ec88a02d560",
+        "bytes": 8571119,
+        "sentences": 749368
+      },
+      "words": 127362,
+      "seenLowercase": 125401,
+      "seenLowercaseTwice": 70470,
+      "compounds": 0
+    }
+  }
+}

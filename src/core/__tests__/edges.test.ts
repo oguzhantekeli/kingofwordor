@@ -9,30 +9,54 @@ import { gameData } from './fixture';
 const { dict, pools, viability } = gameData();
 
 describe('edge cases', () => {
+  /** A format-2 blob by hand (layout: tools/kowd.mjs), so each defect can be planted. */
+  function blob(text: string, opts: { count?: number; lang?: string; textLen?: number; tier?: number } = {}) {
+    const bytes = new TextEncoder().encode(text);
+    const count = opts.count ?? text.split('\n').length;
+    const tiersLen = Math.ceil(count / 2);
+    const buf = new Uint8Array(32 + tiersLen + bytes.length);
+    buf.set([0x4b, 0x4f, 0x57, 0x44]);
+    const v = new DataView(buf.buffer);
+    v.setUint32(4, 2, true);
+    v.setUint32(8, count, true);
+    v.setUint32(12, opts.textLen ?? bytes.length, true);
+    buf.set(new TextEncoder().encode(opts.lang ?? 'en'), 16);
+    buf[24] = 50;
+    v.setUint16(26, 1000, true);
+    buf.fill(opts.tier ?? 0, 32, 32 + tiersLen);
+    buf.set(bytes, 32 + tiersLen);
+    return buf.buffer;
+  }
+
+  it('a well-formed hand-made blob parses (the baseline the defects below break)', () => {
+    const d = Dictionary.parse(blob('aaa\nbbb'));
+    expect(d.size).toBe(2);
+    expect(d.has('bbb')).toBe(true);
+    expect(d.wordAt(0)).toBe('aaa');
+  });
+
   it('rejects a blob whose declared size does not match its bytes', () => {
-    const bad = new Uint8Array(40);
-    bad.set([0x4b, 0x4f, 0x57, 0x44]);
-    const v = new DataView(bad.buffer);
-    v.setUint32(4, 1, true);
-    v.setUint32(8, 2, true);      // 2 words
-    v.setUint32(12, 999, true);   // but claims 999 bytes of text
-    expect(() => Dictionary.parse(bad.buffer)).toThrow(/size mismatch/);
+    expect(() => Dictionary.parse(blob('aaa\nbbb', { textLen: 999 }))).toThrow(/size mismatch/);
   });
 
   it('rejects a blob whose word count disagrees with its text', () => {
-    const words = 'aaa\nbbb';
-    const text = new TextEncoder().encode(words);
-    const count = 5; // lie: text holds 2
-    const tiersLen = Math.ceil(count / 2);
-    const total = 16 + tiersLen + count * 2 + text.length;
-    const buf = new Uint8Array(total);
-    buf.set([0x4b, 0x4f, 0x57, 0x44]);
-    const v = new DataView(buf.buffer);
-    v.setUint32(4, 1, true);
-    v.setUint32(8, count, true);
-    v.setUint32(12, text.length, true);
-    buf.set(text, 16 + tiersLen + count * 2);
-    expect(() => Dictionary.parse(buf.buffer)).toThrow(/word count mismatch/);
+    expect(() => Dictionary.parse(blob('aaa\nbbb', { count: 5 }))).toThrow(/word count mismatch/);
+    expect(() => Dictionary.parse(blob('aaa\nbbb\nccc', { count: 2 }))).toThrow(/word count mismatch/);
+  });
+
+  it('rejects unsorted or duplicated words - the binary search depends on order', () => {
+    expect(() => Dictionary.parse(blob('bbb\naaa'))).toThrow(/out of order/);
+    expect(() => Dictionary.parse(blob('aaa\naaa'))).toThrow(/out of order/);
+  });
+
+  it('rejects letters outside the declared language and unknown languages', () => {
+    expect(() => Dictionary.parse(blob('añb'))).toThrow(/not in the en alphabet/);
+    expect(Dictionary.parse(blob('añb', { lang: 'es' })).has('AÑB')).toBe(true);
+    expect(() => Dictionary.parse(blob('aaa', { lang: 'de' }))).toThrow(/unsupported language "de"/);
+  });
+
+  it('rejects a tier nibble outside TIERS', () => {
+    expect(() => Dictionary.parse(blob('aaa', { tier: 0x0f }))).toThrow(/no valid tier/);
   });
 
   it('unknown words return null/empty rather than throwing', () => {

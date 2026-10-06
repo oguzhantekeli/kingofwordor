@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { dayKey } from '../../core/progress';
+import { PROFILES } from '../../core/lang';
+import { useSettings } from '../../store/settingsStore';
 import {
   fetchLeaderboard, isConfigured, type LadderRow, type Period,
 } from '../../platform/supabase';
@@ -24,17 +26,19 @@ export function Ladder() {
   const { t } = useTranslation();
   const goto = useGame((s) => s.goto);
   const [period, setPeriod] = useState<Period>('day');
+  // one ladder per language: scores from different dictionaries never meet
+  const lang = useSettings((s) => s.language);
   const [state, setState] = useState<State>(() => (isConfigured() ? { kind: 'loading' } : { kind: 'off' }));
 
   useEffect(() => {
     if (!isConfigured()) return;
     let live = true;
     setState({ kind: 'loading' });
-    fetchLeaderboard(period, dayKey(new Date()))
+    fetchLeaderboard(period, dayKey(new Date()), 50, lang)
       .then((rows) => { if (live) setState({ kind: 'rows', rows }); })
       .catch(() => { if (live) setState({ kind: 'error' }); });
     return () => { live = false; };
-  }, [period]);
+  }, [period, lang]);
 
   return (
     <div className="ladder">
@@ -49,6 +53,7 @@ export function Ladder() {
           </svg>
         </button>
         <h2>{t('ladder.title')}</h2>
+        <span className="ladder-lang" lang={PROFILES[lang].locale}>{PROFILES[lang].name}</span>
       </header>
 
       <div className="ladder-tabs" role="tablist" aria-label={t('ladder.title')}>

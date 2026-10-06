@@ -47,7 +47,8 @@
   --shadow-hard: 5px 5px 0 #0c0906;
   --shadow-hard-sm: 3px 3px 0 #0c0906;
 
-  --font-display: 'Silkscreen', ui-monospace, monospace;
+  /* Silkscreen TR supplies the Turkish letters Silkscreen lacks (Ğ ğ Ş ş İ ı) */
+  --font-display: 'Silkscreen', 'Silkscreen TR', ui-monospace, monospace;
   --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
 
   --z-modal: 100; --z-toast: 200;
@@ -60,4 +61,16 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Silkscreen is caps-only: its i IS its I. Turkish text in it must show each
+   lowercase letter as its own capital - i as İ, ı as I - or "sıra" and "sira"
+   look the same. Silkscreen TR's dotted i is used first, for Turkish only. */
+html:lang(tr) {
+  --font-display: 'Silkscreen TR', 'Silkscreen', ui-monospace, monospace;
+}
+/* ...except text marked as another language inside a Turkish page: the game's
+   English name keeps its plain i ("King", not "Kİng"). */
+html:lang(tr) [lang]:not(:lang(tr)) {
+  --font-display: 'Silkscreen', 'Silkscreen TR', ui-monospace, monospace;
 }

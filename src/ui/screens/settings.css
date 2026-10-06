@@ -42,3 +42,9 @@
   border: var(--border-w) solid var(--c-edge);
   border-radius: 0;
 }
+
+/* The language row stacks: the picker, then what changing it does - or, while
+   the new dictionary loads, that it is loading. */
+.row--stack { flex-direction: column; align-items: stretch; gap: var(--space-2); }
+.row-line { display: flex; align-items: center; gap: var(--space-3); }
+.row-hint { font-size: var(--text-sm); color: var(--c-parchment-dim); }

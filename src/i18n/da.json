@@ -1,0 +1,189 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Kæmp for rigets ord"
+  },
+  "loading": {
+    "dictionary": "Leksikonet samles…",
+    "failed": "Leksikonet kunne ikke rejses."
+  },
+  "nav": {
+    "keep": "Borg",
+    "you": "Dig",
+    "settings": "Indstillinger",
+    "back": "Tilbage"
+  },
+  "welcome": {
+    "start": "Drag i kamp",
+    "difficulty": "Vælg din rang",
+    "credits": "Kreditering"
+  },
+  "difficulty": {
+    "squire": "Væbner",
+    "squireDesc": "Milde opgaver, 90 sekunder.",
+    "knight": "Ridder",
+    "knightDesc": "Den ægte prøve. 60 sekunder.",
+    "warlord": "Krigsherre",
+    "warlordDesc": "Nådesløse opgaver, 45 sekunder."
+  },
+  "home": {
+    "best": "Rekord {{score}}",
+    "noBest": "Intet spil endnu",
+    "solo": "Solospil",
+    "soloDesc": "Én regel, ét minut, din egen rekord.",
+    "daily": "Dagens belejring",
+    "dailyDesc": "Dagens opgaver er de samme for hele riget. Ét forsøg.",
+    "duel": "Rangeret duel",
+    "duelDesc": "Mand mod mand. Klatr på ranglisten.",
+    "locked": "Log ind for at låse op",
+    "dailyPlay": "Belejr",
+    "dailyDone": "Dagens belejring er vundet",
+    "dailyNext": "Næste belejring om {{time}}",
+    "dailyStreak": "{{count}} dage i træk",
+    "dailyStreak_one": "{{count}} dag i træk",
+    "dailyStreakKeep": "Spil i dag for at holde fast i dine {{count}} dage i træk",
+    "dailyStreakKeep_one": "Spil i dag for at holde fast i din {{count}} dag i træk",
+    "duelSoon": "Kommer snart",
+    "duelLocked": "Kræver en konto og rigets rangliste",
+    "rank": "Rang",
+    "xpToNext": "{{xp}} XP til {{rank}}",
+    "xpTop": "Du hersker over riget"
+  },
+  "guest": {
+    "title": "Du spiller som gæst",
+    "body": "Alt virker. Når du logger ind, får du det, én telefon ikke kan klare alene:",
+    "benefitLadder": "Dine point kommer på ranglisten mod andre spillere",
+    "benefitCarry": "Dine fremskridt overlever en ny telefon",
+    "benefitDuel": "Dueller og rigets rangliste åbner",
+    "cta": "Fortsæt med Google",
+    "later": "Ikke nu",
+    "noForce": "Du bliver aldrig tvunget til at logge ind for at spille."
+  },
+  "round": {
+    "startsWith": "starter med",
+    "endsWith": "slutter med",
+    "includes": "indeholder",
+    "categoryHint": "{{category}} der {{condition}} »{{letter}}«",
+    "plainHint": "et ord der {{condition}} »{{letter}}«",
+    "placeholder": "Skriv dit ord…",
+    "submit": "Slå",
+    "giveUp": "Giv op",
+    "score": "Point",
+    "timeLeft": "Tid",
+    "possible": "{{count}} ord passer",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Spring over",
+    "skipCost": "-3s",
+    "streak": "{{count}} i træk"
+  },
+  "reject": {
+    "tooShort": "For kort",
+    "duplicate": "Allerede spillet",
+    "ruleMismatch": "Bryder reglen",
+    "notAWord": "Ikke i leksikonet",
+    "skipped": "Sprunget over"
+  },
+  "category": {
+    "animal": "Dyr",
+    "food": "Mad",
+    "person": "Mennesker",
+    "plant": "Planter",
+    "body": "Kropsdele",
+    "place": "Steder",
+    "object": "Genstande",
+    "substance": "Stoffer",
+    "time": "Tid",
+    "communication": "Sprog"
+  },
+  "results": {
+    "title": "Slaget er slut",
+    "score": "Slutresultat",
+    "words": "Ord",
+    "best": "Bedste ord",
+    "newBest": "Ny personlig rekord",
+    "again": "Kæmp igen",
+    "share": "Del",
+    "home": "Til borgen",
+    "dailyTitle": "Dagens belejring #{{n}}",
+    "rarest": "Sjældneste ord",
+    "bestStreak": "Bedste stime",
+    "xp": "+{{xp}} XP",
+    "promoted": "Forfremmet til {{rank}}",
+    "streakDay": "{{count}} belejringsdage i træk",
+    "streakDay_one": "{{count}} belejringsdag i træk",
+    "shareCopied": "Kopieret — indsæt det hvor som helst",
+    "toKeep": "Til borgen"
+  },
+  "settings": {
+    "title": "Indstillinger",
+    "sound": "Lydeffekter",
+    "haptics": "Vibration",
+    "language": "Sprog",
+    "languageHint": "Skifter menuerne og de ord, du spiller med.",
+    "on": "Til",
+    "off": "Fra",
+    "music": "Musik og kamplyde"
+  },
+  "profile": {
+    "title": "Dig",
+    "guest": "Gæst",
+    "defaultName": "Vandrer",
+    "signedIn": "Logget ind med Google",
+    "name": "Navn",
+    "house": "Husets farver",
+    "bestRun": "Bedste spil",
+    "bestRunIn": "Bedste spil · {{language}}",
+    "signOut": "Log ud",
+    "signIn": "Log ind med Google",
+    "deleteAccount": "Slet konto og data",
+    "deleteBody": "Dette sletter din konto og alt, der er gemt med den. Dine point forsvinder fra ranglisten. Det kan ikke fortrydes.",
+    "deleteConfirm": "Slet alt",
+    "notConfigured": "Login med Google er ikke sat op endnu — OAuth-klienten mangler stadig."
+  },
+  "credits": {
+    "title": "Kreditering",
+    "dictionary": "Ordliste",
+    "categories": "Kategorier",
+    "art": "Grafik, lyd og musik",
+    "languages": "Ordlister pr. sprog",
+    "frequency": "Ordhyppighed",
+    "back": "Tilbage"
+  },
+  "confirm": {
+    "giveUp": "Forlade slagmarken?",
+    "yes": "Ja, træk dig tilbage",
+    "no": "Kæmp videre"
+  },
+  "rank": {
+    "peasant": "Bonde",
+    "footman": "Fodsoldat",
+    "manAtArms": "Våbenmand",
+    "sergeant": "Sergent",
+    "captain": "Kaptajn",
+    "baron": "Baron",
+    "earl": "Jarl",
+    "duke": "Hertug",
+    "king": "Konge af Wordor"
+  },
+  "ladder": {
+    "title": "Rigets rangliste",
+    "day": "I dag",
+    "week": "Uge",
+    "month": "Måned",
+    "year": "År",
+    "explain": "Rangeret efter Dagens belejring: de samme opgaver for alle. Uge, måned og år lægger dine belejringer sammen.",
+    "loading": "Herolderne tilkaldes…",
+    "notConfigured": "Ranglisten åbner, når rigets server er rejst.",
+    "empty": "Ingen har belejret endnu. Vær den første.",
+    "failed": "Herolderne kunne ikke nås.",
+    "sieges": "{{count}} belejringer",
+    "sieges_one": "{{count}} belejring",
+    "you": "Dig",
+    "open": "Rangliste",
+    "posting": "Sender til ranglisten…",
+    "posted": "Sendt til rigets rangliste",
+    "postFailed": "Kunne ikke sende — dine point gemmes på denne telefon"
+  }
+}

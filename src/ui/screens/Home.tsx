@@ -2,12 +2,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '../../store/gameStore';
 import { useSettings } from '../../store/settingsStore';
-import { useSession } from '../../store/sessionStore';
+import { DEFAULT_NAME, useSession } from '../../store/sessionStore';
 import { audio } from '../../platform/audio';
 import { Knight } from '../components/Knight';
 import { Battlefield } from '../battlefield/Battlefield';
 import {
-  RANKS, rankFor, dayKey, dailyNumber, liveStreak, playedToday, msUntilNextDaily,
+  RANKS, rankFor, dayKey, dailyNumber, liveStreak, msUntilNextDaily,
 } from '../../core/progress';
 import type { Difficulty } from '../../core/types';
 import { FRAME } from '../sprites.generated';
@@ -75,14 +75,20 @@ export function Home() {
   const goto = useGame((s) => s.goto);
   const difficulty = useSettings((s) => s.difficulty);
   const setDifficulty = useSettings((s) => s.setDifficulty);
-  const { status, name, house, localBest, xp, daily, dailyScores } = useSession();
+  const lang = useSettings((s) => s.language);
+  // null while a language switch loads its dictionary: nothing may start yet
+  const ready = useGame((s) => s.data !== null && s.data.dict.lang === lang);
+  const { status, name, house, bests, xp, daily, dailyScores } = useSession();
+  const localBest = bests[lang] ?? 0;
+  const sieges = dailyScores[lang] ?? {};
   const now = useNow();
   const wallRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const knightScale = useFitScale(stageRef, 3, 2);
 
   const today = dayKey(now);
-  const done = playedToday(daily, today);
+  // one siege per language per day; the streak counts a day in any language
+  const done = sieges[today] !== undefined;
   const streak = liveStreak(daily, today);
   const rank = rankFor(xp);
   const nextRank = rank.next !== null ? RANKS[rank.index + 1]!.id : null;
@@ -106,7 +112,7 @@ export function Home() {
           <span className={`crest-field crest-field--${house}`} />
         </button>
         <div className="home-who">
-          <p className="home-name">{name}</p>
+          <p className="home-name">{name === DEFAULT_NAME ? t('profile.defaultName') : name}</p>
           <p className="home-rank">{t(`rank.${rank.id}`)}</p>
           <div className="home-xp" role="progressbar" aria-label={t('home.rank')}
                aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(rank.progress * 100)}>
@@ -124,7 +130,8 @@ export function Home() {
       </header>
 
       <div className="home-title">
-        <h1>{t('app.title')}</h1>
+        {/* the name is English in every language: no Turkish dotted İ in "King" */}
+        <h1 lang="en">{t('app.title')}</h1>
         <p>
           {nextRank
             ? t('home.xpToNext', { xp: (rank.next ?? 0) - xp, rank: t(`rank.${nextRank}`) })
@@ -143,8 +150,8 @@ export function Home() {
       <div className="home-modes">
         {/* The daily is first: it is the reason to open the app today. */}
         <button type="button" className={`mode mode--daily${done ? ' is-done' : ''}`}
-                onClick={() => { if (!done) void go(() => startDaily()); }}
-                aria-disabled={done}>
+                onClick={() => { if (!done && ready) void go(() => startDaily()); }}
+                aria-disabled={done || !ready}>
           <span className="mode-row">
             <span className="mode-name">{t('home.daily')} #{dailyNumber(today)}</span>
             {streak > 0 && (
@@ -153,7 +160,7 @@ export function Home() {
           </span>
           {done ? (
             <>
-              <span className="mode-desc">{t('home.dailyDone')} · {dailyScores[today] ?? 0}</span>
+              <span className="mode-desc">{t('home.dailyDone')} · {sieges[today] ?? 0}</span>
               <span className="mode-lock">{t('home.dailyNext', { time: hms(msUntilNextDaily(now)) })}</span>
             </>
           ) : (
@@ -166,7 +173,8 @@ export function Home() {
           )}
         </button>
 
-        <button type="button" className="mode mode--open" onClick={() => void go(() => startRound(difficulty))}>
+        <button type="button" className="mode mode--open" aria-disabled={!ready}
+                onClick={() => { if (ready) void go(() => startRound(difficulty)); }}>
           <span className="mode-row">
             <span className="mode-name">{t('welcome.start')}</span>
             {localBest > 0 && <span className="mode-best">{t('home.best', { score: localBest })}</span>}

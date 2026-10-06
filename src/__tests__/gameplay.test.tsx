@@ -15,6 +15,7 @@ const blob = () => {
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
 };
 const data = buildGameData(blob());
+const words = data.dict.list();
 
 /** Serve the real dictionary over a stubbed fetch; audio and sprites 404 (harmless). */
 function stubFetch() {
@@ -37,7 +38,7 @@ function stubBrowserBits() {
 function wordForCurrentPrompt(): string {
   const { prompt: p, round } = useGame.getState();
   const played = round!.playedWords;
-  for (const w of data.words) {
+  for (const w of words) {
     if (w.length < round!.config.minWordLength || w.length > 9) continue;
     if (played.has(w)) continue;
     if ((data.dict.tierOf(w) ?? 99) > round!.config.maxTier) continue;
@@ -106,7 +107,7 @@ describe('full gameplay, through the real UI', () => {
     const outcome = useGame.getState().outcome!;
     expect(outcome.xpGained).toBe(expected + 10);
     expect(outcome.newBest).toBe(true);
-    expect(useSession.getState().localBest).toBe(expected);
+    expect(useSession.getState().bests).toEqual({ en: expected });
     expect(screen.getByText(`+${expected + 10} XP`)).toBeInTheDocument();
   }, 40_000);
 

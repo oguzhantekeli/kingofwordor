@@ -1,0 +1,190 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Battez-vous pour les mots du royaume"
+  },
+  "loading": {
+    "dictionary": "Rassemblement du lexique…",
+    "failed": "Impossible de lever le lexique."
+  },
+  "nav": {
+    "keep": "Donjon",
+    "you": "Vous",
+    "settings": "Réglages",
+    "back": "Retour"
+  },
+  "welcome": {
+    "start": "Entrer dans la bataille",
+    "difficulty": "Choisissez votre rang",
+    "credits": "Crédits"
+  },
+  "difficulty": {
+    "squire": "Écuyer",
+    "squireDesc": "Défis doux, 90 secondes.",
+    "knight": "Chevalier",
+    "knightDesc": "La vraie épreuve. 60 secondes.",
+    "warlord": "Seigneur de guerre",
+    "warlordDesc": "Défis impitoyables, 45 secondes."
+  },
+  "home": {
+    "best": "Record {{score}}",
+    "noBest": "Pas encore de partie",
+    "solo": "Partie solo",
+    "soloDesc": "Une règle, une minute, votre propre record.",
+    "daily": "Siège du jour",
+    "dailyDesc": "Les défis du jour sont les mêmes pour tout le royaume. Un seul essai.",
+    "duel": "Duel classé",
+    "duelDesc": "Face à face. Grimpez au classement.",
+    "locked": "Connectez-vous pour débloquer",
+    "dailyPlay": "Assiéger",
+    "dailyDone": "Le siège du jour est remporté",
+    "dailyNext": "Prochain siège dans {{time}}",
+    "dailyStreak": "Série de {{count}} jours",
+    "dailyStreak_one": "Série de {{count}} jour",
+    "dailyStreakKeep": "Jouez aujourd’hui pour garder votre série de {{count}} jours",
+    "dailyStreakKeep_one": "Jouez aujourd’hui pour garder votre série de {{count}} jour",
+    "duelSoon": "Bientôt",
+    "duelLocked": "Nécessite un compte et le classement du royaume",
+    "rank": "Rang",
+    "xpToNext": "{{xp}} XP avant {{rank}}",
+    "xpTop": "Vous régnez sur le royaume"
+  },
+  "guest": {
+    "title": "Vous jouez en invité",
+    "body": "Tout fonctionne. Se connecter ajoute ce qu’un seul téléphone ne peut pas faire :",
+    "benefitLadder": "Vos scores entrent au classement face aux autres joueurs",
+    "benefitCarry": "Votre progression survit à un nouveau téléphone",
+    "benefitDuel": "Les duels et le classement du royaume s’ouvrent",
+    "cta": "Continuer avec Google",
+    "later": "Plus tard",
+    "noForce": "Vous n’êtes jamais obligé de vous connecter pour jouer."
+  },
+  "round": {
+    "startsWith": "commence par",
+    "endsWith": "finit par",
+    "includes": "contient",
+    "categoryHint": "{{category}} qui {{condition}} « {{letter}} »",
+    "plainHint": "un mot qui {{condition}} « {{letter}} »",
+    "placeholder": "Tapez votre mot…",
+    "submit": "Frapper",
+    "giveUp": "Abandonner",
+    "score": "Score",
+    "timeLeft": "Temps",
+    "possible": "{{count}} mots possibles",
+    "possible_one": "{{count}} mot possible",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Passer",
+    "skipCost": "-3s",
+    "streak": "{{count}} d’affilée"
+  },
+  "reject": {
+    "tooShort": "Trop court",
+    "duplicate": "Déjà joué",
+    "ruleMismatch": "Enfreint la règle",
+    "notAWord": "Absent du lexique",
+    "skipped": "Passé"
+  },
+  "category": {
+    "animal": "Animaux",
+    "food": "Nourriture",
+    "person": "Personnes",
+    "plant": "Plantes",
+    "body": "Parties du corps",
+    "place": "Lieux",
+    "object": "Objets",
+    "substance": "Substances",
+    "time": "Temps",
+    "communication": "Langage"
+  },
+  "results": {
+    "title": "La bataille est finie",
+    "score": "Score final",
+    "words": "Mots",
+    "best": "Meilleur mot",
+    "newBest": "Nouveau record personnel",
+    "again": "Combattre encore",
+    "share": "Partager",
+    "home": "Au donjon",
+    "dailyTitle": "Siège du jour n° {{n}}",
+    "rarest": "Mot le plus rare",
+    "bestStreak": "Meilleure série",
+    "xp": "+{{xp}} XP",
+    "promoted": "Promu {{rank}}",
+    "streakDay": "Série de sièges de {{count}} jours",
+    "streakDay_one": "Série de sièges de {{count}} jour",
+    "shareCopied": "Copié — collez-le où vous voulez",
+    "toKeep": "Au donjon"
+  },
+  "settings": {
+    "title": "Réglages",
+    "sound": "Effets sonores",
+    "haptics": "Vibrations",
+    "language": "Langue",
+    "languageHint": "Change les menus et les mots que vous jouez.",
+    "on": "Oui",
+    "off": "Non",
+    "music": "Musique et bruits de bataille"
+  },
+  "profile": {
+    "title": "Vous",
+    "guest": "Invité",
+    "defaultName": "Vagabond",
+    "signedIn": "Connecté avec Google",
+    "name": "Nom",
+    "house": "Couleurs de la maison",
+    "bestRun": "Meilleure partie",
+    "bestRunIn": "Meilleure partie · {{language}}",
+    "signOut": "Se déconnecter",
+    "signIn": "Se connecter avec Google",
+    "deleteAccount": "Supprimer le compte et les données",
+    "deleteBody": "Cela supprime votre compte et tout ce qui y est enregistré. Vos scores quittent le classement. C’est irréversible.",
+    "deleteConfirm": "Tout supprimer",
+    "notConfigured": "La connexion Google n’est pas encore prête : le client OAuth manque."
+  },
+  "credits": {
+    "title": "Crédits",
+    "dictionary": "Liste de mots",
+    "categories": "Catégories",
+    "art": "Graphismes, sons et musique",
+    "languages": "Listes de mots par langue",
+    "frequency": "Fréquence des mots",
+    "back": "Retour"
+  },
+  "confirm": {
+    "giveUp": "Quitter le champ de bataille ?",
+    "yes": "Oui, battre en retraite",
+    "no": "Continuer le combat"
+  },
+  "rank": {
+    "peasant": "Paysan",
+    "footman": "Fantassin",
+    "manAtArms": "Homme d’armes",
+    "sergeant": "Sergent",
+    "captain": "Capitaine",
+    "baron": "Baron",
+    "earl": "Comte",
+    "duke": "Duc",
+    "king": "Roi de Wordor"
+  },
+  "ladder": {
+    "title": "Le classement du royaume",
+    "day": "Aujourd’hui",
+    "week": "Semaine",
+    "month": "Mois",
+    "year": "Année",
+    "explain": "Classé sur le Siège du jour : les mêmes défis pour tous. Semaine, mois et année additionnent vos sièges.",
+    "loading": "On convoque les hérauts…",
+    "notConfigured": "Le classement ouvrira quand le serveur du royaume sera levé.",
+    "empty": "Personne n’a encore assiégé. Soyez le premier.",
+    "failed": "Impossible de joindre les hérauts.",
+    "sieges": "{{count}} sièges",
+    "sieges_one": "{{count}} siège",
+    "you": "Vous",
+    "open": "Classement",
+    "posting": "Envoi au classement…",
+    "posted": "Envoyé au classement du royaume",
+    "postFailed": "Envoi impossible : votre score est gardé sur ce téléphone"
+  }
+}

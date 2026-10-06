@@ -1,0 +1,190 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Strijd voor de woorden van het rijk"
+  },
+  "loading": {
+    "dictionary": "Het lexicon wordt verzameld…",
+    "failed": "Het lexicon kon niet worden opgeroepen."
+  },
+  "nav": {
+    "keep": "Burcht",
+    "you": "Jij",
+    "settings": "Instellingen",
+    "back": "Terug"
+  },
+  "welcome": {
+    "start": "Ten strijde",
+    "difficulty": "Kies je rang",
+    "credits": "Credits"
+  },
+  "difficulty": {
+    "squire": "Schildknaap",
+    "squireDesc": "Milde opgaven, 90 seconden.",
+    "knight": "Ridder",
+    "knightDesc": "De echte proef. 60 seconden.",
+    "warlord": "Krijgsheer",
+    "warlordDesc": "Genadeloze opgaven, 45 seconden."
+  },
+  "home": {
+    "best": "Record {{score}}",
+    "noBest": "Nog geen potje",
+    "solo": "Solo",
+    "soloDesc": "Eén regel, één minuut, je eigen record.",
+    "daily": "Dagelijks beleg",
+    "dailyDesc": "De opgaven van vandaag zijn voor het hele rijk gelijk. Eén poging.",
+    "duel": "Ranglijstduel",
+    "duelDesc": "Man tegen man. Klim op de ranglijst.",
+    "locked": "Log in om te ontgrendelen",
+    "dailyPlay": "Belegeren",
+    "dailyDone": "Het beleg van vandaag is gewonnen",
+    "dailyNext": "Volgend beleg over {{time}}",
+    "dailyStreak": "Reeks van {{count}} dagen",
+    "dailyStreak_one": "Reeks van {{count}} dag",
+    "dailyStreakKeep": "Speel vandaag om je reeks van {{count}} dagen te houden",
+    "dailyStreakKeep_one": "Speel vandaag om je reeks van {{count}} dag te houden",
+    "duelSoon": "Binnenkort",
+    "duelLocked": "Vereist een account en de ranglijst van het rijk",
+    "rank": "Rang",
+    "xpToNext": "Nog {{xp}} XP tot {{rank}}",
+    "xpTop": "Jij heerst over het rijk"
+  },
+  "guest": {
+    "title": "Je speelt als gast",
+    "body": "Alles werkt. Inloggen voegt toe wat één telefoon niet alleen kan:",
+    "benefitLadder": "Je scores komen op de ranglijst tegen andere spelers",
+    "benefitCarry": "Je voortgang overleeft een nieuwe telefoon",
+    "benefitDuel": "Duels en de ranglijst van het rijk gaan open",
+    "cta": "Doorgaan met Google",
+    "later": "Niet nu",
+    "noForce": "Je hoeft nooit in te loggen om te spelen."
+  },
+  "round": {
+    "startsWith": "begint met",
+    "endsWith": "eindigt op",
+    "includes": "bevat",
+    "categoryHint": "{{category}} die {{condition}} ‘{{letter}}’",
+    "plainHint": "een woord dat {{condition}} ‘{{letter}}’",
+    "placeholder": "Typ je woord…",
+    "submit": "Slaan",
+    "giveUp": "Opgeven",
+    "score": "Score",
+    "timeLeft": "Tijd",
+    "possible": "{{count}} woorden passen",
+    "possible_one": "{{count}} woord past",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Overslaan",
+    "skipCost": "-3s",
+    "streak": "{{count}} op rij"
+  },
+  "reject": {
+    "tooShort": "Te kort",
+    "duplicate": "Al gespeeld",
+    "ruleMismatch": "Breekt de regel",
+    "notAWord": "Niet in het lexicon",
+    "skipped": "Overgeslagen"
+  },
+  "category": {
+    "animal": "Dieren",
+    "food": "Eten",
+    "person": "Mensen",
+    "plant": "Planten",
+    "body": "Lichaamsdelen",
+    "place": "Plaatsen",
+    "object": "Voorwerpen",
+    "substance": "Stoffen",
+    "time": "Tijd",
+    "communication": "Taal"
+  },
+  "results": {
+    "title": "De strijd is gestreden",
+    "score": "Eindscore",
+    "words": "Woorden",
+    "best": "Beste woord",
+    "newBest": "Nieuw persoonlijk record",
+    "again": "Opnieuw strijden",
+    "share": "Delen",
+    "home": "Naar de burcht",
+    "dailyTitle": "Dagelijks beleg #{{n}}",
+    "rarest": "Zeldzaamste woord",
+    "bestStreak": "Beste reeks",
+    "xp": "+{{xp}} XP",
+    "promoted": "Bevorderd tot {{rank}}",
+    "streakDay": "Belegreeks van {{count}} dagen",
+    "streakDay_one": "Belegreeks van {{count}} dag",
+    "shareCopied": "Gekopieerd — plak het waar je wilt",
+    "toKeep": "Naar de burcht"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "sound": "Geluidseffecten",
+    "haptics": "Trillen",
+    "language": "Taal",
+    "languageHint": "Verandert de menu’s en de woorden die je speelt.",
+    "on": "Aan",
+    "off": "Uit",
+    "music": "Muziek en strijdgeluiden"
+  },
+  "profile": {
+    "title": "Jij",
+    "guest": "Gast",
+    "defaultName": "Zwerver",
+    "signedIn": "Ingelogd met Google",
+    "name": "Naam",
+    "house": "Huiskleuren",
+    "bestRun": "Beste potje",
+    "bestRunIn": "Beste potje · {{language}}",
+    "signOut": "Uitloggen",
+    "signIn": "Inloggen met Google",
+    "deleteAccount": "Account en gegevens verwijderen",
+    "deleteBody": "Dit verwijdert je account en alles wat ermee is opgeslagen. Je scores verdwijnen van de ranglijst. Dit kan niet ongedaan worden gemaakt.",
+    "deleteConfirm": "Alles verwijderen",
+    "notConfigured": "Inloggen met Google is nog niet ingesteld — de OAuth-client ontbreekt nog."
+  },
+  "credits": {
+    "title": "Credits",
+    "dictionary": "Woordenlijst",
+    "categories": "Categorieën",
+    "art": "Beeld, geluid en muziek",
+    "languages": "Woordenlijsten per taal",
+    "frequency": "Woordfrequenties",
+    "back": "Terug"
+  },
+  "confirm": {
+    "giveUp": "Het slagveld verlaten?",
+    "yes": "Ja, terugtrekken",
+    "no": "Doorvechten"
+  },
+  "rank": {
+    "peasant": "Boer",
+    "footman": "Voetknecht",
+    "manAtArms": "Krijgsman",
+    "sergeant": "Sergeant",
+    "captain": "Kapitein",
+    "baron": "Baron",
+    "earl": "Graaf",
+    "duke": "Hertog",
+    "king": "Koning van Wordor"
+  },
+  "ladder": {
+    "title": "De ranglijst van het rijk",
+    "day": "Vandaag",
+    "week": "Week",
+    "month": "Maand",
+    "year": "Jaar",
+    "explain": "Gerangschikt op het Dagelijks beleg: voor iedereen dezelfde opgaven. Week, maand en jaar tellen je belegeringen op.",
+    "loading": "De herauten worden ontboden…",
+    "notConfigured": "De ranglijst opent zodra de server van het rijk staat.",
+    "empty": "Nog niemand heeft belegerd. Wees de eerste.",
+    "failed": "De herauten waren onbereikbaar.",
+    "sieges": "{{count}} belegeringen",
+    "sieges_one": "{{count}} beleg",
+    "you": "Jij",
+    "open": "Ranglijst",
+    "posting": "Bezig met plaatsen op de ranglijst…",
+    "posted": "Geplaatst op de ranglijst van het rijk",
+    "postFailed": "Plaatsen mislukt — je score blijft op deze telefoon"
+  }
+}

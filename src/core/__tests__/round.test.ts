@@ -6,6 +6,7 @@ import { gameData } from './fixture';
 const data = gameData();
 const { dict, pools, viability } = data;
 const deps = { pools, viability };
+const words = dict.list();
 
 /** Build a round and force a known prompt so tests are not seed-dependent. */
 function roundWithPrompt(condition: Condition, letter: string, overrides = {}) {
@@ -133,7 +134,7 @@ describe('Round', () => {
         const p = x.state.prompt;
         seen.push(`${p.condition}:${p.letter}:${p.category}`);
         if (i % 4 === 3) { x.skip(i * 1000); continue; }
-        const w = data.words.find((cand) =>
+        const w = words.find((cand) =>
           cand.length >= 4 && cand.length <= 8 && !x.playedWords.has(cand) &&
           (dict.tierOf(cand) ?? 99) <= x.config.maxTier &&
           (p.condition === 'startsWith' ? cand.startsWith(p.letter)

@@ -559,11 +559,11 @@ $ node competitor_langs.js
 | 0 | **English** | SCOWL — "distribute and sell … for any purpose" | ✅ ship first |
 | 1 | **Spanish** | GPL-3 / LGPL-3 / **MPL 1.1** (elect MPL) | ✅ clean |
 | 1 | **French** | **MPL 2.0** | ✅ clean |
-| 1 | **Italian** | GPL-3 / LGPL / **MPL** | ✅ clean |
-| 1 | **Dutch** | BSD / MIT / MPL / CC-BY | ✅ clean |
-| 2 | **Portuguese (BR)** | LGPL / **MPL** | ✅ clean |
-| 2 | **Danish** | LGPL / **MPL** | ✅ clean |
-| 2 | **Turkish** | **MIT / MPL** | ✅ clean |
+| 1 | **Italian** | **GPL-3 only** (corrected 2026-10-07, see below) | ❌ **excluded, like German** |
+| 1 | **Dutch** | **BSD-3-Clause** and/or CC BY 3.0 (corrected) | ✅ clean |
+| 2 | **Portuguese (BR)** | LGPL-3 / **MPL** | ✅ clean |
+| 2 | **Danish** | GPL-2 / LGPL-2.1 / **MPL-1.1** (corrected) | ✅ clean |
+| 2 | **Turkish** | **MPL 2.0** (corrected) | ✅ clean |
 | — | **Swedish** | LGPL-3 only | ⚠️ weaker option, defer |
 | — | **German** | **GPL v2 or v3 only** | ❌ **excluded from rollout** |
 
@@ -586,6 +586,22 @@ $ curl -sL ".../de/README_de_DE_frami.txt" | grep -iA1 "GPL"
 Das Wörterbuch und alle enthaltenen Wortlisten sind lizenziert unter der
 GNU GPL, Version 2 oder 3.
 ```
+
+**Correction, 2026-10-07 — Italian is GPL-only, and three rows above were wrong.** The original
+verification commands grepped for substrings: `grep -ioE "MIT|MPL"` matches "perMITted", "liMITed" and
+"exaMPLe", so licence files that never mention MIT or MPL appeared to. Re-checked at LibreOffice
+dictionaries commit `32b006a2c22a4ac7e8ed3f03346f7b3d85a970a4`, reading the statements themselves:
+
+```
+it_IT/README_it_IT.txt         # License: GNU GPL 3          (current LibreItalia 5.1)
+it_IT/legacy/it_IT_license.txt GNU General Public License ... version 3 of the License, or (at your option) any later version
+tr_TR/README.txt               This dictionary is licensed under MPL 2.0 License.
+nl_NL/LICENSE.txt              3. Rights: Revised BSD License and/or CC BY 3.0
+da_DK/README_da_DK.txt         GNU GPL version 2.0 / GNU LGPL version 2.1 / Mozilla MPL version 1.1
+```
+
+Italian therefore joins German: no permissive Italian word list exists in LibreOffice, current or legacy.
+Shipped instead (2026-10-07): English, Spanish, French, Dutch, Portuguese (BR), Danish, Turkish.
 
 **German is the one blocker, and it is in all four competitors' language sets.** It is excluded from the rollout above rather than shipped under GPL. When it becomes commercially worth solving, the options are: license a German word list commercially, build one from a permissively-licensed corpus, or seek written permission from the dictionary's maintainer. Do not ship the GPL list with a closed-source app.
 
@@ -1021,9 +1037,9 @@ And the permitted placement:
 
 **Phase 4 — expand**
 
-20. **Language wave 1: Spanish, French, Italian, Dutch** (§4.5 — all MPL/BSD/MIT-clean, all shipped by every competitor). Per language: extract the word list, rebuild the difficulty bands from that language's own letter distribution, re-check whether categories are available.
-21. **Language wave 2: Portuguese (BR), Danish, Turkish** — all licence-clean.
-22. German stays out until a non-GPL source exists (§13.1). Swedish is LGPL-3 only — defer.
+20. **Language wave 1: Spanish, French, Dutch** (§4.5). Italian dropped: its only LibreOffice list is GPL-3 (corrected 2026-10-07). *Done 2026-10-07* — word lists expanded from Hunspell, difficulty bands rebuilt per language, no categories (WordNet is English-only).
+21. **Language wave 2: Portuguese (BR), Danish, Turkish** — *done 2026-10-07*, same pipeline.
+22. German and Italian stay out until a non-GPL source exists (§13.1). Swedish is LGPL-3 only — defer.
 23. Real-time PvP. iOS port via the same Capacitor project.
 
 ---

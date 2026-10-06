@@ -20,12 +20,17 @@ jobs:
       - run: npm ci
       - run: npm approve-scripts ffmpeg-static
 
-      - name: Build dictionary from source
+      # all seven languages: SCOWL/WordNet for English, LibreOffice Hunspell
+      # dictionaries at a pinned commit plus the frozen Tatoeba counts in
+      # tools/freq/ for the rest (~2.5 min, ~1.2 GB peak)
+      - name: Build dictionaries from source
         run: npm run build:dict
 
-      - name: Dictionary is reproducible
+      # the server replays rounds against the very files the app ships, so a
+      # rebuild must be byte-identical
+      - name: Dictionaries are reproducible
         run: |
-          sha256sum public/dict/en.kowd > /tmp/dict.sha
+          sha256sum public/dict/*.kowd > /tmp/dict.sha
           npm run build:dict
           sha256sum -c /tmp/dict.sha
 

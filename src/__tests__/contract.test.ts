@@ -15,6 +15,7 @@ import { dayKey } from '../core/progress';
 
 const buf = fs.readFileSync(path.resolve('public/dict/en.kowd'));
 const data = buildGameData(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer);
+const words = data.dict.list();
 
 function playThroughStore(mode: 'solo' | 'daily', now: Date) {
   vi.useFakeTimers();
@@ -29,14 +30,14 @@ function playThroughStore(mode: 'solo' | 'daily', now: Date) {
     const { prompt: p, round } = useGame.getState();
     if (i === 3 || i === 8) { useGame.getState().skip(); continue; }
     if (i === 5) { useGame.getState().submit('zzqqzz'); continue; } // a miss
-    const w = data.words.find((c) => c.length >= round!.config.minWordLength && c.length <= 8
+    const w = words.find((c) => c.length >= round!.config.minWordLength && c.length <= 8
       && !round!.playedWords.has(c) && (data.dict.tierOf(c) ?? 99) <= round!.config.maxTier
       && matchesRule(c, p!.condition, p!.letter))!;
     useGame.getState().submit(w);
   }
   const s = useGame.getState();
   const sub = submissionFromLog({
-    mode, day: s.day, seed: s.round!.config.seed, difficulty: s.round!.config.difficulty,
+    lang: data.dict.lang, mode, day: s.day, seed: s.round!.config.seed, difficulty: s.round!.config.difficulty,
     log: s.submissions, claimedScore: s.totalScore,
   });
   vi.useRealTimers();

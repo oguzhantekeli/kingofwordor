@@ -12,6 +12,7 @@ import type { Dictionary } from './dictionary';
 import type { PromptPools } from './rules';
 import { Round, SKIP_PENALTY_MS, configFor } from './round';
 import { dailySeed, daysBetween } from './progress';
+import type { Lang } from './lang';
 import type { Category, Difficulty } from './types';
 
 export interface RoundEvent {
@@ -23,6 +24,8 @@ export interface RoundEvent {
 }
 
 export interface RoundSubmission {
+  /** The dictionary the round was played against. Absent from pre-language clients: English. */
+  lang?: Lang;
   mode: 'solo' | 'daily';
   /** dayKey (YYYY-MM-DD) - required for the daily. */
   day: string;
@@ -74,6 +77,11 @@ export function verifyRound(sub: RoundSubmission, deps: VerifyDeps): Verdict {
   if (sub.events.length > MAX_EVENTS) return reject(`too many events (${sub.events.length})`);
   if (!['squire', 'knight', 'warlord'].includes(sub.difficulty)) return reject('unknown difficulty');
   if (!Number.isInteger(sub.seed) || sub.seed < 0) return reject('bad seed');
+  // the caller loads the dictionary named by sub.lang; replaying against any
+  // other would score different words and draw different prompts
+  if ((sub.lang ?? 'en') !== deps.dict.lang) {
+    return reject(`round is ${sub.lang ?? 'en'}, dictionary is ${deps.dict.lang}`);
+  }
 
   if (sub.mode === 'daily') {
     // The daily's seed is not the client's to choose: it is the date's.
@@ -129,6 +137,7 @@ export function verifyRound(sub: RoundSubmission, deps: VerifyDeps): Verdict {
  * contract test both use this, so the test proves the REAL payload verifies.
  */
 export function submissionFromLog(args: {
+  lang: Lang;
   mode: 'solo' | 'daily';
   day: string;
   seed: number;
@@ -137,6 +146,7 @@ export function submissionFromLog(args: {
   claimedScore: number;
 }): RoundSubmission {
   return {
+    lang: args.lang,
     mode: args.mode,
     day: args.day,
     seed: args.seed,

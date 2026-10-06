@@ -69,6 +69,7 @@
     "score": "Score",
     "timeLeft": "Time",
     "possible": "{{count}} words fit",
+    "possible_one": "{{count}} word fits",
     "rule": "{{condition}}",
     "bonus": "Bonus ×1.5",
     "bonusFor": "{{category}}",
@@ -118,6 +119,7 @@
     "sound": "Sound effects",
     "haptics": "Vibration",
     "language": "Language",
+    "languageHint": "Menus and the words you play change together.",
     "on": "On",
     "off": "Off",
     "music": "Music & battle sounds"
@@ -125,10 +127,12 @@
   "profile": {
     "title": "You",
     "guest": "Guest",
+    "defaultName": "Wanderer",
     "signedIn": "Signed in with Google",
     "name": "Name",
     "house": "House colours",
     "bestRun": "Best run",
+    "bestRunIn": "Best run · {{language}}",
     "signOut": "Sign out",
     "signIn": "Sign in with Google",
     "deleteAccount": "Delete account and data",
@@ -141,6 +145,8 @@
     "dictionary": "Word list",
     "categories": "Categories",
     "art": "Art, sound and music",
+    "languages": "Word lists by language",
+    "frequency": "Word frequencies",
     "back": "Back"
   },
   "confirm": {
@@ -171,6 +177,7 @@
     "empty": "No one has besieged yet. Be the first.",
     "failed": "The heralds could not be reached.",
     "sieges": "{{count}} sieges",
+    "sieges_one": "{{count}} siege",
     "you": "You",
     "open": "Ladder",
     "posting": "Posting to the ladder…",

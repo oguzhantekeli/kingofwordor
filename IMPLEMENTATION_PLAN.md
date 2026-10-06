@@ -888,7 +888,7 @@ $ find src tools -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' -o -n
 
 ---
 
-## 16. STATUS — 2026-10-06
+## 16. STATUS — 2026-10-07
 
 ### Built and verified
 
@@ -903,6 +903,11 @@ $ find src tools -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' -o -n
 | 3 | Ladder screen; real account deletion; real sign-out | 3 UI tests |
 | — | Web account-deletion page (Play User Data policy) | loads HTTP 200, no errors |
 | 4 | Debug APK assembled and run on a Galaxy M31 (Oct 2) | commit `f79f346` |
+| 4 | **Seven languages** (2026-10-07): English, Spanish, French, Dutch, Portuguese (BR), Danish, Turkish — menus and words switch together in Settings; first launch follows the phone's language | 245 tests |
+| 4 | Word lists from LibreOffice Hunspell dictionaries, expanded by `tools/hunspell.mjs` | 3000/3000 sampled forms per language accepted by real Hunspell 1.7 (WebAssembly) |
+| 4 | Portuguese and Turkish expand to 2.2M / 4.5M forms; shipped ~0.96M / ~0.71M | held-out Tatoeba text: 99.86% / 98.82% of word uses accepted |
+| 4 | English unchanged by the multi-language engine | golden test: 25 prompts × 12 seeds, every score, all 78 prompt stats |
+| 4 | Turkish letters Ğ ğ Ş ş İ ı drawn into the pixel font ("Silkscreen TR") | glyph-coverage gate in `tools/verify-assets.mjs`: 123/123 characters |
 
 ### Not built, or built but not run
 
@@ -911,6 +916,9 @@ $ find src tools -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' -o -n
 3. **In-game store, boosters, currency** — needs product decisions.
 4. **AdMob wiring** — plugin installed (Google's sample App ID is injected by `tools/android-config.mjs`); no real ad units.
 5. **Ranked Duel** — shown in-app as "Coming soon".
+6. **Italian** — its only LibreOffice word list is GPL-3 (current and legacy), so it is out, like German.
+7. **Category bonuses outside English** — WordNet is English-only; the other six languages play without them.
+8. **Dutch/Danish compounds** are accepted when the dictionary lists them or Tatoeba shows them in use (3,221 Dutch, 795 Danish); others are not generated.
 
 ---
 
@@ -930,16 +938,18 @@ So the project and Google sign-in are set up; the schema is not deployed.
 
 | # | Action | Blocks | How |
 |---|---|---|---|
-| 1 | **Push the branch** (or say yes and I will) | Backup + first CI run | All work since 2026-09-30 exists only on this machine: `git ls-remote` shows only `master` (the old app). |
+| 1 | ~~Push the branch~~ | — | Done: `rewrite/vite-capacitor` is on GitHub. CI runs on PRs to `master`, so open one when you want a CI run. |
 | 2 | **12 testers / 14 days**, or convert to an organization account | Production launch | Unchanged — still the longest lead time. |
 | 3 | **Deploy the schema** | Ladders, posting scores | Supabase dashboard → SQL Editor → paste `supabase/migrations/20261006000000_init.sql` → Run. Or `npx supabase link` + `npx supabase db push`. |
-| 4 | **Deploy the Edge Function** | Posting scores | `npx supabase functions deploy submit-round`, then set the secret `DICT_URL` to wherever `en.kowd` is hosted. |
+| 4 | **Deploy the Edge Function** | Posting scores | `npx supabase functions deploy submit-round`, then set the secret `DICT_URL` to a template, e.g. `https://<host>/dict/{lang}.kowd`, serving all seven `public/dict/*.kowd` **from the same build as the app** (the server replays rounds against those exact files). |
 | 5 | **Host `delete-account.html`** and put its URL in Play Console | Play's User Data policy | Any static host serving `dist/`. Add its URL to the OAuth client's redirect list. |
 | 6 | **Set `VITE_DEVELOPER_NAME` and `VITE_SUPPORT_EMAIL`** in `.env` | The deletion page must name the developer as on the store listing | Your Play listing shows your legal name (personal account). |
 | 7 | **Android OAuth client (SHA-1)** | Native Google sign-in on device | Unknown whether it exists — please confirm. |
 | 8 | **Create an AdMob account**, then ad unit IDs | Ads | Verification "typically up to 24 hours, but in rare cases, can take up to 2 weeks". |
 | 9 | **Generate and back up a release keystore** | Any release build | Lose it and you can never update the listing. |
 | 10 | **Review the four decisions** in `INVENTORY.md` §8 | — | Especially: difficulty is now open to guests (reverses an Oct 2 decision). |
+| 11 | **Italian: keep it out, or build it differently** | Italian players | Its LibreOffice list is GPL-3. Options: leave it out (as German); build a smaller list from Tatoeba Italian (CC BY, ~988k sentences — lower coverage than Hunspell); or license a list. |
+| 12 | **MPL source availability** for the generated word lists | Play release (not testing) | Credits link the upstream files at the pinned commit. MPL 2.0 §3.2 also asks that the Source Code Form of distributed Covered Software be obtainable; the simple route is to publish `tools/hunspell.mjs`, `tools/build-dict.mjs`, `tools/dict-sources.mjs`, `tools/kowd.mjs` and `tools/freq/` (e.g. a small public repo) and add its URL to Credits. |
 
 ---
 

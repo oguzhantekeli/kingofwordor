@@ -1,11 +1,11 @@
 import type { Dictionary } from './dictionary';
 import { mulberry32, weightedPick, randInt } from './rng';
 import {
-  CATEGORIES, CONDITIONS,
+  CONDITIONS,
   type Band, type Category, type Condition, type Difficulty, type Prompt,
 } from './types';
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+export { MIN_CATEGORY_WORDS } from './dictionary';
 
 /**
  * Band thresholds by everyday-word count (audit §5, measured against SCOWL).
@@ -20,14 +20,32 @@ export const BAND_MAX: Readonly<Record<Band, number>> = {
   trivial: Number.POSITIVE_INFINITY,
 };
 
-/** A category hint must have at least this many everyday words behind it. */
-export const MIN_CATEGORY_WORDS = 8;
+/**
+ * The thresholds for one dictionary. BAND_MAX was measured on English, whose
+ * everyday pool is SCOWL's 61,178 words; a language whose everyday pool is a
+ * fifth of that has a fifth of the words behind every prompt, and the same
+ * absolute thresholds would push its whole game a band harder. bandScale is
+ * that ratio in thousandths, written into the dictionary at build time -
+ * exactly 1000 for English, so English bands are BAND_MAX unchanged.
+ */
+export function bandThresholds(bandScale: number): Readonly<Record<Band, number>> {
+  const at = (n: number) => Math.round((n * bandScale) / 1000);
+  return {
+    impossible: at(BAND_MAX.impossible),
+    hard: at(BAND_MAX.hard),
+    medium: at(BAND_MAX.medium),
+    easy: at(BAND_MAX.easy),
+    trivial: Number.POSITIVE_INFINITY,
+  };
+}
 
-export function bandFor(everydayCount: number): Band {
-  if (everydayCount <= BAND_MAX.impossible) return 'impossible';
-  if (everydayCount <= BAND_MAX.hard) return 'hard';
-  if (everydayCount <= BAND_MAX.medium) return 'medium';
-  if (everydayCount <= BAND_MAX.easy) return 'easy';
+export function bandFor(
+  everydayCount: number, max: Readonly<Record<Band, number>> = BAND_MAX
+): Band {
+  if (everydayCount <= max.impossible) return 'impossible';
+  if (everydayCount <= max.hard) return 'hard';
+  if (everydayCount <= max.medium) return 'medium';
+  if (everydayCount <= max.easy) return 'easy';
   return 'trivial';
 }
 
@@ -44,15 +62,19 @@ export interface PromptPools {
   byBand: Readonly<Record<Band, readonly (readonly [Condition, string])[]>>;
 }
 
-/** Bucket all 78 (condition, letter) pairs by band. Computed once per dictionary. */
+/**
+ * Bucket every (condition, letter) pair by band - 78 in English, 87 with a
+ * 29-letter alphabet. Computed once per dictionary, in the alphabet's order.
+ */
 export function buildPromptPools(dict: Dictionary): PromptPools {
   const byBand: Record<Band, (readonly [Condition, string])[]> = {
     impossible: [], hard: [], medium: [], easy: [], trivial: [],
   };
+  const bands = bandThresholds(dict.bandScale);
   for (const condition of CONDITIONS) {
-    for (const letter of ALPHABET) {
+    for (const letter of dict.alphabet) {
       const { everyday } = dict.statsFor(condition, letter);
-      byBand[bandFor(everyday)].push([condition, letter] as const);
+      byBand[bandFor(everyday, bands)].push([condition, letter] as const);
     }
   }
   return { byBand };
@@ -76,46 +98,6 @@ export function pickCategory(
   return viable[randInt(rng, viable.length)] ?? null;
 }
 
-/**
- * Precompute which categories are viable per prompt. O(dictionary) once, not
- * per round - the alternative is scanning 110k words every time a prompt changes.
- */
-export function buildCategoryViability(
-  dict: Dictionary, words: Iterable<string>
-): Map<string, Category[]> {
-  const counts = new Map<string, Int32Array>();
-  const keyOf = (c: Condition, l: string) => `${c}:${l}`;
-  for (const c of CONDITIONS) {
-    for (const l of ALPHABET) counts.set(keyOf(c, l), new Int32Array(CATEGORIES.length));
-  }
-  const seen = new Set<string>();
-  for (const w of words) {
-    const tier = dict.tierOf(w);
-    if (tier === null || tier > 50) continue; // everyday pool only
-    const cats = dict.categoriesOf(w);
-    if (cats.length === 0) continue;
-    const bits = cats.map((c) => CATEGORIES.indexOf(c));
-    const add = (c: Condition, l: string) => {
-      const arr = counts.get(keyOf(c, l));
-      if (!arr) return;
-      for (const b of bits) arr[b]! += 1;
-    };
-    add('startsWith', w[0]!);
-    add('endsWith', w[w.length - 1]!);
-    seen.clear();
-    for (const ch of w) {
-      if (seen.has(ch)) continue;
-      seen.add(ch);
-      add('includes', ch);
-    }
-  }
-  const viable = new Map<string, Category[]>();
-  for (const [k, arr] of counts) {
-    viable.set(k, CATEGORIES.filter((_, b) => (arr[b] ?? 0) >= MIN_CATEGORY_WORDS));
-  }
-  return viable;
-}
-
 export interface PromptGeneratorOptions {
   dict: Dictionary;
   pools: PromptPools;
@@ -131,6 +113,7 @@ export interface PromptGeneratorOptions {
 export function createPromptGenerator(opts: PromptGeneratorOptions): () => Prompt {
   const { dict, pools, viability, difficulty, seed } = opts;
   const rng = mulberry32(seed);
+  const bands = bandThresholds(dict.bandScale);
   const weights = DIFFICULTY_WEIGHTS[difficulty].filter(
     ([band]) => pools.byBand[band].length > 0
   );
@@ -149,7 +132,7 @@ export function createPromptGenerator(opts: PromptGeneratorOptions): () => Promp
       category: pickCategory(dict, condition, letter, rng, viability),
       everydayCount: stats.everyday,
       acceptedCount: stats.accepted,
-      band: bandFor(stats.everyday),
+      band: bandFor(stats.everyday, bands),
     };
   };
 }

@@ -12,12 +12,17 @@
  *
  * Deploy: supabase functions deploy submit-round
  * Secrets: SUPABASE_URL, SUPABASE_ANON_KEY and SUPABASE_SERVICE_ROLE_KEY are
- * provided by the platform; DICT_URL must be set to where en.kowd is served.
+ * provided by the platform; DICT_URL must be set to where the dictionaries are
+ * served, with {lang} where the language goes:
+ *   https://example.com/dict/{lang}.kowd
+ * They must be the exact files the app ships (public/dict/*.kowd from the
+ * same build), or honest rounds replay to different scores.
  */
 import { createClient } from 'npm:@supabase/supabase-js@2.117.2';
 import { buildGameData, type GameData } from '../../../src/core/load.ts';
 import { verifyRound, type RoundSubmission } from '../../../src/core/verify.ts';
 import { dayKey } from '../../../src/core/progress.ts';
+import { isLang, type Lang } from '../../../src/core/lang.ts';
 
 declare const Deno: {
   env: { get(k: string): string | undefined };
@@ -29,13 +34,20 @@ const ANON = Deno.env.get('SUPABASE_ANON_KEY')!;
 const SERVICE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const DICT_URL = Deno.env.get('DICT_URL')!;
 
-// Parsed once per warm instance: ~30 ms, not per request.
-let game: Promise<GameData> | null = null;
-function loadGame(): Promise<GameData> {
-  game ??= fetch(DICT_URL).then(async (r) => {
-    if (!r.ok) throw new Error(`dictionary ${r.status}`);
-    return buildGameData(await r.arrayBuffer());
-  });
+// Parsed once per language per warm instance, not per request. Only a
+// language on the fixed list ever reaches the URL - the client cannot make
+// this function fetch anything else.
+const games = new Map<Lang, Promise<GameData>>();
+function loadGame(lang: Lang): Promise<GameData> {
+  let game = games.get(lang);
+  if (!game) {
+    game = fetch(DICT_URL.replace('{lang}', lang)).then(async (r) => {
+      if (!r.ok) throw new Error(`dictionary ${lang} ${r.status}`);
+      return buildGameData(await r.arrayBuffer());
+    });
+    game.catch(() => games.delete(lang)); // a failed fetch is retried next time
+    games.set(lang, game);
+  }
   return game;
 }
 
@@ -57,7 +69,10 @@ Deno.serve(async (req) => {
     return json(400, { error: 'body is not JSON' });
   }
 
-  const g = await loadGame();
+  // rounds from clients older than the language picker carry no lang: English
+  const lang = sub.lang ?? 'en';
+  if (!isLang(lang)) return json(422, { ok: false, score: 0, reasons: [`unknown language ${String(lang)}`] });
+  const g = await loadGame(lang);
   const now = new Date();
   const verdict = verifyRound(sub, { ...g, now, today: dayKey(now) });
   if (!verdict.ok) return json(422, { ok: false, score: 0, reasons: verdict.reasons });
@@ -65,6 +80,7 @@ Deno.serve(async (req) => {
   const admin = createClient(URL_, SERVICE);
   const { error } = await admin.from('rounds').insert({
     user_id: who.user.id,
+    lang,
     mode: sub.mode,
     day: sub.mode === 'daily' ? sub.day : null,
     difficulty: sub.difficulty,

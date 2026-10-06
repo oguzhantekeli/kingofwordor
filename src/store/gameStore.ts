@@ -5,6 +5,7 @@ import { dailySeed, dayKey } from '../core/progress';
 import type { Difficulty, Prompt, Submission } from '../core/types';
 import { useSession, type RoundOutcome } from './sessionStore';
 import { submissionFromLog } from '../core/verify';
+import type { Lang } from '../core/lang';
 
 export type Screen =
   | 'loading' | 'welcome' | 'countdown' | 'playing'
@@ -14,10 +15,13 @@ export type Mode = 'solo' | 'daily';
 
 interface GameState {
   screen: Screen;
+  /** The loaded dictionary; null while a language is being loaded. */
   data: GameData | null;
   loadError: string | null;
   round: Round | null;
   mode: Mode;
+  /** The language the current/last round was played in. */
+  lang: Lang;
   /** The difficulty the current/last round was actually played at. */
   difficulty: Difficulty;
   /** dayKey the daily round belongs to. */
@@ -36,7 +40,10 @@ interface GameState {
   /** Ladder posting state for the finished round (signed-in players only). */
   posting: 'idle' | 'sending' | 'posted' | 'failed';
 
+  /** A dictionary arrived. Leaves the current screen alone unless it was waiting for one. */
   setData: (data: GameData) => void;
+  /** A language switch began: the old dictionary is dropped, nothing can start until the new one lands. */
+  unload: () => void;
   setLoadError: (message: string) => void;
   goto: (screen: Screen) => void;
   startRound: (difficulty: Difficulty, seed?: number) => void;
@@ -55,7 +62,7 @@ export const useGame = create<GameState>()((set, get) => {
     const config = configFor(difficulty, seed);
     const round = new Round(data.dict, config, { pools: data.pools, viability: data.viability });
     set({
-      round, mode, difficulty, day,
+      round, mode, difficulty, day, lang: data.dict.lang,
       prompt: round.state.prompt,
       submissions: [], totalScore: 0, streak: 0, bestStreak: 0,
       lastResult: null, outcome: null, posting: 'idle',
@@ -70,6 +77,7 @@ export const useGame = create<GameState>()((set, get) => {
     loadError: null,
     round: null,
     mode: 'solo',
+    lang: 'en',
     difficulty: 'knight',
     day: '',
     prompt: null,
@@ -82,7 +90,11 @@ export const useGame = create<GameState>()((set, get) => {
     outcome: null,
     posting: 'idle',
 
-    setData: (data) => set({ data, screen: 'welcome', loadError: null }),
+    setData: (data) => set((s) => ({
+      data, loadError: null,
+      screen: s.screen === 'loading' || s.screen === 'error' ? 'welcome' : s.screen,
+    })),
+    unload: () => set({ data: null }),
     setLoadError: (loadError) => set({ loadError, screen: 'error' }),
     goto: (screen) => set({ screen }),
 
@@ -134,7 +146,7 @@ export const useGame = create<GameState>()((set, get) => {
     },
 
     endRound: () => {
-      const { round, mode, day, totalScore, submissions, screen } = get();
+      const { round, mode, lang, day, totalScore, submissions, screen } = get();
       // idempotent: the timer and the give-up button can both land here
       if (screen === 'results' || !round) return;
       round.finish();
@@ -142,6 +154,7 @@ export const useGame = create<GameState>()((set, get) => {
       const best = accepted.reduce<Submission | null>(
         (b, s) => (b === null || s.points > b.points ? s : b), null);
       const outcome = useSession.getState().recordRound({
+        lang,
         points: totalScore,
         words: accepted.length,
         bestWord: best ? { word: best.word, points: best.points } : null,
@@ -155,7 +168,7 @@ export const useGame = create<GameState>()((set, get) => {
       // the results screen never waits on the network.
       if (useSession.getState().status === 'signed-in') {
         const sub = submissionFromLog({
-          mode, day, seed: round.config.seed, difficulty: round.config.difficulty,
+          lang, mode, day, seed: round.config.seed, difficulty: round.config.difficulty,
           log: submissions, claimedScore: totalScore,
         });
         set({ posting: 'sending' });

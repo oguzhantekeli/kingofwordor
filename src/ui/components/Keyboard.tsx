@@ -1,13 +1,10 @@
 import { memo, useCallback } from 'react';
+import { upper, type Lang } from '../../core/lang';
+import { LAYOUTS } from './layouts';
 import './keyboard.css';
 
-const ROWS = [
-  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-  ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-] as const;
-
 interface Props {
+  lang: Lang;
   onKey: (k: string) => void;
   onBackspace: () => void;
   onEnter: () => void;
@@ -39,22 +36,24 @@ function EnterIcon() {
 
 /** Every key is a real <button>: reachable by tab, Enter and Space. */
 export const Keyboard = memo(function Keyboard({
-  onKey, onBackspace, onEnter, disabled = false,
+  lang, onKey, onBackspace, onEnter, disabled = false,
 }: Props) {
   const press = useCallback((k: string) => () => onKey(k), [onKey]);
+  const rows = LAYOUTS[lang];
+  const last = rows.length - 1;
   return (
-    <div className="kb" role="group" aria-label="On-screen keyboard">
-      {ROWS.map((row, i) => (
+    <div className="kb" role="group" aria-label="On-screen keyboard" lang={lang}>
+      {rows.map((row, i) => (
         <div className="kb-row" key={i}>
-          {i === 2 && (
+          {i === last && (
             <button type="button" className="kb-key kb-key--wide kb-key--icon" onClick={onBackspace}
                     disabled={disabled} aria-label="Backspace"><BackIcon /></button>
           )}
-          {row.map((k) => (
+          {[...row].map((k) => (
             <button type="button" key={k} className="kb-key" onClick={press(k)}
-                    disabled={disabled} aria-label={k.toUpperCase()}>{k.toUpperCase()}</button>
+                    disabled={disabled} aria-label={upper(k, lang)}>{upper(k, lang)}</button>
           ))}
-          {i === 2 && (
+          {i === last && (
             <button type="button" className="kb-key kb-key--wide kb-key--go kb-key--icon" onClick={onEnter}
                     disabled={disabled} aria-label="Submit word"><EnterIcon /></button>
           )}

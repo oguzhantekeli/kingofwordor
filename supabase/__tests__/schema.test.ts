@@ -104,6 +104,26 @@ describe('schema: anti-cheat at the database', () => {
     `)).rejects.toThrow(/rounds_one_daily/);
   });
 
+  it('the same player may besiege once per LANGUAGE per day', async () => {
+    await as('service_role', null);
+    await db.exec(`
+      insert into public.rounds (user_id, lang, mode, day, difficulty, seed, score, words, claimed_score, events)
+      values ('${ALICE}', 'es', 'daily', '2026-10-06', 'knight', 1, 777, 6, 777, '[]');
+    `);
+    await expect(db.exec(`
+      insert into public.rounds (user_id, lang, mode, day, difficulty, seed, score, words, claimed_score, events)
+      values ('${ALICE}', 'es', 'daily', '2026-10-06', 'knight', 1, 10, 1, 10, '[]');
+    `)).rejects.toThrow(/rounds_one_daily/);
+  });
+
+  it('a language the game does not have is refused', async () => {
+    await as('service_role', null);
+    await expect(db.exec(`
+      insert into public.rounds (user_id, lang, mode, day, difficulty, seed, score, words, claimed_score, events)
+      values ('${BOB}', 'it', 'solo', null, 'knight', 1, 10, 1, 10, '[]');
+    `)).rejects.toThrow(/rounds_lang_check/);
+  });
+
   it('a daily at any difficulty but knight is refused', async () => {
     await as('service_role', null);
     await expect(db.exec(`
@@ -156,6 +176,15 @@ describe('leaderboards: day, week, month, year', () => {
     const a = await db.query<{ is_me: boolean }>(`select is_me from public.leaderboard('day', '2026-10-06')`);
     expect(a.rows.every((x) => x.is_me === false)).toBe(true);
   });
+  it('each language has its own ladder - the Spanish siege is not on the English one', async () => {
+    await as('anon', null);
+    const es = await db.query<Row>(`select * from public.leaderboard('day', '2026-10-06', 50, 'es')`);
+    expect(es.rows.map((r) => `${r.rank}.${r.name}=${r.score}`)).toEqual(['1.Alicia=777']);
+    expect(await board('day', '2026-10-06')).not.toContain('1.Alicia=777(1)');
+    const tr = await db.query(`select * from public.leaderboard('day', '2026-10-06', 50, 'tr')`);
+    expect(tr.rows).toHaveLength(0);
+  });
+
   it('the limit is clamped', async () => {
     await as('anon', null);
     const r = await db.query(`select * from public.leaderboard('year', '2026-10-06', 1)`);

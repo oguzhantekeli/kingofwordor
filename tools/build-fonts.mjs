@@ -9,8 +9,11 @@
  * every launch hands a user's IP to a third party, which is a consent question
  * in the EU. So the woff2 files ship inside the APK.
  *
- * Fetches the same css2 endpoint a browser would, keeps the latin subset of
- * each face, and writes src/ui/theme/fonts.css with local @font-face rules.
+ * Fetches the same css2 endpoint a browser would, keeps the latin and
+ * latin-ext subsets of each face, and writes src/ui/theme/fonts.css with local
+ * @font-face rules. latin-ext carries the Turkish ğ ş İ (U+011E-015F) that
+ * latin lacks; its unicode-range means a browser only loads it when a page
+ * actually contains one of those characters.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,9 +31,11 @@ const FAMILIES = [
   { family: 'Outfit', weights: [400, 600, 700] },
 ];
 
-/** The latin block is the one that covers U+0041 (A); the rest are subsets we never render. */
-function isLatin(range) {
-  return /U\+0000-00FF/.test(range) || /U\+0020/.test(range);
+/** latin covers U+0041 (A); latin-ext starts at U+0100. Cyrillic, Greek and Vietnamese are never rendered. */
+function subsetOf(range) {
+  if (/U\+0000-00FF/.test(range)) return 'latin';
+  if (range.startsWith('U+0100-')) return 'latin-ext';
+  return null;
 }
 
 function parseFaces(css) {
@@ -58,25 +63,28 @@ for (const { family, weights } of FAMILIES) {
     headers: { 'User-Agent': UA },
   });
   if (!res.ok) throw new Error(`${family}: css2 returned ${res.status}`);
-  const faces = parseFaces(await res.text()).filter((f) => f.url && isLatin(f.range));
+  const faces = parseFaces(await res.text()).filter((f) => f.url && subsetOf(f.range));
 
   // A variable family serves ONE file for every weight. Writing it once per
   // weight would ship the same 32 KB three times, so group by url first.
   const byUrl = new Map();
-  for (const weight of weights) {
-    const face = faces.find((f) => f.weight === String(weight) || f.weight.split(' ').includes(String(weight)));
-    if (!face) throw new Error(`${family} ${weight}: no latin face in the css2 response`);
-    if (!byUrl.has(face.url)) byUrl.set(face.url, []);
-    byUrl.get(face.url).push(weight);
+  for (const subset of ['latin', 'latin-ext']) {
+    for (const weight of weights) {
+      const face = faces.find((f) => subsetOf(f.range) === subset &&
+        (f.weight === String(weight) || f.weight.split(' ').includes(String(weight))));
+      if (!face) throw new Error(`${family} ${weight}: no ${subset} face in the css2 response`);
+      if (!byUrl.has(face.url)) byUrl.set(face.url, { subset, range: face.range, ws: [] });
+      byUrl.get(face.url).ws.push(weight);
+    }
   }
 
-  for (const [url, ws] of byUrl) {
+  for (const [url, { subset, range, ws }] of byUrl) {
     const variable = ws.length > 1;
-    const file = `${family.toLowerCase()}-${variable ? 'var' : ws[0]}.woff2`;
+    const file = `${family.toLowerCase()}-${variable ? 'var' : ws[0]}${subset === 'latin-ext' ? '-ext' : ''}.woff2`;
     const bytes = Buffer.from(await (await fetch(url, { headers: { 'User-Agent': UA } })).arrayBuffer());
     fs.writeFileSync(path.join(OUT_DIR, file), bytes);
     total += bytes.length;
-    console.log(`  ${file.padEnd(26)} ${String(bytes.length).padStart(6)} bytes  (weight ${ws.join(', ')})`);
+    console.log(`  ${file.padEnd(28)} ${String(bytes.length).padStart(6)} bytes  (${subset}, weight ${ws.join(', ')})`);
     rules.push(
       `@font-face {\n` +
       `  font-family: '${family}';\n` +
@@ -84,9 +92,34 @@ for (const { family, weights } of FAMILIES) {
       `  font-weight: ${variable ? `${Math.min(...ws)} ${Math.max(...ws)}` : ws[0]};\n` +
       `  font-display: swap;\n` +
       `  src: url('/fonts/${file}') format('woff2');\n` +
+      `  unicode-range: ${range};\n` +
       `}`
     );
   }
+}
+
+// Silkscreen has no Ğ ğ Ş ş İ ı (measured from its cmap: tools/woff2-cmap.mjs).
+// "Silkscreen TR" draws them on its pixel grid - built once by
+// tools/build-silkscreen-tr.py (OFL, licence in tools/fonts/) and copied here.
+// Its unicode-range is exactly its 7 characters; tokens.css decides where in
+// the stack it sits (first only under :lang(tr), for the dotted i).
+const TR_RANGE = 'U+0069, U+011E-011F, U+0130-0131, U+015E-015F';
+for (const weight of [400, 700]) {
+  const file = `silkscreen-tr-${weight}.woff2`;
+  const bytes = fs.readFileSync(path.resolve('tools/fonts', file));
+  fs.writeFileSync(path.join(OUT_DIR, file), bytes);
+  total += bytes.length;
+  console.log(`  ${file.padEnd(28)} ${String(bytes.length).padStart(6)} bytes  (Turkish supplement, weight ${weight})`);
+  rules.push(
+    `@font-face {\n` +
+    `  font-family: 'Silkscreen TR';\n` +
+    `  font-style: normal;\n` +
+    `  font-weight: ${weight};\n` +
+    `  font-display: swap;\n` +
+    `  src: url('/fonts/${file}') format('woff2');\n` +
+    `  unicode-range: ${TR_RANGE};\n` +
+    `}`
+  );
 }
 
 fs.writeFileSync(

@@ -36,7 +36,8 @@ describe('Ladder screen', () => {
 
     await waitFor(() => expect(screen.getByText('650')).toBeInTheDocument());
     expect(screen.getByText(/Alice/).closest('li')).toHaveClass('is-me');
-    expect(fetchLeaderboard).toHaveBeenCalledWith('day', expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/));
+    // the ladder of the language being played - English here
+    expect(fetchLeaderboard).toHaveBeenCalledWith('day', expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/), 50, 'en');
 
     await user.click(screen.getByRole('tab', { name: 'Week' }));
     await waitFor(() => expect(screen.getByText('800')).toBeInTheDocument());

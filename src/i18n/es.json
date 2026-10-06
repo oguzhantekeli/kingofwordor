@@ -1,0 +1,190 @@
+{
+  "app": {
+    "title": "King of Wordor",
+    "tagline": "Lucha por las palabras del reino"
+  },
+  "loading": {
+    "dictionary": "Reuniendo el léxico…",
+    "failed": "No se pudo alzar el léxico."
+  },
+  "nav": {
+    "keep": "Fortaleza",
+    "you": "Tú",
+    "settings": "Ajustes",
+    "back": "Atrás"
+  },
+  "welcome": {
+    "start": "Entrar en batalla",
+    "difficulty": "Elige tu rango",
+    "credits": "Créditos"
+  },
+  "difficulty": {
+    "squire": "Escudero",
+    "squireDesc": "Pruebas suaves, 90 segundos.",
+    "knight": "Caballero",
+    "knightDesc": "La prueba de verdad. 60 segundos.",
+    "warlord": "Señor de la guerra",
+    "warlordDesc": "Pruebas despiadadas, 45 segundos."
+  },
+  "home": {
+    "best": "Récord {{score}}",
+    "noBest": "Aún sin partidas",
+    "solo": "Partida en solitario",
+    "soloDesc": "Una regla, un minuto, tu propio récord.",
+    "daily": "Asedio diario",
+    "dailyDesc": "Las pruebas de hoy son las mismas para todo el reino. Un solo intento.",
+    "duel": "Duelo clasificatorio",
+    "duelDesc": "Cara a cara. Escala en la clasificación.",
+    "locked": "Inicia sesión para desbloquear",
+    "dailyPlay": "Asediar",
+    "dailyDone": "El asedio de hoy está ganado",
+    "dailyNext": "Próximo asedio en {{time}}",
+    "dailyStreak": "Racha de {{count}} días",
+    "dailyStreak_one": "Racha de {{count}} día",
+    "dailyStreakKeep": "Juega hoy para mantener tu racha de {{count}} días",
+    "dailyStreakKeep_one": "Juega hoy para mantener tu racha de {{count}} día",
+    "duelSoon": "Próximamente",
+    "duelLocked": "Requiere una cuenta y la clasificación del reino",
+    "rank": "Rango",
+    "xpToNext": "{{xp}} XP para {{rank}}",
+    "xpTop": "Gobiernas el reino"
+  },
+  "guest": {
+    "title": "Juegas como invitado",
+    "body": "Todo funciona. Iniciar sesión añade lo que un solo teléfono no puede hacer:",
+    "benefitLadder": "Tus puntuaciones entran en la clasificación contra otros jugadores",
+    "benefitCarry": "Tu progreso sobrevive a un teléfono nuevo",
+    "benefitDuel": "Se abren los duelos y la clasificación del reino",
+    "cta": "Continuar con Google",
+    "later": "Ahora no",
+    "noForce": "Nunca se te obligará a iniciar sesión para jugar."
+  },
+  "round": {
+    "startsWith": "empieza por",
+    "endsWith": "termina en",
+    "includes": "contiene",
+    "categoryHint": "{{category}} que {{condition}} «{{letter}}»",
+    "plainHint": "una palabra que {{condition}} «{{letter}}»",
+    "placeholder": "Escribe tu palabra…",
+    "submit": "Golpear",
+    "giveUp": "Rendirse",
+    "score": "Puntos",
+    "timeLeft": "Tiempo",
+    "possible": "{{count}} palabras posibles",
+    "possible_one": "{{count}} palabra posible",
+    "rule": "{{condition}}",
+    "bonus": "Bonus ×1,5",
+    "bonusFor": "{{category}}",
+    "skip": "Saltar",
+    "skipCost": "-3s",
+    "streak": "{{count}} seguidas"
+  },
+  "reject": {
+    "tooShort": "Demasiado corta",
+    "duplicate": "Ya jugada",
+    "ruleMismatch": "Rompe la regla",
+    "notAWord": "No está en el léxico",
+    "skipped": "Saltada"
+  },
+  "category": {
+    "animal": "Animales",
+    "food": "Comida",
+    "person": "Personas",
+    "plant": "Plantas",
+    "body": "Partes del cuerpo",
+    "place": "Lugares",
+    "object": "Objetos",
+    "substance": "Sustancias",
+    "time": "Tiempo",
+    "communication": "Lenguaje"
+  },
+  "results": {
+    "title": "La batalla ha terminado",
+    "score": "Puntuación final",
+    "words": "Palabras",
+    "best": "Mejor palabra",
+    "newBest": "Nuevo récord personal",
+    "again": "Luchar de nuevo",
+    "share": "Compartir",
+    "home": "A la fortaleza",
+    "dailyTitle": "Asedio diario n.º {{n}}",
+    "rarest": "Palabra más rara",
+    "bestStreak": "Mejor racha",
+    "xp": "+{{xp}} XP",
+    "promoted": "Ascendido a {{rank}}",
+    "streakDay": "Racha de asedios de {{count}} días",
+    "streakDay_one": "Racha de asedios de {{count}} día",
+    "shareCopied": "Copiado — pégalo donde quieras",
+    "toKeep": "A la fortaleza"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "sound": "Efectos de sonido",
+    "haptics": "Vibración",
+    "language": "Idioma",
+    "languageHint": "Cambian los menús y las palabras con las que juegas.",
+    "on": "Sí",
+    "off": "No",
+    "music": "Música y sonidos de batalla"
+  },
+  "profile": {
+    "title": "Tú",
+    "guest": "Invitado",
+    "defaultName": "Trotamundos",
+    "signedIn": "Sesión iniciada con Google",
+    "name": "Nombre",
+    "house": "Colores de la casa",
+    "bestRun": "Mejor partida",
+    "bestRunIn": "Mejor partida · {{language}}",
+    "signOut": "Cerrar sesión",
+    "signIn": "Iniciar sesión con Google",
+    "deleteAccount": "Eliminar cuenta y datos",
+    "deleteBody": "Esto elimina tu cuenta y todo lo guardado con ella. Tus puntuaciones salen de la clasificación. No se puede deshacer.",
+    "deleteConfirm": "Eliminarlo todo",
+    "notConfigured": "El inicio de sesión con Google aún no está listo: falta el cliente OAuth."
+  },
+  "credits": {
+    "title": "Créditos",
+    "dictionary": "Lista de palabras",
+    "categories": "Categorías",
+    "art": "Arte, sonido y música",
+    "languages": "Listas de palabras por idioma",
+    "frequency": "Frecuencia de palabras",
+    "back": "Atrás"
+  },
+  "confirm": {
+    "giveUp": "¿Abandonar el campo?",
+    "yes": "Sí, retirarse",
+    "no": "Seguir luchando"
+  },
+  "rank": {
+    "peasant": "Campesino",
+    "footman": "Soldado de a pie",
+    "manAtArms": "Hombre de armas",
+    "sergeant": "Sargento",
+    "captain": "Capitán",
+    "baron": "Barón",
+    "earl": "Conde",
+    "duke": "Duque",
+    "king": "Rey de Wordor"
+  },
+  "ladder": {
+    "title": "La clasificación del reino",
+    "day": "Hoy",
+    "week": "Semana",
+    "month": "Mes",
+    "year": "Año",
+    "explain": "Clasifica el Asedio diario: las mismas pruebas para todos. Semana, mes y año suman tus asedios.",
+    "loading": "Convocando a los heraldos…",
+    "notConfigured": "La clasificación se abrirá cuando se alce el servidor del reino.",
+    "empty": "Nadie ha asediado aún. Sé el primero.",
+    "failed": "No se pudo contactar con los heraldos.",
+    "sieges": "{{count}} asedios",
+    "sieges_one": "{{count}} asedio",
+    "you": "Tú",
+    "open": "Clasificación",
+    "posting": "Publicando en la clasificación…",
+    "posted": "Publicado en la clasificación del reino",
+    "postFailed": "No se pudo publicar: tu puntuación se guarda en este teléfono"
+  }
+}
